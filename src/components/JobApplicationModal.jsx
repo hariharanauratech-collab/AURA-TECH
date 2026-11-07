@@ -176,8 +176,8 @@ export default function JobApplicationModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto">
-      <div className={`relative w-full max-w-2xl rounded-3xl p-6 sm:p-8 shadow-2xl my-6 border overflow-hidden transition-all ${
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto">
+      <div className={`relative w-full max-w-2xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl my-3 sm:my-6 border overflow-hidden max-h-[92vh] overflow-y-auto no-scrollbar transition-all ${
         isDark ? 'bg-slate-950 border-amber-500/30 text-white' : 'bg-white border-slate-200 text-slate-900'
       }`}>
         
@@ -187,26 +187,26 @@ export default function JobApplicationModal({
         {/* Close Button */}
         <button
           onClick={handleReset}
-          className={`absolute top-5 right-5 p-2 rounded-full transition-colors z-20 cursor-pointer ${
+          className={`absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-1.5 sm:p-2 rounded-full transition-colors z-20 cursor-pointer ${
             isDark ? 'text-slate-400 hover:text-white hover:bg-slate-900' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
           }`}
           aria-label="Close Modal"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
 
         {submittedCandidate ? (
           /* Submission Success Screen */
-          <div className="text-center py-6 sm:py-8 space-y-6 relative z-10">
-            <div className="w-20 h-20 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-3xl flex items-center justify-center mx-auto shadow-xl">
-              <CheckCircle2 size={40} className="animate-bounce" />
+          <div className="text-center py-4 sm:py-8 space-y-4 sm:space-y-6 relative z-10">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto shadow-xl">
+              <CheckCircle2 size={32} className="animate-bounce" />
             </div>
 
-            <div className="space-y-2">
-              <span className="text-[11px] font-black uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30">
+            <div className="space-y-1.5 sm:space-y-2">
+              <span className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/30">
                 Application Received & Registered
               </span>
-              <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight">
+              <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight">
                 Welcome to AURA TECH Talent Pool!
               </h3>
               <p className={`text-xs sm:text-sm max-w-md mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -216,7 +216,7 @@ export default function JobApplicationModal({
             </div>
 
             {/* Application ID Card */}
-            <div className={`p-4 rounded-2xl border text-left max-w-md mx-auto space-y-2 ${
+            <div className={`p-3.5 sm:p-4 rounded-xl sm:rounded-2xl border text-left max-w-md mx-auto space-y-2 ${
               isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
               <div className="flex justify-between items-center text-xs">
@@ -237,11 +237,11 @@ export default function JobApplicationModal({
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => generateCandidatePDF(submittedCandidate)}
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 cursor-pointer"
+                className="w-full sm:w-auto px-5 sm:px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 cursor-pointer active:scale-95 transition-all"
               >
                 <Download size={16} /> Download Application PDF
               </button>
@@ -249,7 +249,7 @@ export default function JobApplicationModal({
               <button
                 type="button"
                 onClick={handleReset}
-                className={`w-full sm:w-auto px-6 py-3 rounded-xl border text-xs font-black uppercase tracking-wider cursor-pointer ${
+                className={`w-full sm:w-auto px-5 sm:px-6 py-3 rounded-xl border text-xs font-black uppercase tracking-wider cursor-pointer active:scale-95 transition-all ${
                   isDark ? 'border-slate-800 hover:bg-slate-900 text-slate-300' : 'border-slate-300 hover:bg-slate-100 text-slate-700'
                 }`}
               >
@@ -262,33 +262,35 @@ export default function JobApplicationModal({
           <div className="relative z-10">
             
             {/* Header */}
-            <div className="mb-6 pb-4 border-b border-slate-800/40">
+            <div className="mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-800/40">
               <div className="flex items-center gap-2 mb-1.5">
-                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                <span className={`px-2.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest border ${
                   isDark ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' : 'bg-blue-50 text-blue-600 border-blue-200'
                 }`}>
                   AURA TECH HR SERVICES
                 </span>
                 <span className="text-[10px] text-slate-400 font-medium">Careers & Talent Portal</span>
               </div>
-              <h2 className={`text-2xl sm:text-3xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h2 className={`text-xl sm:text-3xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Apply For Your <span className={isDark ? 'text-amber-400' : 'text-blue-600'}>Desired Role</span>
               </h2>
-              <p className={`text-xs mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              <p className={`text-[11px] sm:text-xs mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 Join our engineering, design, or AI teams. Fill in your details and upload your resume below to be considered for active openings.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+            <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4 text-xs">
               
               {/* Row 1: Name & Age */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="sm:col-span-2">
-                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <label htmlFor="job-applicant-name" className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                     <User size={13} className="text-amber-500" />
                     <span>Full Name *</span>
                   </label>
                   <input
+                    id="job-applicant-name"
+                    name="fullName"
                     type="text"
                     required
                     value={formData.fullName}
@@ -303,11 +305,13 @@ export default function JobApplicationModal({
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <label htmlFor="job-applicant-age" className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                     <Calendar size={13} className="text-amber-500" />
                     <span>Age *</span>
                   </label>
                   <input
+                    id="job-applicant-age"
+                    name="age"
                     type="number"
                     required
                     min="18"
@@ -326,12 +330,14 @@ export default function JobApplicationModal({
 
               {/* Row 2: Desired Role */}
               <div>
-                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <label htmlFor="job-applicant-role" className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                   <Briefcase size={13} className="text-amber-500" />
                   <span>Interested Role *</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <select
+                    id="job-applicant-role"
+                    name="role"
                     value={formData.role}
                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                     className={`w-full p-3 rounded-xl border text-xs font-medium transition-all ${
@@ -348,6 +354,9 @@ export default function JobApplicationModal({
 
                   {formData.role === 'Other' && (
                     <input
+                      id="job-applicant-custom-role"
+                      name="customRole"
+                      aria-label="Specify custom role"
                       type="text"
                       required
                       value={formData.customRole}
@@ -366,11 +375,13 @@ export default function JobApplicationModal({
               {/* Row 3: Mobile & Gmail ID */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <label htmlFor="job-applicant-phone" className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                     <Phone size={13} className="text-amber-500" />
                     <span>Mobile Number *</span>
                   </label>
                   <input
+                    id="job-applicant-phone"
+                    name="phone"
                     type="tel"
                     required
                     value={formData.phone}
@@ -385,11 +396,13 @@ export default function JobApplicationModal({
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                  <label htmlFor="job-applicant-email" className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                     <Mail size={13} className="text-amber-500" />
                     <span>Gmail ID / Email *</span>
                   </label>
                   <input
+                    id="job-applicant-email"
+                    name="email"
                     type="email"
                     required
                     value={formData.email}
@@ -406,7 +419,7 @@ export default function JobApplicationModal({
 
               {/* Row 4: Portfolio Link (Optional) */}
               <div>
-                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                <label htmlFor="job-applicant-portfolio" className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <Globe size={13} className="text-amber-500" />
                     <span>Portfolio Link (Optional)</span>
@@ -414,6 +427,8 @@ export default function JobApplicationModal({
                   <span className="text-[10px] text-slate-500 font-normal">GitHub / Behance / Personal Web</span>
                 </label>
                 <input
+                  id="job-applicant-portfolio"
+                  name="portfolioLink"
                   type="url"
                   value={formData.portfolioLink}
                   onChange={(e) => setFormData({ ...formData, portfolioLink: e.target.value })}
@@ -428,7 +443,7 @@ export default function JobApplicationModal({
 
               {/* Row 5: Skills */}
               <div>
-                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                <label htmlFor="job-applicant-skills" className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <Sparkles size={13} className="text-amber-500" />
                     <span>Technical Skills *</span>
@@ -460,6 +475,8 @@ export default function JobApplicationModal({
                 </div>
 
                 <input
+                  id="job-applicant-skills"
+                  name="skills"
                   type="text"
                   required
                   value={formData.skills}
@@ -475,7 +492,7 @@ export default function JobApplicationModal({
 
               {/* Row 6: Resume Upload */}
               <div>
-                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
+                <label htmlFor="resume-upload" className="block font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <UploadCloud size={13} className="text-amber-500" />
                     <span>Upload Resume (PDF / DOC) *</span>
@@ -491,6 +508,8 @@ export default function JobApplicationModal({
                   <input
                     type="file"
                     id="resume-upload"
+                    name="resumeFile"
+                    aria-label="Upload resume file"
                     accept=".pdf,.doc,.docx"
                     required={!formData.resumeFileName}
                     onChange={handleFileUpload}

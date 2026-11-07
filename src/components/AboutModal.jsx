@@ -6,12 +6,12 @@ export default function AboutModal({ theme, isOpen, onClose, onOpenBookModal }) 
   const isDark = theme === 'dark';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto">
-      <div className={`relative w-full max-w-2xl rounded-3xl p-6 sm:p-8 shadow-2xl my-8 border overflow-hidden ${
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto">
+      <div className={`relative w-full max-w-2xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl my-3 sm:my-8 border overflow-hidden max-h-[92vh] overflow-y-auto no-scrollbar ${
         isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-200'
       }`}>
         {/* Office Background Scene with low transparency */}
-        <div className="absolute inset-0 pointer-events-none rounded-3xl overflow-hidden z-0">
+        <div className="absolute inset-0 pointer-events-none rounded-2xl sm:rounded-3xl overflow-hidden z-0">
           <img 
             src="/office-team.jpg" 
             alt="Office Environment" 
@@ -27,20 +27,21 @@ export default function AboutModal({ theme, isOpen, onClose, onOpenBookModal }) 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className={`absolute top-6 right-6 p-2 rounded-full transition-colors ${
+          aria-label="Close about modal"
+          className={`absolute top-3.5 right-3.5 sm:top-6 sm:right-6 p-1.5 sm:p-2 rounded-full transition-colors cursor-pointer ${
             isDark ? 'bg-slate-900 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-600 hover:text-slate-900'
           }`}
         >
-          <X size={20} />
+          <X size={18} />
         </button>
 
         {/* Header Branding */}
-        <div className="flex items-center gap-3 mb-6">
-          <div className="logo-badge bg-white p-2 rounded-xl border border-slate-200">
-            <img src="/logo.png" alt="AURA TECH" className="h-8 w-auto object-contain" />
+        <div className="flex items-center gap-3 mb-4 sm:mb-6">
+          <div className="logo-badge bg-white p-1.5 sm:p-2 rounded-xl border border-slate-200">
+            <img src="/logo.png" alt="AURA TECH" className="h-7 sm:h-8 w-auto object-contain" />
           </div>
           <div>
-            <h3 className={`text-xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h3 className={`text-lg sm:text-xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
               About <span className={isDark ? 'text-amber-400' : 'text-blue-600'}>AURA TECH</span>
             </h3>
             <span className={`text-[11px] font-extrabold uppercase tracking-widest ${isDark ? 'text-amber-400' : 'text-blue-600'}`}>

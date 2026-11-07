@@ -29,12 +29,12 @@ export default function ClientDashboardModal({ theme, isOpen, onClose, onOpenBoo
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-      <div className={`w-full max-w-2xl p-6 sm:p-8 rounded-3xl border shadow-2xl relative max-h-[90vh] overflow-y-auto overflow-x-hidden ${
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-md">
+      <div className={`w-full max-w-2xl p-4 sm:p-8 rounded-2xl sm:rounded-3xl border shadow-2xl relative max-h-[92vh] sm:max-h-[90vh] overflow-y-auto overflow-x-hidden no-scrollbar ${
         isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-200'
       }`}>
         {/* Office Background Scene with low transparency */}
-        <div className="absolute inset-0 pointer-events-none rounded-3xl overflow-hidden z-0">
+        <div className="absolute inset-0 pointer-events-none rounded-2xl sm:rounded-3xl overflow-hidden z-0">
           <img 
             src="/office-advantage.jpg" 
             alt="Office Environment" 
@@ -48,40 +48,46 @@ export default function ClientDashboardModal({ theme, isOpen, onClose, onOpenBoo
         </div>
         
         {/* Header */}
-        <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+        <div className="flex items-center justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-800">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className={`text-xl sm:text-2xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`text-lg sm:text-2xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Client <span className={isDark ? 'text-amber-400' : 'text-blue-600'}>Front Dashboard</span>
               </h3>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
+              <span className={`px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold uppercase ${
                 isDark ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'bg-blue-50 text-blue-700 border border-blue-200'
               }`}>
                 Live Tracker
               </span>
             </div>
-            <p className={`text-xs mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+            <p className={`text-[11px] sm:text-xs mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               Check real-time status of your Student or Company / Organisation project booking.
             </p>
           </div>
 
           <button 
             onClick={onClose} 
-            className="p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 sm:p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            aria-label="Close client dashboard"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
-        {/* Search Bar */}
-        <form onSubmit={handleSearch} className="space-y-4 mb-6">
-          <label className={`block text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+        {/* Search Bar with mobile flex-col stack */}
+        <form onSubmit={handleSearch} className="space-y-3 sm:space-y-4 mb-5 sm:mb-6">
+          <label 
+            htmlFor="client-tracking-input"
+            className={`block text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+          >
             Enter Your Registered Email or Phone Number
           </label>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <div className="relative flex-1">
               <Search size={16} className={`absolute left-3.5 top-3.5 ${isDark ? 'text-amber-400' : 'text-blue-600'}`} />
               <input
+                id="client-tracking-input"
+                name="searchKey"
                 type="text"
                 required
                 value={searchKey}
@@ -94,7 +100,7 @@ export default function ClientDashboardModal({ theme, isOpen, onClose, onOpenBoo
             </div>
             <button
               type="submit"
-              className="btn-primary-action px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider cursor-pointer"
+              className="btn-primary-action px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider cursor-pointer active:scale-95 transition-all"
             >
               Track Project
             </button>
@@ -159,7 +165,7 @@ export default function ClientDashboardModal({ theme, isOpen, onClose, onOpenBoo
                   {/* Project Progress Steps Visualizer */}
                   <div className="pt-3">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">Project Execution Pipeline</div>
-                    <div className="grid grid-cols-4 gap-1 text-[10px] font-bold text-center">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-1 text-[10px] font-bold text-center">
                       <div className={`p-2 rounded-lg border ${
                         item.status === 'pending' || item.status === 'under_review' || item.status === 'approved' || item.status === 'in_progress' || item.status === 'completed'
                           ? 'bg-amber-500/20 text-amber-400 border-amber-500/40' : 'bg-slate-900 text-slate-600 border-slate-800'
@@ -180,18 +186,18 @@ export default function ClientDashboardModal({ theme, isOpen, onClose, onOpenBoo
                   </div>
 
                   {/* Direct Email & WhatsApp Quick Alert Actions */}
-                  <div className="pt-3 border-t border-slate-800/40 flex items-center justify-between">
+                  <div className="pt-3 border-t border-slate-800/40 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <span className="text-[10px] text-slate-500 font-bold uppercase">Instant Client Notification:</span>
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => sendEmailNotification(item)}
-                        className="px-3 py-1.5 rounded-lg bg-blue-600/15 hover:bg-blue-600/25 text-blue-400 border border-blue-500/30 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer"
+                        className="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg bg-blue-600/15 hover:bg-blue-600/25 text-blue-400 border border-blue-500/30 text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 cursor-pointer active:scale-95"
                       >
                         <Mail size={12} /> Email Notice
                       </button>
                       <button
                         onClick={() => sendWhatsAppNotification(item)}
-                        className="px-3 py-1.5 rounded-lg bg-green-500/15 hover:bg-green-500/25 text-green-400 border border-green-500/30 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 cursor-pointer"
+                        className="flex-1 sm:flex-initial px-3 py-1.5 rounded-lg bg-green-500/15 hover:bg-green-500/25 text-green-400 border border-green-500/30 text-[10px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 cursor-pointer active:scale-95"
                       >
                         <MessageSquare size={12} /> WhatsApp Alert
                       </button>

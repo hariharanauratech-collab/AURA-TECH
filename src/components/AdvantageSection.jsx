@@ -26,7 +26,7 @@ export default function AdvantageSection({ theme, onOpenBookModal }) {
   ];
 
   return (
-    <section id="advantages" className={`py-24 relative overflow-hidden scroll-mt-20 border-t ${
+    <section id="advantages" className={`py-14 sm:py-24 relative overflow-hidden scroll-mt-20 border-t ${
       isDark ? 'bg-black/40 border-amber-500/15' : 'bg-slate-50/70 border-slate-200'
     }`}>
       {/* Office Environment Background: Architectural Bridge & Milestone Execution */}
@@ -49,44 +49,44 @@ export default function AdvantageSection({ theme, onOpenBookModal }) {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className={`inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest mb-3 ${
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
+          <div className={`inline-flex items-center gap-2 text-[10px] sm:text-xs font-extrabold uppercase tracking-widest mb-2 sm:mb-3 ${
             isDark ? 'text-amber-400' : 'text-blue-600'
           }`}>
             <span className={`w-2 h-2 rounded-full ${isDark ? 'bg-amber-400' : 'bg-blue-600'}`}></span>
             Why Choose Us
           </div>
-          <h2 className={`text-3xl sm:text-5xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+          <h2 className={`text-2xl sm:text-5xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
             The <span className="text-gradient-main">Aura Advantage</span>
           </h2>
-          <p className={`text-sm sm:text-base mt-3 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-xs sm:text-base mt-2 sm:mt-3 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Our commitment to excellence is reflected in every stage of our operation, from student final-year projects to enterprise solutions.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
           {advantages.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.step}
-                className="glass-card p-8 rounded-2xl relative overflow-hidden group"
+                className="glass-card p-5 sm:p-8 rounded-2xl relative overflow-hidden group"
               >
-                <div className={`text-5xl font-black transition-colors absolute top-4 right-6 pointer-events-none ${
+                <div className={`text-4xl sm:text-5xl font-black transition-colors absolute top-4 right-5 sm:right-6 pointer-events-none ${
                   isDark ? 'text-amber-500/15 group-hover:text-amber-400/30' : 'text-blue-500/15 group-hover:text-blue-600/30'
                 }`}>
                   {item.step}
                 </div>
 
-                <div className={`w-12 h-12 rounded-xl border flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl border flex items-center justify-center mb-4 sm:mb-6 group-hover:scale-110 transition-transform ${
                   isDark 
                     ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' 
                     : 'bg-blue-50 border-blue-200 text-blue-600'
                 }`}>
-                  <Icon size={24} />
+                  <Icon size={22} />
                 </div>
 
-                <h3 className={`text-xl font-extrabold mb-3 transition-colors ${
+                <h3 className={`text-lg sm:text-xl font-extrabold mb-2 sm:mb-3 transition-colors ${
                   isDark ? 'text-white group-hover:text-amber-400' : 'text-slate-900 group-hover:text-blue-600'
                 }`}>
                   {item.title}
@@ -103,7 +103,7 @@ export default function AdvantageSection({ theme, onOpenBookModal }) {
         <div className="text-center">
           <button
             onClick={onOpenBookModal}
-            className="inline-flex items-center gap-2 btn-primary-action px-8 py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold shadow-lg cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 btn-primary-action px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold shadow-lg cursor-pointer active:scale-95 transition-all"
           >
             Start Your Project With Us
             <ArrowRight size={16} />

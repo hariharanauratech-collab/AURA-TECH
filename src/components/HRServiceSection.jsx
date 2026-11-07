@@ -105,27 +105,27 @@ export default function HRServiceSection({ theme, onOpenJobModal }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest mb-4 border bg-amber-500/10 text-amber-400 border-amber-500/30">
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest mb-3 sm:mb-4 border bg-amber-500/10 text-amber-400 border-amber-500/30">
             <Briefcase size={14} />
             <span>AURA TECH HR & CAREERS SERVICE PORTAL</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight mb-4 leading-tight">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black uppercase tracking-tight mb-3 sm:mb-4 leading-tight">
             Build The Future of Tech. <br />
             <span className="text-gradient-main">Join The AURA Team.</span>
           </h2>
 
-          <p className={`text-sm sm:text-base leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-xs sm:text-base leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             We are constantly looking for ambitious developers, designers, and AI creators. 
             Submit your application today—every submission is reviewed directly by our leadership team 
             and cataloged in our live recruitment database.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-6">
+          <div className="flex flex-wrap items-center justify-center gap-3 mt-5 sm:mt-6">
             <button
               onClick={() => onOpenJobModal()}
-              className="btn-primary-action px-8 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-xl cursor-pointer"
+              className="btn-primary-action px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl font-black text-xs uppercase tracking-wider flex items-center gap-2 shadow-xl cursor-pointer active:scale-95 transition-all"
             >
               <span>Apply Now</span>
               <ArrowRight size={16} />
@@ -134,22 +134,22 @@ export default function HRServiceSection({ theme, onOpenJobModal }) {
         </div>
 
         {/* Culture / Perks Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-20">
           {PERKS.map((perk, idx) => {
             const Icon = perk.icon;
             return (
               <div
                 key={idx}
-                className={`p-6 rounded-3xl border transition-all hover:scale-102 ${
+                className={`p-5 sm:p-6 rounded-2xl sm:rounded-3xl border transition-all hover:scale-102 ${
                   isDark 
                     ? 'bg-slate-950/80 border-slate-800 hover:border-amber-500/40 shadow-xl' 
                     : 'bg-white border-slate-200 shadow-md hover:shadow-lg'
                 }`}
               >
-                <div className="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center mb-4">
-                  <Icon size={22} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center mb-3 sm:mb-4">
+                  <Icon size={20} />
                 </div>
-                <h4 className="font-black text-sm uppercase tracking-wide mb-2">{perk.title}</h4>
+                <h4 className="font-black text-xs sm:text-sm uppercase tracking-wide mb-1.5 sm:mb-2">{perk.title}</h4>
                 <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>{perk.desc}</p>
               </div>
             );
@@ -157,23 +157,23 @@ export default function HRServiceSection({ theme, onOpenJobModal }) {
         </div>
 
         {/* Open Positions Section Header */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mb-6 sm:mb-8">
           <div>
-            <h3 className="text-2xl font-black uppercase tracking-tight">Active Job Openings</h3>
+            <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight">Active Job Openings</h3>
             <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               Select a position to view requirements and launch your job application
             </p>
           </div>
 
-          {/* Department Filter */}
-          <div className="flex items-center gap-1.5 p-1 rounded-xl border border-slate-800 bg-slate-900/60 text-xs">
+          {/* Department Filter with smooth touch scrolling */}
+          <div className="w-full sm:w-auto overflow-x-auto no-scrollbar flex items-center gap-1 sm:gap-1.5 p-1 rounded-xl border border-slate-800 bg-slate-900/60 text-xs">
             {['All', 'Engineering', 'Design', 'AI', 'Media'].map(dept => (
               <button
                 key={dept}
                 onClick={() => setSelectedDept(dept)}
-                className={`px-3 py-1.5 rounded-lg font-bold text-[11px] uppercase tracking-wider transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg font-bold text-[10px] sm:text-[11px] uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer active:scale-95 ${
                   selectedDept === dept
-                    ? 'bg-amber-500 text-black'
+                    ? 'bg-amber-500 text-black shadow-sm'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -184,11 +184,11 @@ export default function HRServiceSection({ theme, onOpenJobModal }) {
         </div>
 
         {/* Roles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16">
           {filteredRoles.map((role, idx) => (
             <div
               key={idx}
-              className={`p-6 rounded-3xl border flex flex-col justify-between transition-all hover:border-amber-500/50 ${
+              className={`p-5 sm:p-6 rounded-2xl sm:rounded-3xl border flex flex-col justify-between transition-all hover:border-amber-500/50 ${
                 isDark 
                   ? 'bg-slate-950 border-slate-800/80 shadow-xl' 
                   : 'bg-white border-slate-200 shadow-sm hover:shadow-md'
@@ -206,13 +206,13 @@ export default function HRServiceSection({ theme, onOpenJobModal }) {
                   <span className="text-[10px] text-slate-500 font-bold">{role.location}</span>
                 </div>
 
-                <h4 className="text-lg font-black uppercase tracking-tight mb-2">{role.title}</h4>
+                <h4 className="text-base sm:text-lg font-black uppercase tracking-tight mb-2">{role.title}</h4>
                 <p className={`text-xs mb-4 line-clamp-2 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   {role.description}
                 </p>
 
                 {/* Skills tags */}
-                <div className="flex flex-wrap gap-1.5 mb-6">
+                <div className="flex flex-wrap gap-1.5 mb-5 sm:mb-6">
                   {role.skills.map((skill, sIdx) => (
                     <span
                       key={sIdx}
@@ -233,7 +233,7 @@ export default function HRServiceSection({ theme, onOpenJobModal }) {
                 <span className="text-[11px] text-slate-400 font-medium">{role.experience}</span>
                 <button
                   onClick={() => onOpenJobModal(role.title)}
-                  className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-amber-500/20 transition-all cursor-pointer"
+                  className="px-3.5 sm:px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-black text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-amber-500/20 transition-all cursor-pointer active:scale-95"
                 >
                   <span>Apply Now</span>
                   <ArrowRight size={14} />
@@ -244,25 +244,25 @@ export default function HRServiceSection({ theme, onOpenJobModal }) {
         </div>
 
         {/* Custom Role / General Application Banner */}
-        <div className={`p-8 rounded-3xl border text-center max-w-4xl mx-auto ${
+        <div className={`p-5 sm:p-8 rounded-2xl sm:rounded-3xl border text-center max-w-4xl mx-auto ${
           isDark 
             ? 'bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-amber-500/30 shadow-2xl' 
             : 'bg-gradient-to-r from-blue-50 via-white to-indigo-50 border-blue-200 shadow-lg'
         }`}>
-          <div className="w-14 h-14 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center mx-auto mb-4">
-            <Sparkles size={26} />
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <Sparkles size={24} />
           </div>
-          <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tight mb-2">
+          <h3 className="text-lg sm:text-2xl font-black uppercase tracking-tight mb-2">
             Don't See Your Exact Role? <span className="text-gradient-main">Apply Anyway!</span>
           </h3>
-          <p className={`text-xs sm:text-sm max-w-2xl mx-auto mb-6 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-xs sm:text-sm max-w-2xl mx-auto mb-5 sm:mb-6 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             We create new positions for exceptional minds. Submit your resume, portfolio link, and core skills. 
             Our recruitment leads will reach out within 48 hours for suitable upcoming opportunities.
           </p>
 
           <button
             onClick={() => onOpenJobModal('Other')}
-            className="btn-primary-action px-8 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider inline-flex items-center gap-2 cursor-pointer shadow-xl"
+            className="btn-primary-action px-6 sm:px-8 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl font-black text-xs uppercase tracking-wider inline-flex items-center gap-2 cursor-pointer shadow-xl active:scale-95 transition-all"
           >
             <span>Apply Now</span>
             <ArrowRight size={16} />

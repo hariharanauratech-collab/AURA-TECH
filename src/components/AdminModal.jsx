@@ -56,28 +56,29 @@ export default function AdminModal({ theme, isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto">
-      <div className={`relative w-full max-w-4xl rounded-3xl p-6 sm:p-8 shadow-2xl my-8 border ${
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto">
+      <div className={`relative w-full max-w-4xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl my-4 sm:my-8 border ${
         isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-200'
       }`}>
         
         <button
           onClick={onClose}
-          className={`absolute top-6 right-6 p-2 rounded-full transition-colors ${
+          aria-label="Close admin modal"
+          className={`absolute top-3.5 right-3.5 sm:top-6 sm:right-6 p-2 rounded-full transition-colors z-10 cursor-pointer ${
             isDark ? 'bg-slate-900 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-600 hover:text-slate-900'
           }`}
         >
           <X size={20} />
         </button>
 
-        <div className="flex items-center gap-3 mb-6">
-          <div className={`p-3 rounded-xl border ${
+        <div className="flex items-center gap-3 mb-5 sm:mb-6 pr-8 sm:pr-0">
+          <div className={`p-2.5 sm:p-3 rounded-xl border shrink-0 ${
             isDark ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' : 'bg-blue-50 text-blue-600 border-blue-200'
           }`}>
-            <Database size={24} />
+            <Database size={22} className="sm:w-6 sm:h-6" />
           </div>
           <div>
-            <h3 className={`text-xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h3 className={`text-base sm:text-xl font-black uppercase tracking-tight leading-snug ${isDark ? 'text-white' : 'text-slate-900'}`}>
               MasterSheet Submissions <span className={isDark ? 'text-amber-400' : 'text-blue-600'}>Sync</span>
             </h3>
             <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
@@ -86,15 +87,15 @@ export default function AdminModal({ theme, isOpen, onClose }) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-3">
           <span className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
             Total Records: <span className={`font-extrabold ${isDark ? 'text-amber-400' : 'text-blue-600'}`}>{submissions.length}</span>
           </span>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               onClick={downloadCSV}
-              className="btn-primary-action px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-extrabold shadow-md flex items-center gap-1.5 cursor-pointer"
+              className="btn-primary-action flex-1 sm:flex-initial justify-center px-4 py-2 rounded-xl text-xs uppercase tracking-wider font-extrabold shadow-md flex items-center gap-1.5 cursor-pointer"
             >
               <Download size={14} />
               Export MasterSheet CSV
@@ -102,6 +103,7 @@ export default function AdminModal({ theme, isOpen, onClose }) {
             {submissions.length > 0 && (
               <button
                 onClick={clearSubmissions}
+                aria-label="Clear all records"
                 className="p-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/20 text-xs font-bold cursor-pointer"
                 title="Clear Records"
               >

@@ -11,7 +11,7 @@ export default function ProjectsSection({ theme, onOpenBookModal }) {
     : PROJECTS_DATA.filter(p => p.type === activeTab);
 
   return (
-    <section id="showcase" className={`py-24 relative overflow-hidden scroll-mt-20 border-t ${
+    <section id="showcase" className={`py-14 sm:py-24 relative overflow-hidden scroll-mt-20 border-t ${
       isDark ? 'bg-black/40 border-amber-500/15' : 'bg-white/70 border-slate-200'
     }`}>
       {/* Office Environment Background: Boardroom & Project Showroom */}
@@ -35,44 +35,45 @@ export default function ProjectsSection({ theme, onOpenBookModal }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12 gap-5 sm:gap-6">
           <div>
-            <div className={`inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest mb-3 ${
+            <div className={`inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest mb-2 sm:mb-3 ${
               isDark ? 'text-amber-400' : 'text-blue-600'
             }`}>
               <Sparkles className={`w-4 h-4 ${isDark ? 'text-amber-400' : 'text-blue-600'}`} />
               Delivered Projects & Client Registry
             </div>
-            <h2 className={`text-3xl sm:text-5xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h2 className={`text-2xl sm:text-5xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
               OUR <span className="text-gradient-main">SHOWCASE</span>
             </h2>
-            <p className={`text-sm sm:text-base mt-2 max-w-xl ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+            <p className={`text-xs sm:text-base mt-1.5 sm:mt-2 max-w-xl ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
               Official list of engineering systems, AI chatbots, IoT dashboards, and brand identities delivered to organisations & institutions.
             </p>
           </div>
 
           {/* Category Filter Tabs */}
-          <div className={`flex items-center p-1.5 rounded-2xl border self-start md:self-auto ${
+          <div className={`w-full sm:w-auto overflow-x-auto no-scrollbar flex items-center p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border self-start md:self-auto ${
             isDark ? 'bg-slate-900/90 border-amber-500/20' : 'bg-slate-100 border-slate-200'
           }`}>
             {['All', 'Development', 'Design'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer ${
+                className={`flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg sm:rounded-xl text-[11px] sm:text-xs font-black uppercase tracking-wider whitespace-nowrap transition-all cursor-pointer active:scale-95 ${
                   activeTab === tab 
                     ? 'btn-primary-action shadow-lg' 
                     : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                {tab === 'All' ? 'All Projects' : tab === 'Development' ? 'Development' : 'Design'}
+                <span className="hidden sm:inline">{tab === 'All' ? 'All Projects' : tab === 'Development' ? 'Development' : 'Design'}</span>
+                <span className="sm:hidden">{tab === 'All' ? 'All' : tab === 'Development' ? 'Development' : 'Design'}</span>
               </button>
             ))}
           </div>
         </div>
 
         {/* Showcase Projects List */}
-        <div className={`rounded-3xl border overflow-hidden shadow-2xl ${
+        <div className={`rounded-2xl sm:rounded-3xl border overflow-hidden shadow-2xl ${
           isDark ? 'bg-slate-950/90 border-amber-500/20' : 'bg-white border-slate-200'
         }`}>
           
@@ -93,11 +94,11 @@ export default function ProjectsSection({ theme, onOpenBookModal }) {
             {filteredProjects.map((project) => (
               <div 
                 key={project.id}
-                className={`p-6 md:p-5 transition-all duration-200 ${
+                className={`p-4 sm:p-5 transition-all duration-200 ${
                   isDark ? 'hover:bg-slate-900/60' : 'hover:bg-slate-50'
                 }`}
               >
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-4 items-center">
                   
                   {/* Column 1: Project Name & Type */}
                   <div className="col-span-1 md:col-span-3">

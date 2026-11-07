@@ -176,6 +176,9 @@ export default function AdminHRApplicationsView({
           <div className="relative w-full lg:w-96">
             <Search size={16} className={`absolute left-3.5 top-3.5 ${isDark ? 'text-amber-500/60' : 'text-slate-400'}`} />
             <input
+              id="hr-candidate-search"
+              name="hrCandidateSearch"
+              aria-label="Search candidate name, role, email, skills"
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -187,12 +190,12 @@ export default function AdminHRApplicationsView({
           </div>
 
           {/* Quick Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2.5 justify-end">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2.5 w-full lg:w-auto">
             
             {/* Add Offline Candidate */}
             <button
               onClick={() => setIsAddModalOpen(true)}
-              className={`px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 border transition-all cursor-pointer ${
+              className={`flex-1 sm:flex-initial justify-center px-3.5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 border transition-all cursor-pointer ${
                 isDark ? 'bg-slate-900 border-amber-500/30 text-amber-400 hover:bg-slate-800' : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
               }`}
             >
@@ -204,7 +207,7 @@ export default function AdminHRApplicationsView({
               href={ONEDRIVE_SHEET_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-3.5 py-2.5 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-400 border border-emerald-500/30 text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm"
+              className="flex-1 sm:flex-initial justify-center px-3.5 py-2.5 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-400 border border-emerald-500/30 text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm"
               title="Open Live OneDrive Master Excel Sheet"
             >
               <FileSpreadsheet size={15} />
@@ -215,7 +218,7 @@ export default function AdminHRApplicationsView({
             {/* Export to AURA TECH HR SERVICE.xlsx */}
             <button
               onClick={() => exportToHRServiceExcel(applications)}
-              className="btn-primary-action px-4 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 shadow-lg cursor-pointer"
+              className="btn-primary-action flex-1 sm:flex-initial justify-center px-4 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 shadow-lg cursor-pointer"
               title="Download exact updated AURA TECH HR SERVICE.xlsx"
             >
               <Download size={15} />
@@ -225,7 +228,7 @@ export default function AdminHRApplicationsView({
             {/* Cloud Sync Settings */}
             <button
               onClick={() => setIsSyncModalOpen(true)}
-              className={`p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+              className={`p-2.5 rounded-xl border text-xs font-bold transition-all cursor-pointer flex items-center justify-center ${
                 isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white' : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'
               }`}
               title="OneDrive Cloud Sync Settings"
@@ -257,6 +260,7 @@ export default function AdminHRApplicationsView({
           <div className="flex items-center gap-1.5 ml-auto">
             <span className="text-slate-500 uppercase tracking-wider text-[10px]">Role:</span>
             <select
+              aria-label="Filter candidates by role"
               value={roleFilter}
               onChange={(e) => setRoleFilter(e.target.value)}
               className={`px-3 py-1 rounded-lg text-xs font-bold border ${
@@ -459,6 +463,7 @@ export default function AdminHRApplicationsView({
                       {/* Status Dropdown */}
                       <td className="p-4">
                         <select
+                          aria-label={`Update status for candidate ${candidate.fullName}`}
                           value={candidate.status}
                           onChange={(e) => onUpdateStatus(candidate.id, e.target.value)}
                           className={`text-[11px] font-extrabold uppercase px-2.5 py-1 rounded-lg border cursor-pointer ${getStatusBadgeStyle(candidate.status, isDark)}`}
@@ -632,28 +637,29 @@ export default function AdminHRApplicationsView({
 
       {/* Candidate Dossier & Assessment Modal */}
       {selectedCandidate && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
-          <div className={`w-full max-w-2xl p-6 sm:p-8 rounded-3xl border shadow-2xl my-6 ${
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+          <div className={`w-full max-w-2xl p-4 sm:p-8 rounded-2xl sm:rounded-3xl border shadow-2xl my-4 max-h-[92vh] overflow-y-auto no-scrollbar ${
             isDark ? 'bg-slate-950 border-amber-500/30 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-slate-800">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-black">
+            <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-slate-800">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-black shrink-0">
                   {selectedCandidate.fullName.charAt(0)}
                 </div>
                 <div>
-                  <h3 className="text-xl font-black uppercase tracking-tight">
+                  <h3 className="text-base sm:text-xl font-black uppercase tracking-tight">
                     {selectedCandidate.fullName}
                   </h3>
-                  <p className="text-xs text-slate-400">
-                    Application Ref: <strong className="text-amber-500">{selectedCandidate.id}</strong> • Applied on {new Date(selectedCandidate.createdAt).toLocaleString()}
+                  <p className="text-[11px] sm:text-xs text-slate-400">
+                    Application Ref: <strong className="text-amber-500">{selectedCandidate.id}</strong> • Applied on {new Date(selectedCandidate.createdAt).toLocaleDateString()}
                   </p>
                 </div>
               </div>
               <button 
                 onClick={() => setSelectedCandidate(null)}
+                aria-label="Close candidate details modal"
                 className="text-slate-400 hover:text-white p-2"
               >
                 ✕
@@ -733,8 +739,10 @@ export default function AdminHRApplicationsView({
             <div className="space-y-3 pt-3 border-t border-slate-800 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">Update Status:</label>
+                  <label htmlFor="hr-update-status" className="text-[10px] text-slate-400 font-bold uppercase block mb-1">Update Status:</label>
                   <select
+                    id="hr-update-status"
+                    name="updateStatus"
                     value={editStatus}
                     onChange={(e) => setEditStatus(e.target.value)}
                     className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white font-bold"
@@ -757,10 +765,12 @@ export default function AdminHRApplicationsView({
               </div>
 
               <div>
-                <label className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
+                <label htmlFor="hr-interview-notes" className="text-[10px] text-slate-400 font-bold uppercase block mb-1">
                   HR Interview Notes & Remarks:
                 </label>
                 <textarea
+                  id="hr-interview-notes"
+                  name="interviewNotes"
                   rows={3}
                   value={editNotes}
                   onChange={(e) => setEditNotes(e.target.value)}
@@ -771,11 +781,11 @@ export default function AdminHRApplicationsView({
             </div>
 
             {/* Modal Actions */}
-            <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+            <div className="mt-6 pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <a
                   href={`mailto:${selectedCandidate.email}?subject=AURA TECH Job Application - ${selectedCandidate.role}&body=Hi ${selectedCandidate.fullName},%0D%0A%0D%0AThank you for applying for the ${selectedCandidate.role} role at AURA TECH.`}
-                  className="px-3 py-2 rounded-xl bg-blue-600/15 hover:bg-blue-600/25 text-blue-400 border border-blue-500/30 text-xs font-bold uppercase flex items-center gap-1.5 cursor-pointer"
+                  className="flex-1 sm:flex-initial justify-center px-3 py-2 rounded-xl bg-blue-600/15 hover:bg-blue-600/25 text-blue-400 border border-blue-500/30 text-xs font-bold uppercase flex items-center gap-1.5 cursor-pointer"
                 >
                   <Mail size={14} /> Send Email
                 </a>
@@ -783,7 +793,7 @@ export default function AdminHRApplicationsView({
                   href={`https://wa.me/${selectedCandidate.phone.replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(selectedCandidate.fullName)},%20this%20is%20AURA%20TECH%20HR%20team%20regarding%20your%20application%20for%20${encodeURIComponent(selectedCandidate.role)}.`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-2 rounded-xl bg-green-500/15 hover:bg-green-500/25 text-green-400 border border-green-500/30 text-xs font-bold uppercase flex items-center gap-1.5 cursor-pointer"
+                  className="flex-1 sm:flex-initial justify-center px-3 py-2 rounded-xl bg-green-500/15 hover:bg-green-500/25 text-green-400 border border-green-500/30 text-xs font-bold uppercase flex items-center gap-1.5 cursor-pointer"
                 >
                   <MessageSquare size={14} /> WhatsApp
                 </a>
@@ -793,14 +803,14 @@ export default function AdminHRApplicationsView({
                 <button
                   type="button"
                   onClick={() => setSelectedCandidate(null)}
-                  className="px-4 py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white text-xs font-bold uppercase cursor-pointer"
+                  className="flex-1 sm:flex-initial justify-center px-4 py-2.5 rounded-xl border border-slate-800 text-slate-400 hover:text-white text-xs font-bold uppercase cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleSaveAssessment}
-                  className="btn-primary-action px-6 py-2.5 rounded-xl font-black text-xs uppercase cursor-pointer shadow-lg"
+                  className="btn-primary-action flex-1 sm:flex-initial justify-center px-6 py-2.5 rounded-xl font-black text-xs uppercase cursor-pointer shadow-lg"
                 >
                   Save Assessment
                 </button>
@@ -813,18 +823,18 @@ export default function AdminHRApplicationsView({
 
       {/* Cloud & OneDrive Sync Settings Modal */}
       {isSyncModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className={`w-full max-w-lg p-6 sm:p-8 rounded-3xl border shadow-2xl ${
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+          <div className={`w-full max-w-lg p-4 sm:p-8 rounded-2xl sm:rounded-3xl border shadow-2xl my-4 max-h-[92vh] overflow-y-auto no-scrollbar ${
             isDark ? 'bg-slate-950 border-amber-500/30 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <Cloud size={20} className="text-emerald-400" />
-                <h3 className="text-lg font-black uppercase tracking-tight">
+                <h3 className="text-base sm:text-lg font-black uppercase tracking-tight">
                   OneDrive Excel Sync Configuration
                 </h3>
               </div>
-              <button onClick={() => setIsSyncModalOpen(false)} className="text-slate-400 hover:text-white">✕</button>
+              <button onClick={() => setIsSyncModalOpen(false)} aria-label="Close OneDrive sync configuration" className="text-slate-400 hover:text-white p-1">✕</button>
             </div>
 
             <div className="space-y-4 text-xs">
@@ -854,10 +864,12 @@ export default function AdminHRApplicationsView({
               {/* Webhook Configuration for Automatic Append */}
               <form onSubmit={handleSaveWebhook} className="space-y-3 pt-2">
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  <label htmlFor="hr-webhook-url" className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
                     Live Webhook URL (Power Automate / Zapier / Make / Cloud Function):
                   </label>
                   <input
+                    id="hr-webhook-url"
+                    name="webhookUrl"
                     type="url"
                     value={webhookUrl}
                     onChange={(e) => setWebhookUrlState(e.target.value)}
@@ -907,22 +919,24 @@ export default function AdminHRApplicationsView({
 
       {/* Add Offline Candidate Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className={`w-full max-w-md p-6 sm:p-8 rounded-3xl border shadow-2xl ${
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+          <div className={`w-full max-w-md p-4 sm:p-8 rounded-2xl sm:rounded-3xl border shadow-2xl my-4 max-h-[92vh] overflow-y-auto no-scrollbar ${
             isDark ? 'bg-slate-950 border-amber-500/30 text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
-              <h3 className="text-xl font-black uppercase tracking-tight">
+              <h3 className="text-lg sm:text-xl font-black uppercase tracking-tight">
                 Add Offline <span className="text-amber-400">Candidate</span>
               </h3>
-              <button onClick={() => setIsAddModalOpen(false)} className="text-slate-400 hover:text-white">✕</button>
+              <button onClick={() => setIsAddModalOpen(false)} aria-label="Close add candidate modal" className="text-slate-400 hover:text-white p-1">✕</button>
             </div>
 
             <form onSubmit={handleAddManualCandidate} className="space-y-3 text-xs">
               <div className="grid grid-cols-3 gap-2">
                 <div className="col-span-2">
-                  <label className="block font-bold text-slate-400 uppercase mb-1">Full Name *</label>
+                  <label htmlFor="hr-manual-name" className="block font-bold text-slate-400 uppercase mb-1">Full Name *</label>
                   <input
+                    id="hr-manual-name"
+                    name="fullName"
                     type="text"
                     required
                     value={newCandidate.fullName}
@@ -932,8 +946,10 @@ export default function AdminHRApplicationsView({
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase mb-1">Age *</label>
+                  <label htmlFor="hr-manual-age" className="block font-bold text-slate-400 uppercase mb-1">Age *</label>
                   <input
+                    id="hr-manual-age"
+                    name="age"
                     type="number"
                     required
                     min="18"
@@ -947,8 +963,10 @@ export default function AdminHRApplicationsView({
               </div>
 
               <div>
-                <label className="block font-bold text-slate-400 uppercase mb-1">Interested Role *</label>
+                <label htmlFor="hr-manual-role" className="block font-bold text-slate-400 uppercase mb-1">Interested Role *</label>
                 <select
+                  id="hr-manual-role"
+                  name="role"
                   value={newCandidate.role}
                   onChange={(e) => setNewCandidate({ ...newCandidate, role: e.target.value })}
                   className="w-full p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-white"
@@ -960,6 +978,9 @@ export default function AdminHRApplicationsView({
                 </select>
                 {newCandidate.role === 'Other' && (
                   <input
+                    id="hr-manual-custom-role"
+                    name="customRole"
+                    aria-label="Specify custom role"
                     type="text"
                     required
                     value={newCandidate.customRole}
@@ -972,8 +993,10 @@ export default function AdminHRApplicationsView({
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase mb-1">Phone *</label>
+                  <label htmlFor="hr-manual-phone" className="block font-bold text-slate-400 uppercase mb-1">Phone *</label>
                   <input
+                    id="hr-manual-phone"
+                    name="phone"
                     type="tel"
                     required
                     value={newCandidate.phone}
@@ -983,8 +1006,10 @@ export default function AdminHRApplicationsView({
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase mb-1">Gmail ID *</label>
+                  <label htmlFor="hr-manual-email" className="block font-bold text-slate-400 uppercase mb-1">Gmail ID *</label>
                   <input
+                    id="hr-manual-email"
+                    name="email"
                     type="email"
                     required
                     value={newCandidate.email}
@@ -996,8 +1021,10 @@ export default function AdminHRApplicationsView({
               </div>
 
               <div>
-                <label className="block font-bold text-slate-400 uppercase mb-1">Portfolio Link (Optional)</label>
+                <label htmlFor="hr-manual-portfolio" className="block font-bold text-slate-400 uppercase mb-1">Portfolio Link (Optional)</label>
                 <input
+                  id="hr-manual-portfolio"
+                  name="portfolioLink"
                   type="url"
                   value={newCandidate.portfolioLink}
                   onChange={(e) => setNewCandidate({ ...newCandidate, portfolioLink: e.target.value })}
@@ -1007,8 +1034,10 @@ export default function AdminHRApplicationsView({
               </div>
 
               <div>
-                <label className="block font-bold text-slate-400 uppercase mb-1">Key Skills *</label>
+                <label htmlFor="hr-manual-skills" className="block font-bold text-slate-400 uppercase mb-1">Key Skills *</label>
                 <input
+                  id="hr-manual-skills"
+                  name="skills"
                   type="text"
                   required
                   value={newCandidate.skills}
@@ -1019,8 +1048,10 @@ export default function AdminHRApplicationsView({
               </div>
 
               <div>
-                <label className="block font-bold text-slate-400 uppercase mb-1">Resume File Name</label>
+                <label htmlFor="hr-manual-resume" className="block font-bold text-slate-400 uppercase mb-1">Resume File Name</label>
                 <input
+                  id="hr-manual-resume"
+                  name="resumeFileName"
                   type="text"
                   value={newCandidate.resumeFileName}
                   onChange={(e) => setNewCandidate({ ...newCandidate, resumeFileName: e.target.value })}

@@ -59,6 +59,14 @@ export default function Navbar({
   // 1. Navigation Pages & Sections List
   const navSectionOptions = [
     {
+      id: 'booking',
+      name: 'Book a Project',
+      desc: 'Instant Project Registration & Customized Quote',
+      action: () => onOpenBookModal(),
+      icon: Zap,
+      hideInHr: true
+    },
+    {
       id: 'services',
       name: 'Services',
       desc: 'Web Development, Custom AI & Mobile Apps',
@@ -120,6 +128,14 @@ export default function Navbar({
       desc: 'Our Foundation, Philosophy & Architecture',
       action: onOpenAboutModal,
       icon: Info,
+      hideInHr: false
+    },
+    {
+      id: 'crm',
+      name: 'Staff & CRM Portal',
+      desc: 'Employee Tasks, Invoices, Client Requests & Operations',
+      href: '/crm',
+      icon: ShieldCheck,
       hideInHr: false
     }
   ];
@@ -246,10 +262,10 @@ export default function Navbar({
 
               <div className="flex flex-col text-left">
                 <div className="flex items-center gap-1.5 sm:gap-2">
-                  <span className={`font-black text-lg sm:text-xl tracking-tight uppercase ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  <span className={`font-black text-base sm:text-xl tracking-tight uppercase ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     AURA <span className={isDark ? 'text-amber-400' : 'text-blue-600'}>TECH</span>
                   </span>
-                  <span className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full border tracking-widest ${
+                  <span className={`text-[8px] sm:text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full border tracking-widest ${
                     isDark 
                       ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' 
                       : 'bg-blue-50 text-blue-600 border-blue-200'
@@ -273,6 +289,7 @@ export default function Navbar({
             <button
               onClick={() => setPortalMode(isHr ? 'student' : isStudent ? 'company' : 'hr')}
               title="Click to cycle portal mode (Student / Company / HR)"
+              aria-label="Cycle portal mode between Student, Company, and HR"
               className={`px-3 py-2 rounded-xl border text-xs font-black uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-sm shrink-0 whitespace-nowrap ${
                 isHr
                   ? isDark 
@@ -565,13 +582,14 @@ export default function Navbar({
           </div>
 
           {/* MOBILE / TABLET CONTROLS */}
-          <div className="lg:hidden flex items-center gap-2 shrink-0">
+          <div className="lg:hidden flex items-center gap-1.5 sm:gap-2 shrink-0">
             
             {/* Quick Portal Badge */}
             <button
               onClick={() => setPortalMode(isHr ? 'student' : isStudent ? 'company' : 'hr')}
               title="Switch Mode"
-              className={`px-2.5 py-1.5 rounded-lg border text-[11px] font-black uppercase flex items-center gap-1.5 ${
+              aria-label="Switch portal mode between Student, Company, and HR"
+              className={`px-2 sm:px-2.5 py-1.5 rounded-lg border text-[10px] sm:text-[11px] font-black uppercase flex items-center gap-1 sm:gap-1.5 cursor-pointer active:scale-95 transition-all ${
                 isHr
                   ? isDark ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-emerald-50 text-emerald-600 border-emerald-200'
                   : isStudent
@@ -579,14 +597,14 @@ export default function Navbar({
                     : isDark ? 'bg-purple-950/40 text-purple-300 border-purple-500/30' : 'bg-slate-900 text-white border-slate-700'
               }`}
             >
-              {isHr ? <Briefcase size={13} /> : isStudent ? <GraduationCap size={13} /> : <Building2 size={13} />}
+              {isHr ? <Briefcase size={12} /> : isStudent ? <GraduationCap size={12} /> : <Building2 size={12} />}
               <span>{isHr ? 'HR' : isStudent ? 'Student' : 'Company'}</span>
             </button>
 
             {/* Theme Toggle */}
             <button
               onClick={onToggleTheme}
-              className={`p-2 rounded-lg border ${
+              className={`p-1.5 sm:p-2 rounded-lg border cursor-pointer active:scale-95 transition-all ${
                 isDark ? 'bg-slate-900 border-amber-500/30 text-amber-400' : 'bg-white border-slate-300 text-blue-600'
               }`}
               aria-label="Toggle Theme"
@@ -598,14 +616,14 @@ export default function Navbar({
             {isHr ? (
               <button
                 onClick={() => onOpenJobModal()}
-                className="btn-primary-action px-3 py-1.5 text-xs font-black rounded-lg uppercase tracking-wider whitespace-nowrap shadow-md"
+                className="btn-primary-action px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-black rounded-lg uppercase tracking-wider whitespace-nowrap shadow-md cursor-pointer active:scale-95"
               >
-                Apply Now
+                Apply
               </button>
             ) : (
               <button
                 onClick={() => onOpenBookModal()}
-                className="btn-primary-action px-3 py-1.5 text-xs font-black rounded-lg uppercase tracking-wider whitespace-nowrap shadow-md"
+                className="btn-primary-action px-2.5 sm:px-3 py-1.5 text-[11px] sm:text-xs font-black rounded-lg uppercase tracking-wider whitespace-nowrap shadow-md cursor-pointer active:scale-95"
               >
                 Book
               </button>
@@ -614,7 +632,7 @@ export default function Navbar({
             {/* Mobile Three-Dot / Menu Trigger */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`p-2 rounded-lg border focus:outline-none ${
+              className={`p-1.5 sm:p-2 rounded-lg border focus:outline-none cursor-pointer active:scale-95 ${
                 isDark ? 'text-amber-400 bg-slate-900 border-amber-500/30' : 'text-slate-800 bg-white border-slate-300'
               }`}
               aria-label="Toggle Menu"
@@ -628,8 +646,8 @@ export default function Navbar({
 
       {/* MOBILE DRAWER: Comprehensive Three-Dot List View */}
       {isMobileMenuOpen && (
-        <div className={`lg:hidden fixed inset-0 top-[65px] z-40 p-5 flex flex-col justify-between border-b overflow-y-auto animate-in fade-in slide-in-from-top-4 duration-200 ${
-          isDark ? 'bg-black/95 border-amber-500/20' : 'bg-white/95 border-slate-200'
+        <div className={`lg:hidden fixed inset-0 top-[60px] sm:top-[65px] z-40 p-4 sm:p-5 pb-32 sm:pb-24 flex flex-col justify-between border-b overflow-y-auto no-scrollbar animate-in fade-in slide-in-from-top-4 duration-200 ${
+          isDark ? 'bg-black/98 border-amber-500/20 backdrop-blur-2xl' : 'bg-white/98 border-slate-200 backdrop-blur-2xl'
         }`}>
           
           <div className="space-y-6 pt-2 pb-6">

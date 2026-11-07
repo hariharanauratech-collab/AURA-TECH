@@ -16,7 +16,7 @@ export default function Hero({
   const isHr = portalMode === 'hr';
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-28 pb-20 overflow-hidden hero-radial-gold">
+    <section className="relative min-h-screen flex items-center justify-center pt-24 sm:pt-28 pb-14 sm:pb-20 overflow-hidden hero-radial-gold">
       
       {/* Office Environment Background: Innovation Atrium & Workspace */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -48,31 +48,31 @@ export default function Hero({
         <PortalSwitcher portalMode={portalMode} setPortalMode={setPortalMode} theme={theme} />
 
         {/* Dynamic Tagline Badge */}
-        <div className={`inline-flex items-center gap-2 px-4.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest mb-6 animate-pulse-glow border ${
+        <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4.5 py-1.5 rounded-full text-[10px] sm:text-xs font-extrabold uppercase tracking-widest mb-4 sm:mb-6 animate-pulse-glow border ${
           isDark 
             ? 'bg-amber-500/10 border-amber-500/30 text-amber-400' 
             : 'bg-blue-50 border-blue-200 text-blue-600 shadow-sm'
         }`}>
           {isHr ? (
             <>
-              <Briefcase className="w-4 h-4 text-emerald-400" />
+              <Briefcase className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
               <span>💼 AURA TECH HR & RECRUITMENT PORTAL</span>
             </>
           ) : isStudent ? (
             <>
-              <GraduationCap className="w-4 h-4" />
+              <GraduationCap className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>🎓 Student Capstone & Datathon Portal</span>
             </>
           ) : (
             <>
-              <Building2 className="w-4 h-4" />
+              <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>🏢 Enterprise Digital Systems & AI Infrastructure</span>
             </>
           )}
         </div>
 
         {/* Main Headline */}
-        <h1 className={`text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight uppercase leading-[1.1] mb-6 ${
+        <h1 className={`text-3xl sm:text-6xl lg:text-7xl font-black tracking-tight uppercase leading-[1.12] mb-4 sm:mb-6 ${
           isDark ? 'text-white' : 'text-slate-900'
         }`}>
           {isHr ? (
@@ -94,7 +94,7 @@ export default function Hero({
         </h1>
 
         {/* Dynamic Subtitle */}
-        <p className={`text-base sm:text-xl max-w-3xl mx-auto mb-6 leading-relaxed font-normal ${
+        <p className={`text-xs sm:text-base md:text-xl max-w-3xl mx-auto mb-5 sm:mb-6 leading-relaxed font-normal ${
           isDark ? 'text-slate-300' : 'text-slate-700'
         }`}>
           {isHr ? (
@@ -113,21 +113,21 @@ export default function Hero({
         </p>
 
         {/* Logo Tagline Ribbon */}
-        <div className={`inline-flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider mb-10 shadow-lg border ${
+        <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-6 sm:mb-10 shadow-lg border ${
           isDark 
             ? 'bg-slate-900/90 border-amber-500/30 text-slate-200 shadow-black/50' 
             : 'bg-white border-slate-200 text-slate-900 shadow-slate-200/50'
         }`}>
-          <ShieldCheck className={`w-4 h-4 ${isDark ? 'text-amber-400' : 'text-blue-600'}`} />
+          <ShieldCheck className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isDark ? 'text-amber-400' : 'text-blue-600'}`} />
           <span>A Reliable Backbone Of Your Business</span>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-10 sm:mb-16">
           {isHr ? (
             <button
               onClick={() => onOpenJobModal()}
-              className="w-full sm:w-auto btn-primary-action px-10 py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold flex items-center justify-center gap-2 shadow-xl cursor-pointer"
+              className="w-full sm:w-auto btn-primary-action px-8 sm:px-10 py-3.5 sm:py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold flex items-center justify-center gap-2 shadow-xl cursor-pointer active:scale-95 transition-all"
             >
               <Briefcase className="w-4 h-4" />
               Apply Now
@@ -137,7 +137,7 @@ export default function Hero({
             <>
               <button
                 onClick={() => onOpenBookModal(isStudent ? 'College / Student Project' : 'Enterprise Service')}
-                className="w-full sm:w-auto btn-primary-action px-8 py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold flex items-center justify-center gap-2 shadow-xl cursor-pointer"
+                className="w-full sm:w-auto btn-primary-action px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold flex items-center justify-center gap-2 shadow-xl cursor-pointer active:scale-95 transition-all"
               >
                 <Zap className="w-4 h-4" />
                 {isStudent ? 'Book Student Project' : 'Request Enterprise Quote'}
@@ -146,7 +146,7 @@ export default function Hero({
 
               <button
                 onClick={onOpenClientDashboard}
-                className={`w-full sm:w-auto px-8 py-4 rounded-xl font-extrabold text-xs uppercase tracking-wider border shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                className={`w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-extrabold text-xs uppercase tracking-wider border shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer ${
                   isDark 
                     ? 'bg-slate-900 hover:bg-slate-800 text-white border-amber-500/40 hover:border-amber-400' 
                     : 'bg-white hover:bg-slate-50 text-slate-900 border-slate-300 hover:border-blue-600'
@@ -158,7 +158,7 @@ export default function Hero({
 
               <button
                 onClick={onOpenAboutModal}
-                className={`w-full sm:w-auto px-6 py-4 font-bold text-xs uppercase tracking-widest transition-colors flex items-center justify-center gap-1 cursor-pointer ${
+                className={`w-full sm:w-auto px-5 py-3 sm:py-4 font-bold text-xs uppercase tracking-widest transition-colors flex items-center justify-center gap-1 cursor-pointer ${
                   isDark ? 'text-slate-400 hover:text-amber-400' : 'text-slate-600 hover:text-blue-600'
                 }`}
               >
@@ -169,7 +169,7 @@ export default function Hero({
         </div>
 
         {/* Highlights Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 max-w-4xl mx-auto">
           {(isHr ? [
             { label: 'Active Openings', val: '12+ Positions', icon: Briefcase },
             { label: 'Response Time', val: '48hr Fast Review', icon: CheckCircle2 },
@@ -188,10 +188,10 @@ export default function Hero({
           ]).map((stat, idx) => {
             const Icon = stat.icon;
             return (
-              <div key={idx} className="glass-card p-4 rounded-xl text-left">
-                <Icon className={`w-5 h-5 mb-2 ${isDark ? 'text-amber-400' : 'text-blue-600'}`} />
-                <div className={`font-bold text-base sm:text-lg ${isDark ? 'text-white' : 'text-slate-900'}`}>{stat.val}</div>
-                <div className={`text-xs font-medium uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{stat.label}</div>
+              <div key={idx} className="glass-card p-3 sm:p-4 rounded-xl text-left">
+                <Icon className={`w-4 h-4 sm:w-5 sm:h-5 mb-1.5 sm:mb-2 ${isDark ? 'text-amber-400' : 'text-blue-600'}`} />
+                <div className={`font-black text-xs sm:text-base md:text-lg ${isDark ? 'text-white' : 'text-slate-900'}`}>{stat.val}</div>
+                <div className={`text-[9px] sm:text-xs font-medium uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{stat.label}</div>
               </div>
             );
           })}

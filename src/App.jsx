@@ -18,6 +18,7 @@ import ClientDashboardModal from './components/ClientDashboardModal';
 import AIChatAssistant from './components/AIChatAssistant';
 import AnimatedOfficeBackground from './components/AnimatedOfficeBackground';
 import AdminDashboard from './pages/AdminDashboard';
+import CRMDashboard from './pages/CRMDashboard';
 
 export default function App() {
   const [theme, setTheme] = useState(() => {
@@ -66,6 +67,26 @@ export default function App() {
         path="/admin" 
         element={
           <AdminDashboard 
+            theme={theme} 
+            onToggleTheme={toggleTheme} 
+          />
+        } 
+      />
+
+      {/* Dedicated Enterprise CRM & Staff Portal (/crm & /portal) */}
+      <Route 
+        path="/crm" 
+        element={
+          <CRMDashboard 
+            theme={theme} 
+            onToggleTheme={toggleTheme} 
+          />
+        } 
+      />
+      <Route 
+        path="/portal" 
+        element={
+          <CRMDashboard 
             theme={theme} 
             onToggleTheme={toggleTheme} 
           />
@@ -186,6 +207,7 @@ export default function App() {
 
             <RegistrationModal
               theme={theme}
+              portalMode={portalMode}
               isOpen={isBookModalOpen}
               onClose={() => setIsBookModalOpen(false)}
               initialService={initialService}

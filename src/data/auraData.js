@@ -191,24 +191,52 @@ export const PROJECT_TYPES = [
   "AI Video"
 ];
 
+export function matchProjectType(title) {
+  if (!title) return PROJECT_TYPES[0];
+  if (PROJECT_TYPES.includes(title)) return title;
+  const lower = title.toLowerCase();
+  if (lower.includes('chatbot') || lower.includes('bot')) return 'AI Chatbot';
+  if (lower.includes('iot') || lower.includes('hardware') || lower.includes('sensor') || lower.includes('esp32')) return 'IoT Project';
+  if (lower.includes('ai video') || lower.includes('cinematic')) return 'AI Video';
+  if (lower.includes('video')) return 'Video Editing';
+  if (lower.includes('ui') || lower.includes('ux') || (lower.includes('design') && lower.includes('app'))) return 'UI/UX (for website or app)';
+  if (lower.includes('logo') || lower.includes('branding') || lower.includes('brand') || lower.includes('identity')) return 'Logo';
+  if (lower.includes('poster')) return 'Poster';
+  if (lower.includes('data') || lower.includes('visualization') || lower.includes('chart')) return 'Data Visualization';
+  if (lower.includes('flutter') || lower.includes('mobile') || lower.includes('app') || lower.includes('datathon')) return 'Application';
+  if (lower.includes('software') || lower.includes('backend') || lower.includes('saas') || lower.includes('enterprise')) return 'Software';
+  if (lower.includes('web') || lower.includes('site') || lower.includes('frontend')) return 'Website';
+  return PROJECT_TYPES[0];
+}
+
 export const TEAM_MEMBERS = [
   {
     id: "tm1",
     name: "NIRANJAN A",
-    role: "FOUNDER",
+    role: "FOUNDER & CEO",
     tagline: "Visionary leadership & core strategic engineering.",
     image: "/team/niranjan.jpg",
     badge: "Founder & CEO",
-    color: "from-amber-500 to-amber-700"
+    color: "from-amber-500 to-amber-700",
+    bio: "Pioneering the vision, technical roadmap, and architectural backbone of AURA TECH. Niranjan leads core engineering teams across full-stack cloud ecosystems, enterprise web platforms, and client system integrations.",
+    specialization: "Enterprise Full Stack Architecture & Executive Leadership",
+    skills: ["System Architecture", "Full Stack Engineering", "Cloud Infrastructure", "Product Strategy", "Technical Leadership"],
+    experience: "Founder & Lead Architect",
+    contributions: "Drives end-to-end digital transformation, oversees all tech deliverables, and orchestrates core project executions."
   },
   {
     id: "tm2",
     name: "MAKIZH N",
-    role: "MANAGER",
+    role: "OPERATIONS MANAGER",
     tagline: "Project management, operational workflow & client relations.",
     image: "/team/makizh.jpg",
     badge: "Operations Manager",
-    color: "from-blue-500 to-indigo-600"
+    color: "from-blue-500 to-indigo-600",
+    bio: "Orchestrating agile delivery sprints, cross-departmental alignment, and seamless client interactions. Makizh ensures projects transition from initial inquiry to final handover with precision and timeliness.",
+    specialization: "Agile Project Delivery, Operations & Client Success",
+    skills: ["Project Management", "Sprint Planning", "Client Relations", "Workflow Optimization", "Quality Assurance"],
+    experience: "Operations & Delivery Head",
+    contributions: "Coordinates developer-designer milestones, streamlines client requirements, and maintains operational SLA excellence."
   },
   {
     id: "tm3",
@@ -217,7 +245,12 @@ export const TEAM_MEMBERS = [
     tagline: "SaaS architecture, cloud APIs & full stack software.",
     image: "/team/dhanya.jpg",
     badge: "SaaS Developer",
-    color: "from-purple-500 to-indigo-600"
+    color: "from-purple-500 to-indigo-600",
+    bio: "Architecting robust SaaS backends and dynamic web interfaces. Dhanya specializes in high-concurrency database designs, modern RESTful APIs, and scalable user-facing web applications.",
+    specialization: "Cloud SaaS Development, REST APIs & Database Engineering",
+    skills: ["React.js", "Node.js", "SaaS Systems", "PostgreSQL / SQL", "RESTful APIs", "State Management"],
+    experience: "Senior Software Engineer",
+    contributions: "Engineered high-performance web applications, client dashboards, and automated database sync workflows."
   },
   {
     id: "tm4",
@@ -226,7 +259,12 @@ export const TEAM_MEMBERS = [
     tagline: "Generative AI video pipelines & full stack web applications.",
     image: "/team/priyanka.jpg",
     badge: "AI & Full Stack",
-    color: "from-pink-500 to-rose-600"
+    color: "from-pink-500 to-rose-600",
+    bio: "Pushing the frontiers of Generative AI in visual media alongside full-stack development. Priyanka builds creative web tools and automated video pipelines that fuse neural styling with cinematic polish.",
+    specialization: "Generative AI Pipelines & Full Stack Web Apps",
+    skills: ["Generative AI", "AI Video Editing", "Full Stack Development", "Python / Web Services", "Visual Storytelling"],
+    experience: "AI & Full Stack Specialist",
+    contributions: "Developed AI video production reels, automated media transformations, and modern interactive frontend modules."
   },
   {
     id: "tm5",
@@ -235,7 +273,12 @@ export const TEAM_MEMBERS = [
     tagline: "Hardware integration, microcontrollers (ESP32/Arduino) & IoT dashboards.",
     image: "/team/vengateshwaran.jpg",
     badge: "IoT Lead",
-    color: "from-emerald-500 to-teal-600"
+    color: "from-emerald-500 to-teal-600",
+    bio: "Bridging the physical and digital divide through embedded hardware integration. Vengateshwaran connects microcontrollers and sensory systems with cloud-connected telemetry dashboards and automation relays.",
+    specialization: "Embedded IoT Architecture, ESP32/Arduino & Cloud Telemetry",
+    skills: ["IoT Architecture", "ESP32 & Arduino", "Sensor Integration", "Real-Time Telemetry", "Full Stack Dashboards"],
+    experience: "Hardware & IoT Systems Lead",
+    contributions: "Constructed real-time hardware telemetry dashboards, sensor networking nodes, and smart automated control units."
   },
   {
     id: "tm6",
@@ -244,7 +287,12 @@ export const TEAM_MEMBERS = [
     tagline: "Visual identity, UI/UX aesthetics & cinematic post-production.",
     image: "/team/hariharan.jpg",
     badge: "Design Lead",
-    color: "from-amber-400 to-orange-600"
+    color: "from-amber-400 to-orange-600",
+    bio: "The creative architect behind AURA TECH's visual excellence. Hariharan designs modern UI/UX design systems, bespoke brand visual guidelines, and cinematic post-production promotional reels.",
+    specialization: "UI/UX Design Systems, Brand Identity & Cinematic Editing",
+    skills: ["UI/UX Design", "Figma", "Cinematic Video Editing", "Design Systems", "Motion Graphics", "Brand Architecture"],
+    experience: "Lead UI/UX & Creative Designer",
+    contributions: "Designed the modern visual language of AURA TECH platforms, crafted brand systems, and directed cinematic media."
   },
   {
     id: "tm7",
@@ -253,6 +301,11 @@ export const TEAM_MEMBERS = [
     tagline: "Brand copywriting, creative layout & strategic content.",
     image: "/team/praveen.jpg",
     badge: "Creative & Content",
-    color: "from-cyan-500 to-blue-600"
+    color: "from-cyan-500 to-blue-600",
+    bio: "Combining strategic messaging with artistic layout design. Praveen shapes brand narratives, user engagement documentation, editorial collateral, and marketing graphic layouts for enterprise and academic clients.",
+    specialization: "Creative Copywriting, Graphic Design & Content Strategy",
+    skills: ["Brand Copywriting", "Content Architecture", "Graphic Layout", "Technical Writing", "Creative Strategy"],
+    experience: "Content & Design Strategist",
+    contributions: "Authored brand copy architectures, project documentation systems, and creative visual presentation decks."
   }
 ];

@@ -11,7 +11,7 @@ export default function FAQSection({ theme }) {
   };
 
   return (
-    <section id="faq" className={`py-24 relative overflow-hidden scroll-mt-20 border-t ${
+    <section id="faq" className={`py-14 sm:py-24 relative overflow-hidden scroll-mt-20 border-t ${
       isDark ? 'bg-black/40 border-amber-500/15' : 'bg-white/70 border-slate-200'
     }`}>
       {/* Office Environment Background: Consultation Pods & Tech Assistance */}
@@ -34,22 +34,22 @@ export default function FAQSection({ theme }) {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        <div className="text-center mb-16">
-          <div className={`inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest mb-3 ${
+        <div className="text-center mb-10 sm:mb-16">
+          <div className={`inline-flex items-center gap-2 text-[10px] sm:text-xs font-extrabold uppercase tracking-widest mb-2 sm:mb-3 ${
             isDark ? 'text-amber-400' : 'text-blue-600'
           }`}>
-            <HelpCircle className={`w-4 h-4 ${isDark ? 'text-amber-400' : 'text-blue-600'}`} />
+            <HelpCircle className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isDark ? 'text-amber-400' : 'text-blue-600'}`} />
             Common Inquiries
           </div>
-          <h2 className={`text-3xl sm:text-5xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+          <h2 className={`text-2xl sm:text-5xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
             Frequently Asked <span className="text-gradient-main">Questions</span>
           </h2>
-          <p className={`text-sm sm:text-base mt-2 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+          <p className={`text-xs sm:text-base mt-1.5 sm:mt-2 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
             Clear answers to common questions about working with AURA TECH.
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {FAQ_DATA.map((faq, idx) => {
             const isOpen = openIndex === idx;
             return (
@@ -67,12 +67,12 @@ export default function FAQSection({ theme }) {
               >
                 <button
                   onClick={() => toggleFAQ(idx)}
-                  className="w-full p-6 text-left flex items-center justify-between gap-4 focus:outline-none"
+                  className="w-full p-4 sm:p-6 text-left flex items-center justify-between gap-3 sm:gap-4 focus:outline-none cursor-pointer"
                 >
-                  <span className={`text-base sm:text-lg font-bold pr-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  <span className={`text-sm sm:text-lg font-bold pr-2 sm:pr-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     {faq.question}
                   </span>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-200 shrink-0 ${
+                  <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-transform duration-200 shrink-0 ${
                     isOpen 
                       ? isDark 
                         ? 'rotate-180 bg-amber-500 text-black font-extrabold' 
@@ -81,15 +81,15 @@ export default function FAQSection({ theme }) {
                         ? 'bg-slate-900 text-slate-400' 
                         : 'bg-slate-100 text-slate-600'
                   }`}>
-                    <ChevronDown size={18} />
+                    <ChevronDown size={16} />
                   </div>
                 </button>
 
                 {isOpen && (
-                  <div className={`px-6 pb-6 pt-0 text-xs sm:text-sm leading-relaxed border-t mt-2 ${
+                  <div className={`px-4 sm:px-6 pb-4 sm:pb-6 pt-0 text-xs sm:text-sm leading-relaxed border-t mt-1 sm:mt-2 ${
                     isDark ? 'text-slate-300 border-slate-800/80' : 'text-slate-700 border-slate-100'
                   }`}>
-                    <p className="pt-4">{faq.answer}</p>
+                    <p className="pt-3 sm:pt-4">{faq.answer}</p>
                   </div>
                 )}
               </div>

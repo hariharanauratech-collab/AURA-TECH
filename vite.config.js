@@ -7,6 +7,17 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  build: {
+    chunkSizeWarningLimit: 1600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom', 'lucide-react'],
+          crmDocs: ['jspdf', 'jspdf-autotable', 'docx']
+        }
+      }
+    }
+  },
   server: {
     host: '0.0.0.0', // Expose dev server to network host & all interfaces
     port: 3000,

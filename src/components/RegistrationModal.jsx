@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, Send, Sparkles, User, Mail, Phone, FileText, Tag, Clock, MessageSquare } from 'lucide-react';
+import { X, CheckCircle2, Send, Sparkles, User, Mail, Phone, FileText, Tag, Clock, MessageSquare, ChevronDown } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { PROJECT_TYPES } from '../data/auraData';
+import { PROJECT_TYPES, matchProjectType } from '../data/auraData';
 import { saveBookingToDatabase } from '../lib/supabaseClient';
-import { sendEmailNotification, sendWhatsAppNotification } from '../lib/notificationService';
+import { recordWebsiteBooking } from '../crm/crmBackgroundSync';
 
-export default function RegistrationModal({ theme, isOpen, onClose, initialService = '' }) {
+export default function RegistrationModal({ theme, portalMode, isOpen, onClose, initialService = '' }) {
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
     email: '',
-    userType: 'Student',
+    userType: portalMode === 'company' ? 'Expert / Business' : 'Student',
     projectTitle: '',
     projectType: PROJECT_TYPES[0],
     expectedTime: '1 - 2 Weeks',
@@ -22,14 +22,36 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
   const isDark = theme === 'dark';
 
   useEffect(() => {
-    if (initialService) {
-      setFormData(prev => ({
-        ...prev,
-        projectTitle: initialService,
-        projectType: PROJECT_TYPES.includes(initialService) ? initialService : PROJECT_TYPES[0]
-      }));
+    if (isOpen) {
+      setSubmitted(false);
+      const defaultType = portalMode === 'company' ? 'Expert / Business' : 'Student';
+      if (initialService) {
+        setFormData(prev => ({
+          ...prev,
+          userType: prev.userType || defaultType,
+          projectTitle: initialService,
+          projectType: matchProjectType(initialService)
+        }));
+      } else {
+        setFormData(prev => ({
+          ...prev,
+          userType: prev.userType || defaultType
+        }));
+      }
     }
-  }, [initialService, isOpen]);
+  }, [initialService, isOpen, portalMode]);
+
+  // Escape key handler to close modal
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        handleReset();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -39,22 +61,21 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
 
     const newSubmission = {
       id: Date.now(),
-      client_name: formData.fullName,
-      client_email: formData.email,
-      client_phone: formData.phone,
+      client_name: formData.fullName.trim(),
+      client_email: formData.email.trim(),
+      client_phone: formData.phone.trim(),
       client_type: formData.userType,
-      project_title: formData.projectTitle,
+      project_title: formData.projectTitle.trim(),
       project_type: formData.projectType,
       expected_time: formData.expectedTime,
-      description: formData.description,
+      description: formData.description.trim(),
+      status: 'pending',
       created_at: new Date().toISOString()
     };
 
-    // Save to SQL Database (if connected) or Local Storage
+    // Save to SQL Database (if connected), CRM Database, and Google Sheets in background
     await saveBookingToDatabase(newSubmission);
-
-    const existing = JSON.parse(localStorage.getItem('aura_submissions') || '[]');
-    localStorage.setItem('aura_submissions', JSON.stringify([newSubmission, ...existing]));
+    await recordWebsiteBooking(newSubmission);
 
     setLoading(false);
     setSubmitted(true);
@@ -77,7 +98,7 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
       fullName: '',
       phone: '',
       email: '',
-      userType: 'Student',
+      userType: portalMode === 'company' ? 'Expert / Business' : 'Student',
       projectTitle: '',
       projectType: PROJECT_TYPES[0],
       expectedTime: '1 - 2 Weeks',
@@ -87,12 +108,18 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto">
-      <div className={`relative w-full max-w-xl rounded-3xl p-6 sm:p-8 shadow-2xl my-8 border overflow-hidden ${
-        isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-200'
-      }`}>
+    <div 
+      className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200 overflow-y-auto"
+      onClick={handleReset}
+    >
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className={`relative w-full max-w-xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl my-3 sm:my-8 border overflow-hidden max-h-[92vh] overflow-y-auto no-scrollbar ${
+          isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-200'
+        }`}
+      >
         {/* Office Background Scene with low transparency */}
-        <div className="absolute inset-0 pointer-events-none rounded-3xl overflow-hidden z-0">
+        <div className="absolute inset-0 pointer-events-none rounded-2xl sm:rounded-3xl overflow-hidden z-0">
           <img 
             src="/office-projects.jpg" 
             alt="Office Environment" 
@@ -108,45 +135,53 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
         {/* Close Button */}
         <button
           onClick={handleReset}
-          className={`absolute top-6 right-6 p-2 rounded-full transition-colors ${
+          className={`absolute top-3.5 right-3.5 sm:top-6 sm:right-6 p-1.5 sm:p-2 rounded-full transition-colors cursor-pointer z-10 ${
             isDark ? 'bg-slate-900 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-600 hover:text-slate-900'
           }`}
+          aria-label="Close booking modal"
+          title="Close booking modal"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
 
         {!submitted ? (
-          <div>
+          <div className="relative z-10">
             {/* Header */}
-            <div className="mb-6">
-              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-widest mb-2 border ${
+            <div className="mb-4 sm:mb-6">
+              <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest mb-1.5 sm:mb-2 border ${
                 isDark ? 'bg-amber-500/10 border-amber-500/30 text-amber-400' : 'bg-blue-50 border-blue-200 text-blue-600'
               }`}>
                 <Sparkles size={13} />
                 Instant Booking
               </div>
-              <h3 className={`text-2xl sm:text-3xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`text-xl sm:text-3xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Register <span className="text-gradient-main">Project</span>
               </h3>
-              <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              <p className={`text-[11px] sm:text-sm mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 Provide your details to get started with AURA TECH engineers.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               
               {/* User Type Toggle */}
               <div>
-                <label className={`block text-xs font-extrabold uppercase tracking-wider mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                <span id="booking-user-type-label" className={`block text-xs font-extrabold uppercase tracking-wider mb-2 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                   I am a...
-                </label>
-                <div className={`grid grid-cols-2 gap-3 p-1 rounded-xl border ${
-                  isDark ? 'bg-black border-slate-800' : 'bg-slate-100 border-slate-200'
-                }`}>
+                </span>
+                <div 
+                  role="radiogroup" 
+                  aria-labelledby="booking-user-type-label"
+                  className={`grid grid-cols-2 gap-3 p-1 rounded-xl border ${
+                    isDark ? 'bg-black border-slate-800' : 'bg-slate-100 border-slate-200'
+                  }`}
+                >
                   <button
                     type="button"
+                    role="radio"
+                    aria-checked={formData.userType === 'Student'}
                     onClick={() => setFormData({ ...formData, userType: 'Student' })}
-                    className={`py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
+                    className={`py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
                       formData.userType === 'Student'
                         ? 'btn-primary-action shadow-md'
                         : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
@@ -156,8 +191,10 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
                   </button>
                   <button
                     type="button"
+                    role="radio"
+                    aria-checked={formData.userType !== 'Student'}
                     onClick={() => setFormData({ ...formData, userType: 'Expert / Business' })}
-                    className={`py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
+                    className={`py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
                       formData.userType !== 'Student'
                         ? 'btn-primary-action shadow-md'
                         : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
@@ -171,12 +208,17 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
               {/* Full Name & Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                  <label 
+                    htmlFor="booking-full-name"
+                    className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+                  >
                     Full Name *
                   </label>
                   <div className="relative">
                     <User size={16} className={`absolute left-3 top-3 ${isDark ? 'text-amber-500/60' : 'text-blue-500'}`} />
                     <input
+                      id="booking-full-name"
+                      name="fullName"
                       type="text"
                       required
                       value={formData.fullName}
@@ -190,12 +232,17 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
                 </div>
 
                 <div>
-                  <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                  <label 
+                    htmlFor="booking-phone"
+                    className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+                  >
                     Contact No *
                   </label>
                   <div className="relative">
                     <Phone size={16} className={`absolute left-3 top-3 ${isDark ? 'text-amber-500/60' : 'text-blue-500'}`} />
                     <input
+                      id="booking-phone"
+                      name="phone"
                       type="tel"
                       required
                       value={formData.phone}
@@ -211,12 +258,17 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
 
               {/* Email Address */}
               <div>
-                <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                <label 
+                  htmlFor="booking-email"
+                  className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+                >
                   Email Address *
                 </label>
                 <div className="relative">
                   <Mail size={16} className={`absolute left-3 top-3 ${isDark ? 'text-amber-500/60' : 'text-blue-500'}`} />
                   <input
+                    id="booking-email"
+                    name="email"
                     type="email"
                     required
                     value={formData.email}
@@ -237,12 +289,17 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
               {/* Project Title & Project Type */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                  <label 
+                    htmlFor="booking-project-title"
+                    className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+                  >
                     Project Title *
                   </label>
                   <div className="relative">
                     <FileText size={16} className={`absolute left-3 top-3 ${isDark ? 'text-amber-500/60' : 'text-blue-500'}`} />
                     <input
+                      id="booking-project-title"
+                      name="projectTitle"
                       type="text"
                       required
                       value={formData.projectTitle}
@@ -256,15 +313,20 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
                 </div>
 
                 <div>
-                  <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                  <label 
+                    htmlFor="booking-project-type"
+                    className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+                  >
                     Project Type *
                   </label>
                   <div className="relative">
-                    <Tag size={16} className={`absolute left-3 top-3 ${isDark ? 'text-amber-500/60' : 'text-blue-500'}`} />
+                    <Tag size={16} className={`absolute left-3 top-3 pointer-events-none ${isDark ? 'text-amber-500/60' : 'text-blue-500'}`} />
                     <select
+                      id="booking-project-type"
+                      name="projectType"
                       value={formData.projectType}
                       onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                      className={`w-full rounded-xl py-2.5 pl-9 pr-3 text-xs focus:outline-none transition-colors appearance-none border ${
+                      className={`w-full rounded-xl py-2.5 pl-9 pr-8 text-xs focus:outline-none transition-colors appearance-none cursor-pointer border ${
                         isDark ? 'bg-black border-slate-800 focus:border-amber-500 text-white' : 'bg-slate-50 border-slate-300 focus:border-blue-600 text-slate-900'
                       }`}
                     >
@@ -274,21 +336,27 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
                         </option>
                       ))}
                     </select>
+                    <ChevronDown size={14} className="absolute right-3 top-3 text-slate-400 pointer-events-none" />
                   </div>
                 </div>
               </div>
 
               {/* Expected Time / Target Deadline */}
               <div>
-                <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                <label 
+                  htmlFor="booking-expected-time"
+                  className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+                >
                   Expected Time for Project *
                 </label>
                 <div className="relative">
-                  <Clock size={16} className={`absolute left-3 top-3 ${isDark ? 'text-amber-500/60' : 'text-blue-500'}`} />
+                  <Clock size={16} className={`absolute left-3 top-3 pointer-events-none ${isDark ? 'text-amber-500/60' : 'text-blue-500'}`} />
                   <select
+                    id="booking-expected-time"
+                    name="expectedTime"
                     value={formData.expectedTime}
                     onChange={(e) => setFormData({ ...formData, expectedTime: e.target.value })}
-                    className={`w-full rounded-xl py-2.5 pl-9 pr-3 text-xs focus:outline-none transition-colors appearance-none border ${
+                    className={`w-full rounded-xl py-2.5 pl-9 pr-8 text-xs focus:outline-none transition-colors appearance-none cursor-pointer border ${
                       isDark ? 'bg-black border-slate-800 focus:border-amber-500 text-white' : 'bg-slate-50 border-slate-300 focus:border-blue-600 text-slate-900'
                     }`}
                   >
@@ -298,15 +366,21 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
                     <option value="1 - 2 Months (Enterprise)" className={isDark ? "bg-slate-900 text-white" : "bg-white text-slate-900"}>🏢 1 - 2 Months (Enterprise System)</option>
                     <option value="Flexible Timeline" className={isDark ? "bg-slate-900 text-white" : "bg-white text-slate-900"}>⏳ Flexible / No Rush</option>
                   </select>
+                  <ChevronDown size={14} className="absolute right-3 top-3 text-slate-400 pointer-events-none" />
                 </div>
               </div>
 
               {/* Description */}
               <div>
-                <label className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+                <label 
+                  htmlFor="booking-description"
+                  className={`block text-[11px] font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}
+                >
                   Project Description
                 </label>
                 <textarea
+                  id="booking-description"
+                  name="description"
                   rows={3}
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -336,7 +410,7 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
             </form>
           </div>
         ) : (
-          <div className="text-center py-6">
+          <div className="text-center py-6 relative z-10">
             <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce border ${
               isDark ? 'bg-amber-500/20 text-amber-400 border-amber-500/40' : 'bg-blue-50 text-blue-600 border-blue-200'
             }`}>
@@ -348,23 +422,38 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
             </h3>
 
             <p className={`text-xs sm:text-sm max-w-md mx-auto mb-6 leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-              Your project booking is recorded! Send an instant Email confirmation from <span className="font-bold text-amber-400">auratech008@gmail.com</span> or send a WhatsApp alert to your mobile number.
+              Your project booking is recorded! Send an instant Email confirmation to <span className="font-bold text-amber-400">auratech008@gmail.com</span> or send a WhatsApp alert to our engineering team.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto mb-6">
               <button
                 type="button"
-                onClick={() => sendEmailNotification({
-                  client_name: formData.fullName,
-                  client_email: formData.email,
-                  client_phone: formData.phone,
-                  client_type: formData.userType,
-                  project_title: formData.projectTitle,
-                  project_type: formData.projectType,
-                  expected_time: formData.expectedTime,
-                  description: formData.description,
-                  status: 'Pending Review'
-                })}
+                onClick={() => {
+                  const subject = encodeURIComponent(`New Project Booking: ${formData.projectTitle} - ${formData.fullName}`);
+                  const body = encodeURIComponent(
+`Hello AURA TECH Team,
+
+I have registered a new project booking on your website:
+
+Client Details:
+- Name: ${formData.fullName}
+- Contact Phone: ${formData.phone}
+- Email: ${formData.email}
+- Account Type: ${formData.userType}
+
+Project Specifications:
+- Title: ${formData.projectTitle}
+- Category: ${formData.projectType}
+- Target Timeline: ${formData.expectedTime}
+- Description: ${formData.description || 'N/A'}
+
+Please confirm receipt and get back to me with the initial milestone schedule.
+
+Best regards,
+${formData.fullName}`
+                  );
+                  window.location.href = `mailto:auratech008@gmail.com?cc=${encodeURIComponent(formData.email)}&subject=${subject}&body=${body}`;
+                }}
                 className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-blue-600/15 hover:bg-blue-600/25 text-blue-500 border border-blue-500/30 text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <Mail size={14} /> Send Email Notice
@@ -372,17 +461,26 @@ export default function RegistrationModal({ theme, isOpen, onClose, initialServi
 
               <button
                 type="button"
-                onClick={() => sendWhatsAppNotification({
-                  client_name: formData.fullName,
-                  client_email: formData.email,
-                  client_phone: formData.phone,
-                  client_type: formData.userType,
-                  project_title: formData.projectTitle,
-                  project_type: formData.projectType,
-                  expected_time: formData.expectedTime,
-                  description: formData.description,
-                  status: 'Pending Review'
-                })}
+                onClick={() => {
+                  const message = 
+`*New Project Booking Submission* 🚀
+
+Hello *AURA TECH Team*,
+
+I have just submitted a project booking on your platform:
+
+👤 *Client:* ${formData.fullName}
+📱 *Phone:* ${formData.phone}
+📧 *Email:* ${formData.email}
+👥 *Category:* ${formData.userType}
+📌 *Project Title:* ${formData.projectTitle}
+🏷 *Project Type:* ${formData.projectType}
+🗓 *Expected Delivery:* ${formData.expectedTime}
+📝 *Notes:* ${formData.description || 'N/A'}
+
+Please review my requirements and confirm the project onboarding steps!`;
+                  window.open(`https://api.whatsapp.com/send?phone=919025255617&text=${encodeURIComponent(message)}`, '_blank');
+                }}
                 className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-green-500/15 hover:bg-green-500/25 text-green-400 border border-green-500/30 text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <MessageSquare size={14} /> Send WhatsApp Alert

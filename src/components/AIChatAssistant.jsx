@@ -57,19 +57,19 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40">
       
       {/* Floating Chat Trigger Button */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group relative flex items-center gap-3 p-4 rounded-full btn-primary-action shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+          className="group relative flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-full btn-primary-action shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
           aria-label="Open Aura AI Chat Assistant"
         >
           <div className="relative">
-            <MessageSquare size={24} />
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border-2 border-slate-950 animate-ping"></span>
-            <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full border-2 border-slate-950"></span>
+            <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-amber-400 rounded-full border-2 border-slate-950 animate-ping"></span>
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-amber-400 rounded-full border-2 border-slate-950"></span>
           </div>
           <span className="hidden sm:inline font-black text-xs uppercase tracking-wider pr-1">
             Aura AI
@@ -79,7 +79,7 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
 
       {/* Chat Box Panel */}
       {isOpen && (
-        <div className={`w-[90vw] sm:w-[380px] h-[520px] rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200 border ${
+        <div className={`w-[calc(100vw-32px)] max-w-[380px] h-[480px] sm:h-[520px] max-h-[82vh] rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200 border ${
           isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-300'
         }`}>
           
@@ -104,7 +104,8 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
 
             <button
               onClick={() => setIsOpen(false)}
-              className={`p-1.5 rounded-lg transition-colors ${
+              aria-label="Close Aura AI Assistant"
+              className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                 isDark ? 'text-slate-400 hover:text-white hover:bg-slate-900' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200'
               }`}
             >
@@ -198,6 +199,9 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
               className="flex items-center gap-2"
             >
               <input
+                id="aura-ai-input"
+                name="auraAiInput"
+                aria-label="Ask Aura AI a question"
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -209,6 +213,7 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
               <button
                 type="submit"
                 disabled={!input.trim()}
+                aria-label="Send message to Aura AI"
                 className="p-2 rounded-xl btn-primary-action disabled:opacity-40 transition-colors cursor-pointer"
               >
                 <Send size={15} />

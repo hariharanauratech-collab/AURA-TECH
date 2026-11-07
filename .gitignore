@@ -1,1 +1,25 @@
-.vercel
+# Dependencies
+node_modules/
+
+# Production Build
+dist/
+dist-ssr/
+
+# Archives & Temporary Raw CRM Uploads
+crm (3)/
+crm (3).zip
+
+# Environment & Local Configuration
+.env.local
+.env.*.local
+*.local
+
+# Deployment & Caches
+.vercel/
+.idea/
+.vscode/
+*.log
+
+# OS Metadata
+.DS_Store
+Thumbs.db

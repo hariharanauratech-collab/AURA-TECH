@@ -1,5 +1,5 @@
 import React from 'react';
-import { Database, ArrowUp, Mail } from 'lucide-react';
+import { Database, ArrowUp, Mail, Shield } from 'lucide-react';
 
 export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenBookModal, onOpenAdminModal, onOpenJobModal }) {
   const isDark = theme === 'dark';
@@ -47,7 +47,7 @@ export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenBook
           </div>
 
           {/* Quick Links */}
-          <div className="flex flex-wrap justify-center gap-6 text-xs font-extrabold uppercase tracking-widest text-slate-300">
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-3 sm:gap-6 text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-slate-300">
             {isHr ? (
               <>
                 <button onClick={onOpenAboutModal} className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>About Us</button>
@@ -80,6 +80,17 @@ export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenBook
 
           {/* Top Button & Admin Sheet Trigger */}
           <div className="flex items-center gap-3">
+            <a
+              href="/crm"
+              title="AURA TECH Staff & Enterprise CRM Suite"
+              className={`p-2.5 rounded-xl border transition-colors text-xs font-bold flex items-center gap-1.5 ${
+                isDark ? 'bg-slate-900 text-slate-400 hover:text-indigo-400 border-amber-500/20' : 'bg-slate-800 text-slate-300 hover:text-indigo-400 border-slate-700'
+              }`}
+            >
+              <Shield size={14} className="text-indigo-400" />
+              <span className="hidden sm:inline">CRM & Staff</span>
+            </a>
+
             {!isHr && (
               <button
                 onClick={onOpenAdminModal}

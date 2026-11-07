@@ -6,7 +6,7 @@ export default function ContactSection({ theme, portalMode, onOpenBookModal, onO
   const isHr = portalMode === 'hr';
 
   return (
-    <section id="contact" className={`py-24 relative overflow-hidden scroll-mt-20 border-t ${
+    <section id="contact" className={`py-14 sm:py-24 relative overflow-hidden scroll-mt-20 border-t ${
       isDark ? 'bg-black/40 border-amber-500/15' : 'bg-slate-50/70 border-slate-200'
     }`}>
       {/* Office Environment Background: Executive Consultation Lobby & Reception */}
@@ -29,18 +29,18 @@ export default function ContactSection({ theme, portalMode, onOpenBookModal, onO
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        <div className={`glass-card rounded-3xl p-8 sm:p-12 border relative overflow-hidden ${
+        <div className={`glass-card rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 border relative overflow-hidden ${
           isDark ? 'border-amber-500/20' : 'border-slate-200 shadow-xl'
         }`}>
           <div className={`absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl pointer-events-none ${
             isDark ? 'bg-amber-500/10' : 'bg-blue-500/10'
           }`}></div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             
             {/* Left Column */}
             <div>
-              <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest mb-6 border ${
+              <div className={`inline-flex items-center gap-2 px-3 sm:px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-extrabold uppercase tracking-widest mb-4 sm:mb-6 border ${
                 isDark 
                   ? 'bg-amber-500/10 border-amber-500/30 text-amber-400' 
                   : 'bg-blue-50 border-blue-200 text-blue-600'
@@ -49,7 +49,7 @@ export default function ContactSection({ theme, portalMode, onOpenBookModal, onO
                 {isHr ? 'HR & Careers Helpdesk' : "Let's Build Together"}
               </div>
 
-              <h2 className={`text-3xl sm:text-5xl font-black uppercase tracking-tight mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h2 className={`text-2xl sm:text-5xl font-black uppercase tracking-tight mb-3 sm:mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {isHr ? (
                   <>Connect with <span className="text-gradient-main">HR Team</span></>
                 ) : (
@@ -57,96 +57,96 @@ export default function ContactSection({ theme, portalMode, onOpenBookModal, onO
                 )}
               </h2>
 
-              <p className={`text-sm sm:text-base leading-relaxed mb-8 max-w-lg ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+              <p className={`text-xs sm:text-base leading-relaxed mb-6 sm:mb-8 max-w-lg ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                 {isHr 
                   ? 'Have questions about open roles, recruitment timelines, or team culture? Reach out to our talent acquisition team directly.'
                   : 'Have a project in mind or need technical assistance? Our engineering & design team is ready to help you accelerate your vision.'}
               </p>
 
-              <div className="space-y-4 mb-8">
+              <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                 
                 {/* AURA TECH Phone */}
-                <div className={`flex items-start gap-4 p-4 rounded-xl border ${
+                <div className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl border ${
                   isDark ? 'bg-slate-900/90 border-amber-500/20' : 'bg-white border-slate-200 shadow-sm'
                 }`}>
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${
                     isDark ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-50 text-blue-600'
                   }`}>
-                    <Phone size={20} />
+                    <Phone size={18} />
                   </div>
                   <div>
-                    <div className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>AURA TECH Direct</div>
+                    <div className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>AURA TECH Direct</div>
                     <a href="tel:9025255617" className={`font-extrabold text-sm sm:text-base transition-colors ${
                       isDark ? 'text-white hover:text-amber-400' : 'text-slate-900 hover:text-blue-600'
                     }`}>
                       +91 90252 55617
                     </a>
-                    <div className="text-[11px] text-slate-500 mt-0.5">Direct line for project consultations & business inquiries.</div>
+                    <div className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">Direct line for project consultations & business inquiries.</div>
                   </div>
                 </div>
 
                 {/* HELP DESK Phone */}
-                <div className={`flex items-start gap-4 p-4 rounded-xl border ${
+                <div className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl border ${
                   isDark ? 'bg-slate-900/90 border-amber-500/20' : 'bg-white border-slate-200 shadow-sm'
                 }`}>
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${
                     isDark ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-50 text-blue-600'
                   }`}>
-                    <Headphones size={20} />
+                    <Headphones size={18} />
                   </div>
                   <div>
-                    <div className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>HELP DESK</div>
+                    <div className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>HELP DESK</div>
                     <a href="tel:9345256633" className={`font-extrabold text-sm sm:text-base transition-colors ${
                       isDark ? 'text-white hover:text-amber-400' : 'text-slate-900 hover:text-blue-600'
                     }`}>
                       +91 93452 56633
                     </a>
-                    <div className="text-[11px] text-slate-500 mt-0.5">Instant student project assistance & technical support.</div>
+                    <div className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">Instant student project assistance & technical support.</div>
                   </div>
                 </div>
 
                 {/* Email */}
-                <div className={`flex items-start gap-4 p-4 rounded-xl border ${
+                <div className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl border ${
                   isDark ? 'bg-slate-900/90 border-amber-500/20' : 'bg-white border-slate-200 shadow-sm'
                 }`}>
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${
                     isDark ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-50 text-blue-600'
                   }`}>
-                    <Mail size={20} />
+                    <Mail size={18} />
                   </div>
-                  <div>
-                    <div className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Official Email</div>
-                    <a href="mailto:auratech008@gmail.com" className={`font-extrabold text-sm sm:text-base lowercase transition-colors ${
+                  <div className="min-w-0">
+                    <div className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Official Email</div>
+                    <a href="mailto:auratech008@gmail.com" className={`font-extrabold text-xs sm:text-base lowercase transition-colors truncate block ${
                       isDark ? 'text-white hover:text-amber-400' : 'text-slate-900 hover:text-blue-600'
                     }`}>
                       auratech008@gmail.com
                     </a>
-                    <div className="text-[11px] text-slate-500 mt-0.5">Our response team typically replies within 24 hours.</div>
+                    <div className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">Our response team typically replies within 24 hours.</div>
                   </div>
                 </div>
 
                 {/* Instagram */}
-                <div className={`flex items-start gap-4 p-4 rounded-xl border ${
+                <div className={`flex items-start gap-3 sm:gap-4 p-3.5 sm:p-4 rounded-xl border ${
                   isDark ? 'bg-slate-900/90 border-amber-500/20' : 'bg-white border-slate-200 shadow-sm'
                 }`}>
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${
+                  <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-lg flex items-center justify-center shrink-0 ${
                     isDark ? 'bg-amber-500/10 text-amber-400' : 'bg-blue-50 text-blue-600'
                   }`}>
-                    <Instagram size={20} />
+                    <Instagram size={18} />
                   </div>
                   <div>
-                    <div className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Instagram Channel</div>
+                    <div className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>Instagram Channel</div>
                     <a
                       href="https://www.instagram.com/__aura_tech_?igsh=enZ0aXU4aWtsaGJw"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`font-extrabold text-sm sm:text-base transition-colors ${
+                      className={`font-extrabold text-xs sm:text-base transition-colors ${
                         isDark ? 'text-white hover:text-amber-400' : 'text-slate-900 hover:text-blue-600'
                       }`}
                     >
                       @__aura_tech_
                     </a>
-                    <div className="text-[11px] text-slate-500 mt-0.5">Follow us for latest updates & project showcases.</div>
+                    <div className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">Follow us for latest updates & project showcases.</div>
                   </div>
                 </div>
 
@@ -154,20 +154,20 @@ export default function ContactSection({ theme, portalMode, onOpenBookModal, onO
             </div>
 
             {/* Right Column Card */}
-            <div className={`p-8 rounded-2xl border flex flex-col justify-between text-center relative ${
+            <div className={`p-6 sm:p-8 rounded-2xl border flex flex-col justify-between text-center relative ${
               isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-200 shadow-lg'
             }`}>
-              <div className={`w-16 h-16 rounded-2xl border flex items-center justify-center mx-auto mb-6 ${
+              <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border flex items-center justify-center mx-auto mb-4 sm:mb-6 ${
                 isDark ? 'bg-amber-500/10 border-amber-500/30 text-amber-400' : 'bg-blue-50 border-blue-200 text-blue-600'
               }`}>
-                {isHr ? <Briefcase size={28} /> : <Send size={28} />}
+                {isHr ? <Briefcase size={26} /> : <Send size={26} />}
               </div>
 
-              <h3 className={`text-2xl font-black uppercase tracking-tight mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <h3 className={`text-xl sm:text-2xl font-black uppercase tracking-tight mb-2 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 {isHr ? 'Ready to Join Our Team?' : 'Ready to Get Started?'}
               </h3>
 
-              <p className={`text-xs sm:text-sm mb-6 max-w-sm mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              <p className={`text-xs sm:text-sm mb-5 sm:mb-6 max-w-sm mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 {isHr 
                   ? 'Submit your application, portfolio link, and technical skills directly through our recruitment portal.'
                   : 'Submit your project requirements through our quick registration form. Students get special project guidance discounts!'}
@@ -176,7 +176,7 @@ export default function ContactSection({ theme, portalMode, onOpenBookModal, onO
               {isHr ? (
                 <button
                   onClick={() => onOpenJobModal && onOpenJobModal()}
-                  className="w-full btn-primary-action py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold shadow-lg flex items-center justify-center gap-2 mb-4 cursor-pointer"
+                  className="w-full btn-primary-action py-3.5 sm:py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold shadow-lg flex items-center justify-center gap-2 mb-4 cursor-pointer active:scale-95 transition-all"
                 >
                   Apply Now
                   <ArrowRight size={16} />
@@ -184,7 +184,7 @@ export default function ContactSection({ theme, portalMode, onOpenBookModal, onO
               ) : (
                 <button
                   onClick={onOpenBookModal}
-                  className="w-full btn-primary-action py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold shadow-lg flex items-center justify-center gap-2 mb-4 cursor-pointer"
+                  className="w-full btn-primary-action py-3.5 sm:py-4 rounded-xl text-xs uppercase tracking-wider font-extrabold shadow-lg flex items-center justify-center gap-2 mb-4 cursor-pointer active:scale-95 transition-all"
                 >
                   Register Project Now
                   <ArrowRight size={16} />

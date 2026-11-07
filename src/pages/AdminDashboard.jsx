@@ -10,6 +10,7 @@ import { sendEmailNotification, sendWhatsAppNotification } from '../lib/notifica
 import AnimatedOfficeBackground from '../components/AnimatedOfficeBackground';
 import AdminHRApplicationsView from '../components/AdminHRApplicationsView';
 import { getHRApplications, updateApplicationStatus, deleteApplication } from '../lib/hrService';
+import { AdminPortal } from '../crm/AdminPortal';
 
 export default function AdminDashboard({ theme, onToggleTheme }) {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -35,6 +36,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
     userType: 'Student',
     projectTitle: '',
     projectType: PROJECT_TYPES[0],
+    expectedTime: '1 - 2 Weeks',
     description: '',
     status: 'pending'
   });
@@ -127,6 +129,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
       client_type: newBooking.userType,
       project_title: newBooking.projectTitle,
       project_type: newBooking.projectType,
+      expected_time: newBooking.expectedTime || '1 - 2 Weeks',
       description: newBooking.description,
       status: newBooking.status,
       created_at: new Date().toISOString()
@@ -143,6 +146,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
       userType: 'Student',
       projectTitle: '',
       projectType: PROJECT_TYPES[0],
+      expectedTime: '1 - 2 Weeks',
       description: '',
       status: 'pending'
     });
@@ -252,10 +256,12 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className={`block text-xs font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+              <label htmlFor="admin-login-id" className={`block text-xs font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                 Admin ID / Username
               </label>
               <input
+                id="admin-login-id"
+                name="adminId"
                 type="text"
                 required
                 value={loginEmail}
@@ -268,10 +274,12 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
             </div>
 
             <div>
-              <label className={`block text-xs font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
+              <label htmlFor="admin-login-password" className={`block text-xs font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
                 Password
               </label>
               <input
+                id="admin-login-password"
+                name="password"
                 type="password"
                 required
                 value={loginPassword}
@@ -305,7 +313,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
   }
 
   return (
-    <div className={`min-h-screen p-4 sm:p-8 relative overflow-hidden transition-colors duration-300 ${
+    <div className={`min-h-screen p-2.5 sm:p-6 md:p-8 relative overflow-hidden transition-colors duration-300 ${
       isDark ? 'bg-black text-slate-100' : 'bg-slate-50 text-slate-900'
     }`}>
       {/* Office Environment Background: Data Command & Operations Suite */}
@@ -325,37 +333,37 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
       {/* Scroll-Reactive Animated Office Interface Background */}
       <AnimatedOfficeBackground theme={theme} />
 
-      <div className="max-w-7xl mx-auto space-y-6 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6 relative z-10">
         
         {/* Top Admin Header */}
-        <header className={`p-6 rounded-3xl border flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl ${
+        <header className={`p-4 sm:p-6 rounded-2xl sm:rounded-3xl border flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 sm:gap-6 shadow-xl ${
           isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-200'
         }`}>
-          <div className="flex items-center gap-4">
-            <div className="logo-badge bg-white p-2.5 rounded-2xl border border-slate-200 shadow-md">
-              <img src="/logo.png" alt="AURA TECH Logo" className="h-10 w-auto object-contain" />
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="logo-badge bg-white p-2 sm:p-2.5 rounded-xl sm:rounded-2xl border border-slate-200 shadow-md shrink-0">
+              <img src="/logo.png" alt="AURA TECH Logo" className="h-8 sm:h-10 w-auto object-contain" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className={`text-xl sm:text-2xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className={`text-base sm:text-2xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   AURA TECH <span className={isDark ? 'text-amber-400' : 'text-blue-600'}>ADMIN PORTAL</span>
                 </h1>
-                <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
+                <span className={`px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold uppercase ${
                   isDark ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30' : 'bg-blue-50 text-blue-700 border border-blue-200'
                 }`}>
                   Live MasterSheet
                 </span>
               </div>
-              <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              <p className={`text-[11px] sm:text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                 Central Management Dashboard for Service & Project Bookings (/admin)
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap">
+          <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 flex-wrap pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800/40">
             <a
               href="/"
-              className={`px-4 py-2.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-colors ${
+              className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-colors ${
                 isDark ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-800' : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'
               }`}
             >
@@ -364,17 +372,17 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
 
             <button
               onClick={onToggleTheme}
-              className={`p-2.5 rounded-xl border transition-all text-xs font-bold flex items-center gap-1.5 ${
+              className={`p-2 sm:p-2.5 rounded-xl border transition-all text-xs font-bold flex items-center gap-1.5 ${
                 isDark ? 'bg-slate-900 border-amber-500/30 text-amber-400' : 'bg-white border-slate-300 text-blue-600 shadow-sm'
               }`}
               title="Toggle Theme"
             >
-              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+              {isDark ? <Sun size={15} /> : <Moon size={15} />}
             </button>
 
             <button
               onClick={handleLogout}
-              className="px-4 py-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/30 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-500 border border-red-500/30 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <LogOut size={14} /> Logout
             </button>
@@ -418,55 +426,75 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
               {hrApplications.length}
             </span>
           </button>
+
+          <button
+            onClick={() => setAdminTab('crm')}
+            className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
+              adminTab === 'crm'
+                ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/25 font-black'
+                : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Shield size={15} />
+            <span>Enterprise CRM Suite</span>
+            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+              adminTab === 'crm' ? 'bg-black/20 text-white font-black' : isDark ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700'
+            }`}>
+              7 Staff & Projects
+            </span>
+          </button>
         </div>
 
         {adminTab === 'bookings' ? (
           <>
             {/* Analytics Overview Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          <div className={`p-5 rounded-2xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
-            <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Total Inquiries</div>
-            <div className={`text-2xl sm:text-3xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{totalCount}</div>
-            <div className="text-[10px] text-slate-500 mt-1">Recorded Submissions</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 sm:gap-4">
+          <div className={`p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
+            <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 mb-0.5 sm:mb-1">Total Inquiries</div>
+            <div className={`text-xl sm:text-3xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{totalCount}</div>
+            <div className="text-[9px] sm:text-[10px] text-slate-500 mt-0.5 sm:mt-1">Recorded Submissions</div>
           </div>
 
-          <div className={`p-5 rounded-2xl border ${isDark ? 'bg-slate-950 border-amber-500/20' : 'bg-white border-slate-200 shadow-sm'}`}>
-            <div className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-1">Pending Review</div>
-            <div className="text-2xl sm:text-3xl font-black text-amber-400">{pendingCount}</div>
-            <div className="text-[10px] text-slate-500 mt-1">Requires Action</div>
+          <div className={`p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border ${isDark ? 'bg-slate-950 border-amber-500/20' : 'bg-white border-slate-200 shadow-sm'}`}>
+            <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-400 mb-0.5 sm:mb-1">Pending Review</div>
+            <div className="text-xl sm:text-3xl font-black text-amber-400">{pendingCount}</div>
+            <div className="text-[9px] sm:text-[10px] text-slate-500 mt-0.5 sm:mt-1">Requires Action</div>
           </div>
 
-          <div className={`p-5 rounded-2xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
-            <div className="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-1">In Progress</div>
-            <div className="text-2xl sm:text-3xl font-black text-indigo-400">{inProgressCount}</div>
-            <div className="text-[10px] text-slate-500 mt-1">Active Projects</div>
+          <div className={`p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
+            <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-indigo-400 mb-0.5 sm:mb-1">In Progress</div>
+            <div className="text-xl sm:text-3xl font-black text-indigo-400">{inProgressCount}</div>
+            <div className="text-[9px] sm:text-[10px] text-slate-500 mt-0.5 sm:mt-1">Active Projects</div>
           </div>
 
-          <div className={`p-5 rounded-2xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
-            <div className="text-xs font-bold uppercase tracking-wider text-green-400 mb-1">Completed</div>
-            <div className="text-2xl sm:text-3xl font-black text-green-400">{completedCount}</div>
-            <div className="text-[10px] text-slate-500 mt-1">Delivered Projects</div>
+          <div className={`p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
+            <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-green-400 mb-0.5 sm:mb-1">Completed</div>
+            <div className="text-xl sm:text-3xl font-black text-green-400">{completedCount}</div>
+            <div className="text-[9px] sm:text-[10px] text-slate-500 mt-0.5 sm:mt-1">Delivered Projects</div>
           </div>
 
-          <div className={`p-5 rounded-2xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
-            <div className="text-xs font-bold uppercase tracking-wider text-blue-400 mb-1">Student Ratio</div>
-            <div className="text-2xl sm:text-3xl font-black text-blue-400">
+          <div className={`p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border col-span-2 sm:col-span-1 ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
+            <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-blue-400 mb-0.5 sm:mb-1">Student Ratio</div>
+            <div className="text-xl sm:text-3xl font-black text-blue-400">
               {totalCount > 0 ? Math.round((studentCount / totalCount) * 100) : 0}%
             </div>
-            <div className="text-[10px] text-slate-500 mt-1">{studentCount} Students</div>
+            <div className="text-[9px] sm:text-[10px] text-slate-500 mt-0.5 sm:mt-1">{studentCount} Students</div>
           </div>
         </div>
 
         {/* Action Toolbar */}
-        <div className={`p-6 rounded-3xl border space-y-4 shadow-xl ${
+        <div className={`p-4 sm:p-6 rounded-2xl sm:rounded-3xl border space-y-4 shadow-xl ${
           isDark ? 'bg-slate-950 border-amber-500/20' : 'bg-white border-slate-200'
         }`}>
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3 sm:gap-4">
             
             {/* Search Input */}
             <div className="relative w-full md:w-96">
               <Search size={16} className={`absolute left-3.5 top-3.5 ${isDark ? 'text-amber-500/60' : 'text-slate-400'}`} />
               <input
+                id="admin-booking-search"
+                name="bookingSearch"
+                aria-label="Search bookings by name, email, phone or project"
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -478,10 +506,10 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
             </div>
 
             {/* Actions: Add Booking & CSV Export */}
-            <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 w-full md:w-auto">
               <button
                 onClick={() => setIsAddModalOpen(true)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 border transition-all cursor-pointer ${
+                className={`flex-1 sm:flex-initial justify-center px-4 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 border transition-all cursor-pointer ${
                   isDark ? 'bg-slate-900 border-amber-500/30 text-amber-400 hover:bg-slate-800' : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
                 }`}
               >
@@ -490,7 +518,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
 
               <button
                 onClick={downloadCSV}
-                className="btn-primary-action px-5 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 shadow-lg cursor-pointer"
+                className="btn-primary-action flex-1 sm:flex-initial justify-center px-5 py-2.5 rounded-xl text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 shadow-lg cursor-pointer"
               >
                 <Download size={15} /> Export MasterSheet CSV
               </button>
@@ -594,6 +622,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
                         {/* Status Dropdown */}
                         <td className="p-4">
                           <select
+                            aria-label={`Update booking status for ${item.client_name}`}
                             value={status}
                             onChange={(e) => updateStatus(item.id, e.target.value)}
                             className={`px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wider focus:outline-none cursor-pointer border ${getStatusBadgeStyle(status, isDark)}`}
@@ -616,31 +645,35 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
                         <td className="p-4 text-right space-x-1.5">
                           <button
                             onClick={() => sendEmailNotification(item)}
-                            className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 transition-colors"
+                            className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 hover:bg-blue-500/20 transition-colors cursor-pointer"
                             title="Send Email Status Notice (auratech008@gmail.com)"
+                            aria-label={`Send Email notification to ${item.client_name}`}
                           >
                             <Mail size={14} />
                           </button>
                           <button
                             onClick={() => sendWhatsAppNotification(item)}
-                            className="p-2 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500/20 transition-colors"
+                            className="p-2 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500/20 transition-colors cursor-pointer"
                             title="Send WhatsApp Alert (AURA TECH)"
+                            aria-label={`Send WhatsApp notification to ${item.client_name}`}
                           >
                             <MessageSquare size={14} />
                           </button>
                           <button
                             onClick={() => setSelectedBooking(item)}
-                            className={`p-2 rounded-lg border transition-colors ${
+                            className={`p-2 rounded-lg border transition-colors cursor-pointer ${
                               isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-amber-400' : 'bg-slate-100 border-slate-300 text-slate-700 hover:text-blue-600'
                             }`}
                             title="View Full Booking Details"
+                            aria-label={`View full details for ${item.client_name}`}
                           >
                             <Eye size={14} />
                           </button>
                           <button
                             onClick={() => deleteSubmission(item.id)}
-                            className="p-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500/20 transition-colors"
+                            className="p-2 rounded-lg bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500/20 transition-colors cursor-pointer"
                             title="Delete Booking"
+                            aria-label={`Delete booking for ${item.client_name}`}
                           >
                             <Trash2 size={14} />
                           </button>
@@ -661,7 +694,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
           </div>
         </div>
       </>
-    ) : (
+    ) : adminTab === 'hr' ? (
       <AdminHRApplicationsView
         theme={theme}
         applications={hrApplications}
@@ -669,6 +702,10 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
         onUpdateStatus={handleUpdateHRStatus}
         onDelete={handleDeleteHRApplication}
       />
+    ) : (
+      <div className="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden shadow-2xl">
+        <AdminPortal onLogout={handleLogout} />
+      </div>
     )}
 
   </div>
@@ -683,7 +720,13 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
               <h3 className={`text-xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Booking <span className={isDark ? 'text-amber-400' : 'text-blue-600'}>Details</span>
               </h3>
-              <button onClick={() => setSelectedBooking(null)} className="text-slate-400 hover:text-white">✕</button>
+              <button 
+                onClick={() => setSelectedBooking(null)} 
+                className="text-slate-400 hover:text-white p-1 cursor-pointer"
+                aria-label="Close booking details modal"
+              >
+                ✕
+              </button>
             </div>
 
             <div className="space-y-4 text-xs">
@@ -714,6 +757,13 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
                 </div>
               </div>
 
+              {selectedBooking.expected_time && (
+                <div>
+                  <span className="text-slate-500 uppercase tracking-wider font-bold block">Expected Timeline:</span>
+                  <span className={`font-bold ${isDark ? 'text-amber-400' : 'text-blue-600'}`}>{selectedBooking.expected_time}</span>
+                </div>
+              )}
+
               <div>
                 <span className="text-slate-500 uppercase tracking-wider font-bold block">Project Description:</span>
                 <div className={`p-3 rounded-xl border mt-1 leading-relaxed ${
@@ -724,8 +774,10 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
               </div>
 
               <div>
-                <span className="text-slate-500 uppercase tracking-wider font-bold block mb-1">Admin Notes:</span>
+                <label htmlFor="booking-admin-notes" className="text-slate-500 uppercase tracking-wider font-bold block mb-1">Admin Notes:</label>
                 <textarea
+                  id="booking-admin-notes"
+                  name="adminNotes"
                   rows={3}
                   defaultValue={selectedBooking.admin_notes || ''}
                   onBlur={(e) => updateAdminNotes(selectedBooking.id, e.target.value)}
@@ -737,19 +789,19 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+            <div className="mt-6 pt-4 border-t border-slate-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => sendEmailNotification(selectedBooking)}
-                  className="px-3 py-2 rounded-xl bg-blue-600/15 hover:bg-blue-600/25 text-blue-400 border border-blue-500/30 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
+                  className="flex-1 sm:flex-initial justify-center px-3 py-2 rounded-xl bg-blue-600/15 hover:bg-blue-600/25 text-blue-400 border border-blue-500/30 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
                 >
                   <Mail size={14} /> Send Email
                 </button>
                 <button
                   type="button"
                   onClick={() => sendWhatsAppNotification(selectedBooking)}
-                  className="px-3 py-2 rounded-xl bg-green-500/15 hover:bg-green-500/25 text-green-400 border border-green-500/30 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
+                  className="flex-1 sm:flex-initial justify-center px-3 py-2 rounded-xl bg-green-500/15 hover:bg-green-500/25 text-green-400 border border-green-500/30 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer"
                 >
                   <MessageSquare size={14} /> Send WhatsApp
                 </button>
@@ -765,21 +817,31 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
 
       {/* Manual Add Booking Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className={`w-full max-w-md p-6 sm:p-8 rounded-3xl border shadow-2xl ${
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-md overflow-y-auto">
+          <div className={`w-full max-w-md p-4 sm:p-8 rounded-2xl sm:rounded-3xl border shadow-2xl my-4 ${
             isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-200'
           }`}>
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
-              <h3 className={`text-xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <div className="flex items-center justify-between mb-5 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-800">
+              <h3 className={`text-lg sm:text-xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                 Add Manual <span className={isDark ? 'text-amber-400' : 'text-blue-600'}>Booking</span>
               </h3>
-              <button onClick={() => setIsAddModalOpen(false)} className="text-slate-400 hover:text-white">✕</button>
+              <button 
+                onClick={() => setIsAddModalOpen(false)} 
+                className="text-slate-400 hover:text-white p-1 cursor-pointer"
+                aria-label="Close manual booking modal"
+              >
+                ✕
+              </button>
             </div>
 
             <form onSubmit={handleAddManualBooking} className="space-y-4 text-xs">
               <div>
-                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">Client Full Name *</label>
+                <label htmlFor="manual-booking-name" className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Client Full Name *
+                </label>
                 <input
+                  id="manual-booking-name"
+                  name="fullName"
                   type="text"
                   required
                   value={newBooking.fullName}
@@ -793,8 +855,12 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">Email *</label>
+                  <label htmlFor="manual-booking-email" className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
+                    Email *
+                  </label>
                   <input
+                    id="manual-booking-email"
+                    name="email"
                     type="email"
                     required
                     value={newBooking.email}
@@ -806,8 +872,12 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
                   />
                 </div>
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">Phone *</label>
+                  <label htmlFor="manual-booking-phone" className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
+                    Phone *
+                  </label>
                   <input
+                    id="manual-booking-phone"
+                    name="phone"
                     type="tel"
                     required
                     value={newBooking.phone}
@@ -821,8 +891,12 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">Project Title *</label>
+                <label htmlFor="manual-booking-title" className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Project Title *
+                </label>
                 <input
+                  id="manual-booking-title"
+                  name="projectTitle"
                   type="text"
                   required
                   value={newBooking.projectTitle}
@@ -836,8 +910,12 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">User Type</label>
+                  <label htmlFor="manual-booking-user-type" className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
+                    User Type
+                  </label>
                   <select
+                    id="manual-booking-user-type"
+                    name="userType"
                     value={newBooking.userType}
                     onChange={(e) => setNewBooking({ ...newBooking, userType: e.target.value })}
                     className={`w-full p-2.5 rounded-xl border ${
@@ -850,8 +928,12 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">Category</label>
+                  <label htmlFor="manual-booking-category" className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
+                    Category
+                  </label>
                   <select
+                    id="manual-booking-category"
+                    name="projectType"
                     value={newBooking.projectType}
                     onChange={(e) => setNewBooking({ ...newBooking, projectType: e.target.value })}
                     className={`w-full p-2.5 rounded-xl border ${
@@ -866,8 +948,33 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-400 uppercase tracking-wider mb-1">Description</label>
+                <label htmlFor="manual-booking-expected-time" className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Expected Timeline
+                </label>
+                <select
+                  id="manual-booking-expected-time"
+                  name="expectedTime"
+                  value={newBooking.expectedTime}
+                  onChange={(e) => setNewBooking({ ...newBooking, expectedTime: e.target.value })}
+                  className={`w-full p-2.5 rounded-xl border ${
+                    isDark ? 'bg-black border-slate-800 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'
+                  }`}
+                >
+                  <option value="Within 1 Week (Urgent)">Within 1 Week (Urgent Priority)</option>
+                  <option value="1 - 2 Weeks">1 - 2 Weeks</option>
+                  <option value="2 - 4 Weeks (Standard)">2 - 4 Weeks (Standard Delivery)</option>
+                  <option value="1 - 2 Months (Enterprise)">1 - 2 Months (Enterprise System)</option>
+                  <option value="Flexible Timeline">Flexible / No Rush</option>
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="manual-booking-desc" className="block font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  Description
+                </label>
                 <textarea
+                  id="manual-booking-desc"
+                  name="description"
                   rows={2}
                   value={newBooking.description}
                   onChange={(e) => setNewBooking({ ...newBooking, description: e.target.value })}
@@ -878,7 +985,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
                 />
               </div>
 
-              <button type="submit" className="w-full btn-primary-action py-3 rounded-xl font-extrabold text-xs uppercase mt-2">
+              <button type="submit" className="w-full btn-primary-action py-3 rounded-xl font-extrabold text-xs uppercase mt-2 cursor-pointer">
                 Save Booking to MasterSheet
               </button>
             </form>
