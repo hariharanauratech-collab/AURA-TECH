@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  ArrowRight, 
-  Menu, 
-  X, 
-  Phone, 
-  Mail, 
+import {
+  ArrowRight,
+  Menu,
+  X,
+  Phone,
+  Mail,
   CheckCircle2,
   ChevronRight,
   MessageCircle,
@@ -76,17 +76,17 @@ const AuraLogo: React.FC<{ className?: string }> = ({ className = "w-10 h-10" })
         <feComposite in="SourceGraphic" in2="blur" operator="over" />
       </filter>
     </defs>
-    <path 
-      d="M50 15 L85 85 L65 85 L50 55 L35 85 L15 85 Z" 
-      fill="url(#auraGradient)" 
+    <path
+      d="M50 15 L85 85 L65 85 L50 55 L35 85 L15 85 Z"
+      fill="url(#auraGradient)"
       filter="url(#auraGlow)"
     />
-    <ellipse 
-      cx="50" cy="55" rx="40" ry="15" 
-      fill="none" 
-      stroke="#818cf8" 
-      strokeWidth="2" 
-      strokeDasharray="5,3" 
+    <ellipse
+      cx="50" cy="55" rx="40" ry="15"
+      fill="none"
+      stroke="#818cf8"
+      strokeWidth="2"
+      strokeDasharray="5,3"
       transform="rotate(-15 50 55)"
       opacity="0.6"
     />
@@ -334,7 +334,7 @@ const App: React.FC = () => {
   };
 
   const devProjects = SHOWCASE_PROJECTS.filter(p => p.type === 'Development');
-  
+
   const devServices = SERVICES.filter(s => ['Globe', 'Database', 'Code', 'Layers', 'MessageSquare', 'Layout'].includes(s.icon));
   const designServices = SERVICES.filter(s => ['Zap', 'Palette', 'Sparkles', 'Video', 'BarChart', 'Smartphone'].includes(s.icon));
 
@@ -345,27 +345,24 @@ const App: React.FC = () => {
         <span className="font-extrabold text-white uppercase text-[10px] tracking-wider">Aura Tech Enterprise Suite</span>
       </div>
       <div className="flex items-center gap-2">
-        <button 
-          onClick={() => setViewMode('website')} 
-          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
-            viewMode === 'website' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white hover:bg-slate-800'
-          }`}
+        <button
+          onClick={() => setViewMode('website')}
+          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${viewMode === 'website' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white hover:bg-slate-800'
+            }`}
         >
           Public Website
         </button>
-        <button 
-          onClick={() => openPortal('admin')} 
-          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
-            viewMode === 'admin' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white hover:bg-slate-800'
-          }`}
+        <button
+          onClick={() => openPortal('admin')}
+          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${viewMode === 'admin' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white hover:bg-slate-800'
+            }`}
         >
           Main Admin Portal
         </button>
-        <button 
-          onClick={() => openPortal('employee')} 
-          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${
-            viewMode === 'employee' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white hover:bg-slate-800'
-          }`}
+        <button
+          onClick={() => openPortal('employee')}
+          className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer ${viewMode === 'employee' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-400 hover:text-white hover:bg-slate-800'
+            }`}
         >
           Employee Portal (7)
         </button>
@@ -424,7 +421,7 @@ const App: React.FC = () => {
             <div className="hidden md:flex items-center space-x-6">
               <button onClick={() => setShowAboutModal(true)} className="text-xs font-bold text-slate-400 hover:text-white transition-colors uppercase tracking-widest">About Us</button>
               <button onClick={() => setShowContactModal(true)} className="text-xs font-bold text-slate-400 hover:text-white transition-colors uppercase tracking-widest">Contact Us</button>
-              <button 
+              <button
                 onClick={() => openPortal(null)}
                 className="px-4 py-2 rounded-xl bg-linear-to-r from-indigo-500 to-purple-600 hover:opacity-95 text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-indigo-500/25 flex items-center gap-1.5 transition-all cursor-pointer"
               >
@@ -464,9 +461,9 @@ const App: React.FC = () => {
           </div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <div className="mb-6 flex justify-center">
-               <div className="px-4 py-2 bg-indigo-600/10 border border-indigo-500/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 flex items-center gap-2">
-                  <GraduationCap size={14} /> Special Discount for Students
-               </div>
+              <div className="px-4 py-2 bg-indigo-600/10 border border-indigo-500/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 flex items-center gap-2">
+                <GraduationCap size={14} /> Special Discount for Students
+              </div>
             </div>
             <h1 className="text-4xl md:text-6xl lg:text-8xl font-black mb-6 tracking-tighter text-white leading-none">
               DESIGN. BUILD. <br />
@@ -476,10 +473,10 @@ const App: React.FC = () => {
               AURA TECH delivers high-quality, budget-friendly projects for students and business professionals. We focus on creating user-friendly solutions that go beyond expectations.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button 
+              <button
                 onClick={() => {
-                   const section = document.getElementById('services');
-                   section?.scrollIntoView({ behavior: 'smooth' });
+                  const section = document.getElementById('services');
+                  section?.scrollIntoView({ behavior: 'smooth' });
                 }}
                 className="px-10 py-5 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-500 transition-all flex items-center justify-center gap-3 group shadow-2xl shadow-indigo-600/30 text-xs uppercase tracking-widest active:scale-95"
               >
@@ -496,26 +493,26 @@ const App: React.FC = () => {
               <h2 className="text-3xl md:text-5xl font-black text-white mb-4 uppercase tracking-tighter leading-none">Our Expertise</h2>
               <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-2xl">High-end development and design services for modern enterprises.</p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
               {/* Design Studio Dropdown */}
               <div className="space-y-6">
-                <button 
+                <button
                   onClick={() => setDesignExpertiseExpanded(!designExpertiseExpanded)}
                   className={`w-full flex items-center justify-between p-6 rounded-4xl border transition-all ${designExpertiseExpanded ? 'bg-purple-600/10 border-purple-500/50' : 'bg-white/5 border-white/10 hover:border-purple-500/30'}`}
                 >
                   <div className="flex items-center gap-4">
-                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${designExpertiseExpanded ? 'bg-purple-600 text-white' : 'bg-purple-500/10 text-purple-400'}`}>
-                        <Palette size={24} />
-                     </div>
-                     <div className="text-left">
-                        <h4 className="text-xl font-black text-white uppercase tracking-tight">Design Studio</h4>
-                        <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{designServices.length} CREATIVE DISCIPLINES</p>
-                     </div>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${designExpertiseExpanded ? 'bg-purple-600 text-white' : 'bg-purple-500/10 text-purple-400'}`}>
+                      <Palette size={24} />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-xl font-black text-white uppercase tracking-tight">Design Studio</h4>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{designServices.length} CREATIVE DISCIPLINES</p>
+                    </div>
                   </div>
                   {designExpertiseExpanded ? <ChevronUp className="text-purple-400" /> : <ChevronDown className="text-slate-500" />}
                 </button>
-                
+
                 {designExpertiseExpanded && (
                   <div className="grid grid-cols-1 gap-4 animate-in slide-in-from-top-4 fade-in duration-300">
                     {designServices.map((service) => (
@@ -533,22 +530,22 @@ const App: React.FC = () => {
 
               {/* Development Suite Dropdown */}
               <div className="space-y-6">
-                <button 
+                <button
                   onClick={() => setDevExpertiseExpanded(!devExpertiseExpanded)}
                   className={`w-full flex items-center justify-between p-6 rounded-4xl border transition-all ${devExpertiseExpanded ? 'bg-indigo-600/10 border-indigo-500/50' : 'bg-white/5 border-white/10 hover:border-indigo-500/30'}`}
                 >
                   <div className="flex items-center gap-4">
-                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${devExpertiseExpanded ? 'bg-indigo-600 text-white' : 'bg-indigo-500/10 text-indigo-400'}`}>
-                        <Terminal size={24} />
-                     </div>
-                     <div className="text-left">
-                        <h4 className="text-xl font-black text-white uppercase tracking-tight">Development Suite</h4>
-                        <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{devServices.length} CORE TECHNOLOGIES</p>
-                     </div>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${devExpertiseExpanded ? 'bg-indigo-600 text-white' : 'bg-indigo-500/10 text-indigo-400'}`}>
+                      <Terminal size={24} />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-xl font-black text-white uppercase tracking-tight">Development Suite</h4>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{devServices.length} CORE TECHNOLOGIES</p>
+                    </div>
                   </div>
                   {devExpertiseExpanded ? <ChevronUp className="text-indigo-400" /> : <ChevronDown className="text-slate-500" />}
                 </button>
-                
+
                 {devExpertiseExpanded && (
                   <div className="grid grid-cols-1 gap-4 animate-in slide-in-from-top-4 fade-in duration-300">
                     {devServices.map((service) => (
@@ -569,48 +566,48 @@ const App: React.FC = () => {
 
         {/* Collapsible Projects Section */}
         <section id="projects" className="py-24 bg-slate-950 border-t border-white/5">
-           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                 <div className="inline-block px-4 py-1.5 bg-indigo-600/10 border border-indigo-500/20 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400 mb-6">
-                    Showcase
-                 </div>
-                 <h2 className="text-3xl md:text-5xl font-black text-white mb-4 uppercase tracking-tighter leading-none">Our Projects</h2>
-                 <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-2xl mx-auto">Explore our portfolio of engineering solutions.</p>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <div className="inline-block px-4 py-1.5 bg-indigo-600/10 border border-indigo-500/20 rounded-full text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400 mb-6">
+                Showcase
               </div>
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-4 uppercase tracking-tighter leading-none">Our Projects</h2>
+              <p className="text-slate-400 text-sm font-medium leading-relaxed max-w-2xl mx-auto">Explore our portfolio of engineering solutions.</p>
+            </div>
 
-              <div className="max-w-3xl mx-auto items-start">
-                 <div className="space-y-4">
-                    <button 
-                      onClick={() => setDevProjectsExpanded(!devProjectsExpanded)}
-                      className={`w-full flex items-center justify-between p-6 rounded-4xl border transition-all ${devProjectsExpanded ? 'bg-indigo-600/10 border-indigo-500/50' : 'bg-white/5 border-white/10 hover:border-indigo-500/30'}`}
-                    >
-                      <div className="flex items-center gap-4">
-                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${devProjectsExpanded ? 'bg-indigo-600 text-white' : 'bg-indigo-500/10 text-indigo-400'}`}>
-                            <Terminal size={24} />
-                         </div>
-                         <div className="text-left">
-                            <h4 className="text-xl font-black text-white uppercase tracking-tight">Developments</h4>
-                            <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{devProjects.length} LIVE DEPLOYS</p>
-                         </div>
-                      </div>
-                      {devProjectsExpanded ? <ChevronUp className="text-indigo-400" /> : <ChevronDown className="text-slate-500" />}
-                    </button>
-                    
-                    {devProjectsExpanded && (
-                      <div className="grid grid-cols-1 gap-4 animate-in slide-in-from-top-4 fade-in duration-300">
-                        {devProjects.map((proj, idx) => (
-                          <a key={idx} href={proj.link} target="_blank" rel="noopener noreferrer" className="glass p-6 rounded-3xl border border-white/5 hover:border-indigo-500/30 transition-all group relative overflow-hidden flex flex-col">
-                            <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity"><ArrowUpRight className="text-indigo-400" size={18} /></div>
-                            <h4 className="text-md font-black text-white uppercase mb-2 tracking-tight group-hover:text-indigo-400 transition-colors">{proj.name}</h4>
-                            <p className="text-slate-400 text-[11px] leading-relaxed mb-4">{proj.description}</p>
-                            <div className="pt-4 border-t border-white/5 flex items-center text-indigo-400 text-[9px] font-black uppercase tracking-widest gap-2">Explore Deployment <ExternalLink size={10} /></div>
-                          </a>
-                        ))}
-                      </div>
-                    )}
-                 </div>
+            <div className="max-w-3xl mx-auto items-start">
+              <div className="space-y-4">
+                <button
+                  onClick={() => setDevProjectsExpanded(!devProjectsExpanded)}
+                  className={`w-full flex items-center justify-between p-6 rounded-4xl border transition-all ${devProjectsExpanded ? 'bg-indigo-600/10 border-indigo-500/50' : 'bg-white/5 border-white/10 hover:border-indigo-500/30'}`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${devProjectsExpanded ? 'bg-indigo-600 text-white' : 'bg-indigo-500/10 text-indigo-400'}`}>
+                      <Terminal size={24} />
+                    </div>
+                    <div className="text-left">
+                      <h4 className="text-xl font-black text-white uppercase tracking-tight">Developments</h4>
+                      <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{devProjects.length} LIVE DEPLOYS</p>
+                    </div>
+                  </div>
+                  {devProjectsExpanded ? <ChevronUp className="text-indigo-400" /> : <ChevronDown className="text-slate-500" />}
+                </button>
+
+                {devProjectsExpanded && (
+                  <div className="grid grid-cols-1 gap-4 animate-in slide-in-from-top-4 fade-in duration-300">
+                    {devProjects.map((proj, idx) => (
+                      <a key={idx} href={proj.link} target="_blank" rel="noopener noreferrer" className="glass p-6 rounded-3xl border border-white/5 hover:border-indigo-500/30 transition-all group relative overflow-hidden flex flex-col">
+                        <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity"><ArrowUpRight className="text-indigo-400" size={18} /></div>
+                        <h4 className="text-md font-black text-white uppercase mb-2 tracking-tight group-hover:text-indigo-400 transition-colors">{proj.name}</h4>
+                        <p className="text-slate-400 text-[11px] leading-relaxed mb-4">{proj.description}</p>
+                        <div className="pt-4 border-t border-white/5 flex items-center text-indigo-400 text-[9px] font-black uppercase tracking-widest gap-2">Explore Deployment <ExternalLink size={10} /></div>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
-           </div>
+            </div>
+          </div>
         </section>
 
         <section id="advantage" className="py-24 bg-slate-950 border-t border-white/5">
@@ -656,7 +653,7 @@ const App: React.FC = () => {
             <div className="space-y-4">
               {FAQS.map((faq, idx) => (
                 <div key={idx} className="glass rounded-3xl border border-white/5 overflow-hidden transition-all">
-                  <button 
+                  <button
                     onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
                     className="w-full p-6 text-left flex items-center justify-between group"
                   >
@@ -675,14 +672,14 @@ const App: React.FC = () => {
         </section>
 
         <div className="pb-24 flex justify-center">
-          <button 
-             onClick={() => {
-                setShowBookingModal(true);
-                setBookingStep('form');
-             }}
-             className="px-14 py-7 bg-indigo-600 text-white font-black rounded-3xl hover:bg-indigo-500 transition-all flex items-center justify-center gap-4 group shadow-2xl shadow-indigo-600/30 text-sm uppercase tracking-[0.2em] active:scale-95"
+          <button
+            onClick={() => {
+              setShowBookingModal(true);
+              setBookingStep('form');
+            }}
+            className="px-14 py-7 bg-indigo-600 text-white font-black rounded-3xl hover:bg-indigo-500 transition-all flex items-center justify-center gap-4 group shadow-2xl shadow-indigo-600/30 text-sm uppercase tracking-[0.2em] active:scale-95"
           >
-             Book Project <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            Book Project <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </main>
@@ -711,31 +708,31 @@ const App: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Full Name</label>
-                      <input required type="text" value={bookingData.fullName} onChange={(e) => setBookingData({...bookingData, fullName: e.target.value})} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all" />
+                      <input required type="text" value={bookingData.fullName} onChange={(e) => setBookingData({ ...bookingData, fullName: e.target.value })} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Contact No</label>
-                      <input required type="tel" value={bookingData.phone} onChange={(e) => setBookingData({...bookingData, phone: e.target.value})} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all" />
+                      <input required type="tel" value={bookingData.phone} onChange={(e) => setBookingData({ ...bookingData, phone: e.target.value })} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all" />
                     </div>
                   </div>
                   <div className="space-y-4">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2 block">I am a...</label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                       <button type="button" onClick={() => setBookingData({...bookingData, userType: 'Student'})} className={`flex items-center gap-4 p-5 rounded-2xl border transition-all text-left ${bookingData.userType === 'Student' ? 'bg-indigo-600/20 border-indigo-500 shadow-[0_0_15px_rgba(79,70,229,0.2)]' : 'bg-slate-950/30 border-white/5 hover:border-white/10'}`}>
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bookingData.userType === 'Student' ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400'}`}><GraduationCap size={20} /></div>
-                          <div className="flex-1"><p className={`text-xs font-black uppercase tracking-tight ${bookingData.userType === 'Student' ? 'text-white' : 'text-slate-400'}`}>Student</p></div>
-                          {bookingData.userType === 'Student' && <div className="text-indigo-400"><Check size={18} /></div>}
-                       </button>
-                       <button type="button" onClick={() => setBookingData({...bookingData, userType: 'Professional'})} className={`flex items-center gap-4 p-5 rounded-2xl border transition-all text-left ${bookingData.userType === 'Professional' ? 'bg-indigo-600/20 border-indigo-500 shadow-[0_0_15px_rgba(79,70,229,0.2)]' : 'bg-slate-950/30 border-white/5 hover:border-white/10'}`}>
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bookingData.userType === 'Professional' ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400'}`}><Briefcase size={20} /></div>
-                          <div className="flex-1"><p className={`text-xs font-black uppercase tracking-tight ${bookingData.userType === 'Professional' ? 'text-white' : 'text-slate-400'}`}>Expert / Business</p></div>
-                          {bookingData.userType === 'Professional' && <div className="text-indigo-400"><Check size={18} /></div>}
-                       </button>
+                      <button type="button" onClick={() => setBookingData({ ...bookingData, userType: 'Student' })} className={`flex items-center gap-4 p-5 rounded-2xl border transition-all text-left ${bookingData.userType === 'Student' ? 'bg-indigo-600/20 border-indigo-500 shadow-[0_0_15px_rgba(79,70,229,0.2)]' : 'bg-slate-950/30 border-white/5 hover:border-white/10'}`}>
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bookingData.userType === 'Student' ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400'}`}><GraduationCap size={20} /></div>
+                        <div className="flex-1"><p className={`text-xs font-black uppercase tracking-tight ${bookingData.userType === 'Student' ? 'text-white' : 'text-slate-400'}`}>Student</p></div>
+                        {bookingData.userType === 'Student' && <div className="text-indigo-400"><Check size={18} /></div>}
+                      </button>
+                      <button type="button" onClick={() => setBookingData({ ...bookingData, userType: 'Professional' })} className={`flex items-center gap-4 p-5 rounded-2xl border transition-all text-left ${bookingData.userType === 'Professional' ? 'bg-indigo-600/20 border-indigo-500 shadow-[0_0_15px_rgba(79,70,229,0.2)]' : 'bg-slate-950/30 border-white/5 hover:border-white/10'}`}>
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bookingData.userType === 'Professional' ? 'bg-indigo-600 text-white' : 'bg-white/5 text-slate-400'}`}><Briefcase size={20} /></div>
+                        <div className="flex-1"><p className={`text-xs font-black uppercase tracking-tight ${bookingData.userType === 'Professional' ? 'text-white' : 'text-slate-400'}`}>Expert / Business</p></div>
+                        {bookingData.userType === 'Professional' && <div className="text-indigo-400"><Check size={18} /></div>}
+                      </button>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">{bookingData.userType === 'Student' ? 'Official College Email ID' : 'Email Address'}</label>
-                    <input required type="email" value={bookingData.email} onChange={(e) => setBookingData({...bookingData, email: e.target.value})} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all" />
+                    <input required type="email" value={bookingData.email} onChange={(e) => setBookingData({ ...bookingData, email: e.target.value })} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all" />
                     {bookingData.userType === 'Student' && (
                       <p className="text-[9px] text-indigo-400 font-medium uppercase tracking-widest ml-2 mt-1 italic">Enter your college Email ID for Student Verification.</p>
                     )}
@@ -743,18 +740,18 @@ const App: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
                     <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Project Title</label>
-                      <input required type="text" value={bookingData.projectTitle} onChange={(e) => setBookingData({...bookingData, projectTitle: e.target.value})} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all" />
+                      <input required type="text" value={bookingData.projectTitle} onChange={(e) => setBookingData({ ...bookingData, projectTitle: e.target.value })} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Project Type</label>
-                      <select value={bookingData.projectType} onChange={(e) => setBookingData({...bookingData, projectType: e.target.value as ProjectType})} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all appearance-none">
+                      <select value={bookingData.projectType} onChange={(e) => setBookingData({ ...bookingData, projectType: e.target.value as ProjectType })} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all appearance-none">
                         {PROJECT_TYPES.map(type => <option key={type} value={type} className="bg-slate-900">{type}</option>)}
                       </select>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Project Description</label>
-                    <textarea required rows={4} value={bookingData.description} onChange={(e) => setBookingData({...bookingData, description: e.target.value})} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all resize-none" />
+                    <textarea required rows={4} value={bookingData.description} onChange={(e) => setBookingData({ ...bookingData, description: e.target.value })} className="w-full bg-slate-950/50 border border-white/5 rounded-2xl px-6 py-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all resize-none" />
                   </div>
                   <button disabled={isSubmitting} type="submit" className="w-full mt-4 py-6 bg-indigo-600 text-white font-black rounded-2xl hover:bg-indigo-500 transition-all uppercase tracking-widest text-sm shadow-xl shadow-indigo-600/20 active:scale-95 flex items-center justify-center gap-3 disabled:opacity-70">
                     {isSubmitting ? <Loader2 size={20} className="animate-spin" /> : 'Submit Project Application'}
@@ -818,9 +815,9 @@ const App: React.FC = () => {
             </div>
             <h3 className="text-3xl font-black text-white uppercase tracking-tighter italic mb-4">Connect with Aura</h3>
             <p className="text-slate-400 text-sm font-medium leading-relaxed mb-8">Have a project in mind or need technical assistance? Our team is ready to help you accelerate your vision.</p>
-            
+
             <div className="space-y-4">
-              <div 
+              <div
                 className="block p-6 rounded-3xl bg-indigo-600/10 border border-indigo-500/20 transition-all"
               >
                 <div className="flex items-center justify-center">
@@ -836,7 +833,7 @@ const App: React.FC = () => {
                 </div>
               </div>
 
-              <button 
+              <button
                 onClick={() => copyToClipboard('auratech008@gmail.com')}
                 className="w-full py-4 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-widest text-slate-400 hover:bg-white/10 hover:text-white transition-all flex items-center justify-center gap-3"
               >
@@ -844,12 +841,12 @@ const App: React.FC = () => {
                 {isCopied ? 'Copied to Clipboard' : 'Copy Email Address'}
               </button>
             </div>
-            
+
             <p className="mt-8 text-[9px] text-slate-500 font-bold uppercase tracking-[0.2em]">Our response team typically replies within 24 hours.</p>
           </div>
         </div>
       )}
-      
+
       <footer className="bg-slate-950 border-t border-white/5 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-10">
           <div className="flex flex-col items-center gap-4">
