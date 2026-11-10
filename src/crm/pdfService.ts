@@ -195,7 +195,7 @@ export async function downloadInvoicePreviewPDF(invoiceNumber: string, invoiceEl
     logging: false,
     scrollX: 0,
     scrollY: 0,
-    onclone: async clonedDocument => {
+    onclone: async (clonedDocument: Document) => {
       await normalizeClonedStyles(clonedDocument);
       const clonedInvoice = clonedDocument.querySelector('[data-invoice-pdf-root]') as HTMLElement | null;
       if (clonedInvoice) normalizeUnsupportedColorFunctions(clonedInvoice);
@@ -519,9 +519,7 @@ export async function generateInvoicePDF(invoice: Invoice, project?: Project, pr
 
   // 6. PAYMENT TERMS, OTHER TERMS & SIGNATURE BLOCK (3 Columns)
   const col1X = margin;
-  const col1W = 56;
   const col2X = margin + 60;
-  const col2W = 66;
   const col3X = pageWidth - margin - 58;
 
   // Payment Terms

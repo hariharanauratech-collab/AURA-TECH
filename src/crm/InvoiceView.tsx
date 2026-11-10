@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { 
-  FileText, Plus, Download, Printer, DollarSign, CheckCircle2, 
-  Clock, AlertCircle, Eye, Search, Filter, Trash2, ArrowUpRight, X, Shield,
-  Code, Smartphone, Cloud, Users, Check, Sparkles, Send, MapPin, Mail, Phone
+import {
+  FileText, Plus, Download, Printer,
+  Eye, Search, Trash2, X, MapPin, Mail, Phone
 } from 'lucide-react';
-import { Invoice, InvoiceItem, InvoiceStatus, Client, Project, Payment } from './crmTypes';
+import { Invoice, InvoiceItem, InvoiceStatus, Client, Project } from './crmTypes';
 import { crmDb } from './crmDbService';
-import { downloadInvoicePreviewPDF, generateInvoicePDF, formatINR, numberToWordsINR } from './pdfService';
+import { downloadInvoicePreviewPDF, generateInvoicePDF, formatINR } from './pdfService';
 import { downloadInvoiceWord } from './wordService';
 import founderSignature from './assets/founder-signature.png?inline';
 
@@ -38,7 +37,6 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
   const [selectedProjectId, setSelectedProjectId] = useState<string>(
     projects.find(project => project.clientId === clients[0]?.id)?.id || ''
   );
-  const selectedProject = projects.find(project => project.id === selectedProjectId);
   const linkedProjects = projects.filter(project => project.clientId === selectedClientId);
   const createProjectInvoiceItem = (project?: Project): InvoiceItem => ({
     id: '1',
@@ -120,13 +118,12 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
     }
   };
 
-  const handleItemChange = (index: number, field: keyof InvoiceItem, value: any) => {
+  const handleItemChange = (index: number, field: keyof InvoiceItem, value: string | number) => {
     const updated = [...items];
-    const item = { ...updated[index], [field]: value };
+    const parsedValue = (field === 'quantity' || field === 'unitPrice') ? (Number(value) || 0) : value;
+    const item = { ...updated[index], [field]: parsedValue };
     if (field === 'quantity' || field === 'unitPrice') {
-      const q = field === 'quantity' ? Number(value) : item.quantity;
-      const u = field === 'unitPrice' ? Number(value) : item.unitPrice;
-      item.amount = (q || 0) * (u || 0);
+      item.amount = (item.quantity || 0) * (item.unitPrice || 0);
     }
     updated[index] = item;
     setItems(updated);
@@ -202,6 +199,9 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
     });
 
     refreshInvoices();
+    setClientCompanyLogoUrl('');
+    setDiscountRate(0);
+    setItems([createProjectInvoiceItem(project)]);
     setIsCreateModalOpen(false);
   };
 
@@ -815,6 +815,42 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
               </div>
               </div>
 
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5">Discount (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    value={discountRate}
+                    onChange={(e) => setDiscountRate(Math.min(100, Math.max(0, Number(e.target.value) || 0)))}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono focus:outline-none focus:border-sky-500"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5">GST Rate (%)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="28"
+                    disabled={!gstEnabled}
+                    value={taxRate}
+                    onChange={(e) => setTaxRate(Math.min(28, Math.max(0, Number(e.target.value) || 0)))}
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white font-mono focus:outline-none focus:border-sky-500 disabled:opacity-40"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5">Terms / Notes</label>
+                  <input
+                    type="text"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Payment or validity notes..."
+                    className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder:text-slate-600 focus:outline-none focus:border-sky-500"
+                  />
+                </div>
+              </div>
+
               {/* Line Items */}
               <div className="space-y-3 pt-2">
                 <div className="flex justify-between items-center">
@@ -870,6 +906,11 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                 <div>
                   <span className="text-slate-400">Total Scope Value: </span>
                   <span className="font-mono text-white font-bold">₹{subtotal.toLocaleString('en-IN')}</span>
+                  {discountAmount > 0 && (
+                    <span className="ml-3 text-emerald-400 font-mono font-bold">
+                      (Discount {discountRate}%: −₹{discountAmount.toLocaleString('en-IN')})
+                    </span>
+                  )}
                 </div>
                 <div className="text-right">
                   <div className="text-slate-400">
@@ -928,14 +969,14 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                   placeholder="e.g. 5500"
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm font-mono font-bold focus:outline-none focus:border-emerald-500"
                 />
-                <p className="text-[11px] text-slate-500 mt-1">Outstanding Balance: ₹{paymentInvoice.outstandingBalance.toLocaleString('en-IN')}</p>
+                <p className="text-[11px] text-slate-500 mt-1">Outstanding Balance: ₹{(paymentInvoice.outstandingBalance || 0).toLocaleString('en-IN')}</p>
               </div>
 
               <div>
                 <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5">Payment Method</label>
                 <select
                   value={payMethod}
-                  onChange={(e) => setPayMethod(e.target.value as any)}
+                  onChange={(e) => setPayMethod(e.target.value as 'Bank Transfer' | 'UPI' | 'Card' | 'Cash' | 'Cheque')}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white focus:outline-none focus:border-sky-500"
                 >
                   <option value="Bank Transfer">Bank Transfer / NEFT / RTGS</option>
