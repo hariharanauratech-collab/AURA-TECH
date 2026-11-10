@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { Invoice, InvoiceItem, InvoiceStatus, Client, Project, Payment } from './crmTypes';
 import { crmDb } from './crmDbService';
-import { downloadInvoicePreviewPDF, formatINR, numberToWordsINR } from './pdfService';
+import { downloadInvoicePreviewPDF, generateInvoicePDF, formatINR, numberToWordsINR } from './pdfService';
 import { downloadInvoiceWord } from './wordService';
 import founderSignature from './assets/founder-signature.png?inline';
 
@@ -76,13 +76,22 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
       await new Promise<void>(resolve => {
         window.requestAnimationFrame(() => window.requestAnimationFrame(() => resolve()));
       });
-      if (!invoiceSheetRef.current) {
-        throw new Error('The invoice preview is not ready. Please try downloading again.');
+      if (invoiceSheetRef.current) {
+        await downloadInvoicePreviewPDF(invoice.invoiceNumber, invoiceSheetRef.current);
+      } else {
+        const project = projects.find(p => p.id === invoice.projectId);
+        const invoiceTasks = projectTasks.filter(t => t.projectId === invoice.projectId);
+        await generateInvoicePDF(invoice, project, invoiceTasks);
       }
-      await downloadInvoicePreviewPDF(invoice.invoiceNumber, invoiceSheetRef.current);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Could not generate the invoice PDF.';
-      alert(message);
+    } catch {
+      try {
+        const project = projects.find(p => p.id === invoice.projectId);
+        const invoiceTasks = projectTasks.filter(t => t.projectId === invoice.projectId);
+        await generateInvoicePDF(invoice, project, invoiceTasks);
+      } catch (fallbackError) {
+        const message = fallbackError instanceof Error ? fallbackError.message : 'Could not generate the invoice PDF.';
+        alert(message);
+      }
     }
   };
 
@@ -550,7 +559,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200 border-x border-b border-slate-200">
-                      {selectedInvoice.items.map((item, idx) => (
+                      {(selectedInvoice.items || []).map((item, idx) => (
                         <tr key={idx} className="hover:bg-slate-50/40">
                           <td className="py-3 px-3 text-center text-slate-600 font-bold align-top">
                             {idx + 1}
@@ -559,7 +568,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                             <p className="font-bold text-slate-900 text-xs">{item.description}</p>
                           </td>
                           <td className="py-3 px-4 text-right font-black text-slate-900 font-mono text-sm align-top">
-                            ₹ {item.amount.toLocaleString('en-IN')}
+                            ₹ {(item.amount || 0).toLocaleString('en-IN')}
                           </td>
                         </tr>
                       ))}
@@ -571,18 +580,18 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                     <div className="w-full max-w-xs space-y-1.5 text-right">
                       <div className="flex justify-between text-slate-600">
                         <span>Subtotal</span>
-                        <span className="font-mono">₹ {selectedInvoice.subtotal.toLocaleString('en-IN')}</span>
+                        <span className="font-mono">₹ {(selectedInvoice.subtotal || 0).toLocaleString('en-IN')}</span>
                       </div>
                       {selectedInvoice.discountAmount > 0 && (
                         <div className="flex justify-between text-slate-600">
                           <span>Discount ({selectedInvoice.discountRate}%)</span>
-                          <span className="font-mono">− ₹ {selectedInvoice.discountAmount.toLocaleString('en-IN')}</span>
+                          <span className="font-mono">− ₹ {(selectedInvoice.discountAmount || 0).toLocaleString('en-IN')}</span>
                         </div>
                       )}
                       {selectedInvoice.gstEnabled !== false ? (
                         <div className="flex justify-between text-slate-600">
                           <span>GST ({selectedInvoice.taxRate}%)</span>
-                          <span className="font-mono">₹ {selectedInvoice.taxAmount.toLocaleString('en-IN')}</span>
+                          <span className="font-mono">₹ {(selectedInvoice.taxAmount || 0).toLocaleString('en-IN')}</span>
                         </div>
                       ) : (
                         <div className="flex justify-between text-slate-500">
@@ -593,7 +602,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                       <div className="flex justify-between border-t border-sky-200 pt-1.5">
                         <span className="font-black text-slate-900 text-sm">Total Amount (INR)</span>
                         <span className="font-black text-blue-700 text-lg font-mono">
-                          ₹ {selectedInvoice.totalAmount.toLocaleString('en-IN')}
+                          ₹ {(selectedInvoice.totalAmount || 0).toLocaleString('en-IN')}
                         </span>
                       </div>
                     </div>
@@ -629,7 +638,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                     <ul className="text-[10px] text-slate-600 space-y-1">
                       <li>• 50% advance before development starts.</li>
                       <li>• 50% on completion and final delivery.</li>
-                      <li>• Balance Due: <span className="font-bold text-slate-800 font-mono">₹ {selectedInvoice.outstandingBalance.toLocaleString('en-IN')}</span></li>
+                      <li>• Balance Due: <span className="font-bold text-slate-800 font-mono">₹ {(selectedInvoice.outstandingBalance || 0).toLocaleString('en-IN')}</span></li>
                     </ul>
                   </div>
 

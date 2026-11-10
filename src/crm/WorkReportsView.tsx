@@ -226,37 +226,37 @@ export const WorkReportsView: React.FC<WorkReportsViewProps> = ({
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Total Tasks</p>
-          <p className="text-2xl font-black text-white font-mono">{reportResult.totalAssignedTasks}</p>
+          <p className="text-2xl font-black text-white font-mono">{reportResult?.totalAssignedTasks || 0}</p>
         </div>
 
         <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
           <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 mb-1">Completed (Overall)</p>
-          <p className="text-2xl font-black text-emerald-400 font-mono">{reportResult.tasksCompletedOverall}</p>
+          <p className="text-2xl font-black text-emerald-400 font-mono">{reportResult?.tasksCompletedOverall || 0}</p>
         </div>
 
         <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
           <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 mb-1">In Progress</p>
-          <p className="text-2xl font-black text-indigo-400 font-mono">{reportResult.tasksInProgress}</p>
+          <p className="text-2xl font-black text-indigo-400 font-mono">{reportResult?.tasksInProgress || 0}</p>
         </div>
 
         <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
           <p className="text-[10px] font-bold uppercase tracking-wider text-rose-400 mb-1">Overdue Tasks</p>
-          <p className="text-2xl font-black text-rose-400 font-mono">{reportResult.tasksOverdue}</p>
+          <p className="text-2xl font-black text-rose-400 font-mono">{reportResult?.tasksOverdue || 0}</p>
         </div>
 
         <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Avg Progress</p>
-          <p className="text-2xl font-black text-indigo-400 font-mono">{reportResult.completionPercentage}%</p>
+          <p className="text-2xl font-black text-indigo-400 font-mono">{reportResult?.completionPercentage || 0}%</p>
         </div>
 
         <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
           <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Hours Logged</p>
-          <p className="text-2xl font-black text-purple-400 font-mono">{reportResult.totalHoursSpent}h</p>
+          <p className="text-2xl font-black text-purple-400 font-mono">{reportResult?.totalHoursSpent || 0}h</p>
         </div>
       </div>
 
       {/* Blockers & Delays Section (If reported) */}
-      {reportResult.blockersEncountered && reportResult.blockersEncountered.length > 0 && (
+      {reportResult?.blockersEncountered && reportResult.blockersEncountered.length > 0 && (
         <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-2">
           <div className="flex items-center gap-2 text-xs font-bold text-rose-400 uppercase tracking-wider">
             <AlertTriangle size={15} /> Reported Blockers & Roadblocks ({reportResult.blockersEncountered.length})
@@ -276,7 +276,7 @@ export const WorkReportsView: React.FC<WorkReportsViewProps> = ({
       <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
         <div className="p-4 border-b border-slate-800 bg-slate-950/60 flex justify-between items-center">
           <h3 className="text-xs font-bold uppercase tracking-wider text-white">
-            Task Records Included in Report ({reportResult.tasks.length})
+            Task Records Included in Report ({(reportResult?.tasks || []).length})
           </h3>
           <span className="text-[11px] text-slate-400">
             Source: Live Database
@@ -298,7 +298,7 @@ export const WorkReportsView: React.FC<WorkReportsViewProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60">
-              {reportResult.tasks.map((task: Task) => (
+              {(reportResult?.tasks || []).map((task: Task) => (
                 <tr key={task.id} className="hover:bg-slate-800/30 transition-colors">
                   <td className="py-3 px-4 font-mono font-bold text-indigo-400">
                     {task.id}

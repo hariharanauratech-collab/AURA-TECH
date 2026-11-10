@@ -524,7 +524,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                                   src={emp.avatar || '/logo.png'}
                                   alt={emp.name}
                                   className="w-9 h-9 rounded-xl object-cover border border-slate-700 shrink-0"
-                                  onError={(e) => { (e.target as any).src = '/logo.png'; }}
+                                  onError={(e) => {
+                                    const t = e.currentTarget;
+                                    if (!t.dataset.fallback) { t.dataset.fallback = '1'; t.src = '/logo.png'; }
+                                  }}
                                 />
                                 <div>
                                   <div className="font-bold text-white text-xs">{emp.name}</div>
@@ -690,7 +693,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                           src={emp.avatar || '/logo.png'}
                           alt={emp.name}
                           className="w-12 h-12 rounded-xl object-cover border border-indigo-500/30"
-                          onError={(e) => { (e.target as any).src = '/logo.png'; }}
+                          onError={(e) => {
+                            const t = e.currentTarget;
+                            if (!t.dataset.fallback) { t.dataset.fallback = '1'; t.src = '/logo.png'; }
+                          }}
                         />
                         <div>
                           <h4 className="text-sm font-bold text-white">{emp.name}</h4>
@@ -844,10 +850,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     {/* Assigned Employees Chips */}
                     <div>
                       <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-                        Assigned Employees ({proj.assignedEmployees.length}):
+                        Assigned Employees ({(proj.assignedEmployees || []).length}):
                       </p>
                       <div className="flex flex-wrap gap-2">
-                        {proj.assignedEmployees.map((alloc) => (
+                        {(proj.assignedEmployees || []).map((alloc) => (
                           <div key={alloc.employeeId} className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-950 border border-slate-800 text-xs">
                             <span className="font-bold text-white">{alloc.employeeName}</span>
                             <span className="text-[10px] text-indigo-400">({alloc.role})</span>
@@ -1118,7 +1124,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                         </div>
                         <div className="text-right">
                           <p className="font-mono font-bold text-indigo-400">{formatINR(proj.budget)}</p>
-                          <p className="text-[10px] text-slate-500">{proj.assignedEmployees.length} contributors</p>
+                          <p className="text-[10px] text-slate-500">{(proj.assignedEmployees || []).length} contributors</p>
                         </div>
                       </div>
                     ))}
@@ -1690,7 +1696,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   src={selectedEmployeeDetails.avatar || '/logo.png'}
                   alt={selectedEmployeeDetails.name}
                   className="w-10 h-10 rounded-xl object-cover border border-slate-700"
-                  onError={(e) => { (e.target as any).src = '/logo.png'; }}
+                  onError={(e) => {
+                    const t = e.currentTarget;
+                    if (!t.dataset.fallback) { t.dataset.fallback = '1'; t.src = '/logo.png'; }
+                  }}
                 />
                 <div>
                   <h3 className="text-base font-bold text-white">{selectedEmployeeDetails.name}</h3>

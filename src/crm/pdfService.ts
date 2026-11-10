@@ -15,6 +15,7 @@ export const formatINR = (val: number): string => {
 
 // Convert number to words in Indian numbering system
 export function numberToWordsINR(amount: number): string {
+  if (!amount || isNaN(amount) || amount <= 0) return 'Zero Rupees Only';
   const a = [
     '', 'One ', 'Two ', 'Three ', 'Four ', 'Five ', 'Six ', 'Seven ', 'Eight ', 'Nine ', 'Ten ',
     'Eleven ', 'Twelve ', 'Thirteen ', 'Fourteen ', 'Fifteen ', 'Sixteen ', 'Seventeen ', 'Eighteen ', 'Nineteen '
@@ -245,10 +246,15 @@ export async function downloadInvoicePreviewPDF(invoiceNumber: string, invoiceEl
  * - Dark full-width footer with Email, Phone (+91 9025255617), Location (Coimbatore)
  */
 export async function generateInvoicePDF(invoice: Invoice, project?: Project, projectTasks: Task[] = []) {
-  const auraTechLogoDataUrl = await loadImageDataUrl(
-    `${import.meta.env.BASE_URL}logo.png`,
-    'Could not load the Aura Tech logo for the invoice PDF.'
-  );
+  let auraTechLogoDataUrl: string | undefined;
+  try {
+    auraTechLogoDataUrl = await loadImageDataUrl(
+      `${import.meta.env.BASE_URL}logo.png`,
+      'Could not load the Aura Tech logo for the invoice PDF.'
+    );
+  } catch (err) {
+    console.warn('Aura Tech logo load note (using fallback header):', err);
+  }
   let clientLogoDataUrl: string | undefined;
   let clientLogoOmitted = false;
   if (invoice.clientCompanyLogoUrl) {
@@ -277,7 +283,14 @@ export async function generateInvoicePDF(invoice: Invoice, project?: Project, pr
   doc.triangle(pageWidth - 65, 0, pageWidth, 0, pageWidth, 45, 'F');
 
   // 1. HEADER SECTION
-  doc.addImage(auraTechLogoDataUrl, 'PNG', margin, 1, 34, 34);
+  if (auraTechLogoDataUrl) {
+    doc.addImage(auraTechLogoDataUrl, 'PNG', margin, 1, 34, 34);
+  } else {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22);
+    doc.setTextColor(23, 59, 143);
+    doc.text('AURA TECH', margin, 16);
+  }
 
   // Right: 4 Services with small bullets
   doc.setFont('helvetica', 'normal');
@@ -578,7 +591,9 @@ export async function generateInvoicePDF(invoice: Invoice, project?: Project, pr
 
   doc.setFillColor(255, 255, 255);
   doc.roundedRect(margin, footerY + 1.5, 13, 13, 1, 1, 'F');
-  doc.addImage(auraTechLogoDataUrl, 'PNG', margin + 0.5, footerY + 2, 12, 12);
+  if (auraTechLogoDataUrl) {
+    doc.addImage(auraTechLogoDataUrl, 'PNG', margin + 0.5, footerY + 2, 12, 12);
+  }
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);

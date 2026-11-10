@@ -23,6 +23,7 @@ export const EmployeePortal: React.FC<EmployeePortalProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
   const [selectedTaskForProgress, setSelectedTaskForProgress] = useState<Task | null>(null);
+  const [dataVersion, setDataVersion] = useState(0);
 
   // Load employee-specific data
   const metrics = crmDb.calculateEmployeeMetrics(employee.id);
@@ -35,8 +36,8 @@ export const EmployeePortal: React.FC<EmployeePortalProps> = ({
   const unreadCount = myNotifications.filter(n => !n.read).length;
 
   const handleProgressSubmitted = () => {
-    // Force refresh by triggering state update
     setSelectedTaskForProgress(null);
+    setDataVersion(v => v + 1);
   };
 
   const getStatusBadge = (status: string) => {
@@ -73,7 +74,10 @@ export const EmployeePortal: React.FC<EmployeePortalProps> = ({
               src={employee.avatar || '/logo.png'} 
               alt={employee.name} 
               className="w-10 h-10 rounded-xl object-cover border border-indigo-500/30"
-              onError={(e) => { (e.target as any).src = '/logo.png'; }}
+              onError={(e) => {
+                const t = e.currentTarget;
+                if (!t.dataset.fallback) { t.dataset.fallback = '1'; t.src = '/logo.png'; }
+              }}
             />
             <div className="min-w-0 flex-1">
               <h3 className="text-xs font-bold text-white truncate">{employee.name}</h3>
@@ -486,7 +490,7 @@ export const EmployeePortal: React.FC<EmployeePortalProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {myProjects.map(proj => {
                   const tasksInProj = myTasks.filter(t => t.projectId === proj.id);
-                  const myRole = proj.assignedEmployees.find(e => e.employeeId === employee.id);
+                  const myRole = (proj.assignedEmployees || []).find(e => e.employeeId === employee.id);
 
                   return (
                     <div key={proj.id} className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
@@ -694,7 +698,10 @@ export const EmployeePortal: React.FC<EmployeePortalProps> = ({
                   src={employee.avatar || '/logo.png'} 
                   alt={employee.name} 
                   className="w-16 h-16 rounded-2xl object-cover border-2 border-indigo-500/40"
-                  onError={(e) => { (e.target as any).src = '/logo.png'; }}
+                  onError={(e) => {
+                const t = e.currentTarget;
+                if (!t.dataset.fallback) { t.dataset.fallback = '1'; t.src = '/logo.png'; }
+              }}
                 />
                 <div>
                   <h3 className="text-lg font-bold text-white">{employee.name}</h3>

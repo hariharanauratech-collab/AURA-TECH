@@ -54,7 +54,7 @@ export const spreadsheetService = {
         }
       }
       
-      return { success: true, id: Math.random().toString(36).substr(2, 9) };
+      return { success: true, id: Math.random().toString(36).substring(2, 11) };
     } catch (error) {
       console.error('Data layer failure:', error);
       throw new Error('Failed to record project');
@@ -62,8 +62,12 @@ export const spreadsheetService = {
   },
 
   getAllRecords(): SheetRow[] {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
   },
 
   exportToExcel(): void {

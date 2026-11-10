@@ -33,7 +33,7 @@ const tableBorders = {
   insideVertical: border
 };
 
-const formatCurrency = (amount: number) => `₹ ${amount.toLocaleString('en-IN')}`;
+const formatCurrency = (amount: number) => `₹ ${(amount || 0).toLocaleString('en-IN')}`;
 
 type LoadedImage = {
   data: ArrayBuffer;
@@ -96,7 +96,7 @@ function imageCell(data: LoadedImage | undefined, width: number, placeholder = '
 export async function downloadInvoiceWord(invoice: Invoice): Promise<boolean> {
   const auraLogo = await loadImage(`${import.meta.env.BASE_URL}logo.png`);
   if (!auraLogo) {
-    throw new Error('Could not load the Aura Tech logo. Refresh the application and try again.');
+    console.warn('Aura Tech logo could not be fetched for Word export, using text header.');
   }
 
   let clientLogo: LoadedImage | undefined;
