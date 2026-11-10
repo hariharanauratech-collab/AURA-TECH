@@ -274,7 +274,7 @@ export async function downloadInvoiceWord(invoice: Invoice): Promise<boolean> {
           children: [new TextRun({ text: 'AURA TECH  |  auratech008@gmail.com  |  Coimbatore, Tamil Nadu, India', size: 16, color: '475569' })],
           spacing: { before: 400 }
         }),
-        new Paragraph({
+        ...(auraLogo ? [new Paragraph({
           alignment: AlignmentType.CENTER,
           children: [new ImageRun({
             data: auraLogo.data,
@@ -282,7 +282,7 @@ export async function downloadInvoiceWord(invoice: Invoice): Promise<boolean> {
             transformation: { width: 120, height: 120 }
           })],
           spacing: { before: 160 }
-        })
+        })] : [])
       ]
     }]
   });
