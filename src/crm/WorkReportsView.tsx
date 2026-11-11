@@ -70,41 +70,41 @@ export const WorkReportsView: React.FC<WorkReportsViewProps> = ({
       {/* Title & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
-            <BarChart3 className="w-5 h-5 text-indigo-400" />
-            Employee Work Reports & Audit Analysis
+          <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+            <BarChart3 className="w-6 h-6 text-indigo-400" />
+            Employee Work Reports &amp; Audit Analysis
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-sm text-slate-400 mt-1">
             {currentEmployee 
               ? `Personal performance report and deliverables audit for ${currentEmployee.name}` 
               : 'Detailed performance, task progress, deliverables, and blockers report across all 7 employees.'}
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           <button
             onClick={() => exportReportToCSV(reportResult)}
-            className="px-3.5 py-2 rounded-xl border border-slate-800 hover:bg-slate-800/80 text-slate-300 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-4 py-2.5 rounded-xl border border-slate-800 hover:bg-slate-800/80 text-slate-200 text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer"
           >
-            <FileSpreadsheet size={15} /> Export CSV
+            <FileSpreadsheet size={16} /> Export CSV
           </button>
           <button
             onClick={() => generateWorkReportPDF(reportResult)}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs font-bold flex items-center gap-1.5 hover:opacity-95 shadow-lg shadow-indigo-500/20 transition-all cursor-pointer"
+            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-bold flex items-center gap-2 hover:opacity-95 shadow-lg shadow-indigo-500/20 transition-all cursor-pointer"
           >
-            <Download size={15} /> Download PDF Report
+            <Download size={16} /> Download PDF Report
           </button>
         </div>
       </div>
 
       {/* Filter Panel */}
-      <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
+      <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-4">
         <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-300">
-          <Filter size={14} className="text-indigo-400" />
+          <Filter size={15} className="text-indigo-400" />
           Filter Report Parameters
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
           
           {/* Employee Selector */}
           {!currentEmployee && (
@@ -213,7 +213,7 @@ export const WorkReportsView: React.FC<WorkReportsViewProps> = ({
           <div className="flex items-end">
             <button
               onClick={handleGenerate}
-              className="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold uppercase tracking-wider text-xs transition-colors cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold uppercase tracking-wider text-sm transition-colors cursor-pointer"
             >
               Generate Live Report
             </button>
@@ -223,47 +223,47 @@ export const WorkReportsView: React.FC<WorkReportsViewProps> = ({
       </div>
 
       {/* Report Summary Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Total Tasks</p>
-          <p className="text-2xl font-black text-white font-mono">{reportResult?.totalAssignedTasks || 0}</p>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Total Tasks</p>
+          <p className="text-3xl font-black text-white font-mono">{reportResult?.totalAssignedTasks || 0}</p>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 mb-1">Completed (Overall)</p>
-          <p className="text-2xl font-black text-emerald-400 font-mono">{reportResult?.tasksCompletedOverall || 0}</p>
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
+          <p className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1.5">Completed (Overall)</p>
+          <p className="text-3xl font-black text-emerald-400 font-mono">{reportResult?.tasksCompletedOverall || 0}</p>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 mb-1">In Progress</p>
-          <p className="text-2xl font-black text-indigo-400 font-mono">{reportResult?.tasksInProgress || 0}</p>
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
+          <p className="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-1.5">In Progress</p>
+          <p className="text-3xl font-black text-indigo-400 font-mono">{reportResult?.tasksInProgress || 0}</p>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-rose-400 mb-1">Overdue Tasks</p>
-          <p className="text-2xl font-black text-rose-400 font-mono">{reportResult?.tasksOverdue || 0}</p>
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
+          <p className="text-xs font-bold uppercase tracking-wider text-rose-400 mb-1.5">Overdue Tasks</p>
+          <p className="text-3xl font-black text-rose-400 font-mono">{reportResult?.tasksOverdue || 0}</p>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Avg Progress</p>
-          <p className="text-2xl font-black text-indigo-400 font-mono">{reportResult?.completionPercentage || 0}%</p>
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Avg Progress</p>
+          <p className="text-3xl font-black text-indigo-400 font-mono">{reportResult?.completionPercentage || 0}%</p>
         </div>
 
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Hours Logged</p>
-          <p className="text-2xl font-black text-purple-400 font-mono">{reportResult?.totalHoursSpent || 0}h</p>
+        <div className="p-5 rounded-2xl bg-slate-900/60 border border-slate-800 text-center">
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Hours Logged</p>
+          <p className="text-3xl font-black text-purple-400 font-mono">{reportResult?.totalHoursSpent || 0}h</p>
         </div>
       </div>
 
       {/* Blockers & Delays Section (If reported) */}
       {reportResult?.blockersEncountered && reportResult.blockersEncountered.length > 0 && (
-        <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold text-rose-400 uppercase tracking-wider">
-            <AlertTriangle size={15} /> Reported Blockers & Roadblocks ({reportResult.blockersEncountered.length})
+        <div className="p-5 rounded-2xl bg-rose-500/10 border border-rose-500/20 space-y-3">
+          <div className="flex items-center gap-2 text-sm font-bold text-rose-400 uppercase tracking-wider">
+            <AlertTriangle size={16} /> Reported Blockers &amp; Roadblocks ({reportResult.blockersEncountered.length})
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
             {reportResult.blockersEncountered.map((b: any, idx: number) => (
-              <div key={idx} className="p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+              <div key={idx} className="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
                 <span className="font-bold text-white">{b.taskTitle}: </span>
                 <span className="text-rose-300">{b.blocker}</span>
               </div>
@@ -274,59 +274,59 @@ export const WorkReportsView: React.FC<WorkReportsViewProps> = ({
 
       {/* Detailed Task Table */}
       <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
-        <div className="p-4 border-b border-slate-800 bg-slate-950/60 flex justify-between items-center">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-white">
+        <div className="p-5 border-b border-slate-800 bg-slate-950/60 flex justify-between items-center">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-white">
             Task Records Included in Report ({(reportResult?.tasks || []).length})
           </h3>
-          <span className="text-[11px] text-slate-400">
+          <span className="text-xs text-slate-400">
             Source: Live Database
           </span>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider font-bold border-b border-slate-800">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-slate-950 text-slate-400 uppercase text-xs tracking-wider font-bold border-b border-slate-800">
               <tr>
-                <th className="py-3 px-4">Task ID</th>
-                <th className="py-3 px-4">Task Title</th>
-                <th className="py-3 px-4">Client & Project</th>
-                <th className="py-3 px-4">Assignee</th>
-                <th className="py-3 px-4">Priority</th>
-                <th className="py-3 px-4">Due Date</th>
-                <th className="py-3 px-4">Progress</th>
-                <th className="py-3 px-4">Status</th>
+                <th className="py-3.5 px-5">Task ID</th>
+                <th className="py-3.5 px-5">Task Title</th>
+                <th className="py-3.5 px-5">Client &amp; Project</th>
+                <th className="py-3.5 px-5">Assignee</th>
+                <th className="py-3.5 px-5">Priority</th>
+                <th className="py-3.5 px-5">Due Date</th>
+                <th className="py-3.5 px-5">Progress</th>
+                <th className="py-3.5 px-5">Status</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-800/60">
               {(reportResult?.tasks || []).map((task: Task) => (
                 <tr key={task.id} className="hover:bg-slate-800/30 transition-colors">
-                  <td className="py-3 px-4 font-mono font-bold text-indigo-400">
+                  <td className="py-4 px-5 font-mono font-bold text-indigo-400">
                     {task.id}
                   </td>
-                  <td className="py-3 px-4 font-semibold text-white">
+                  <td className="py-4 px-5 font-semibold text-white">
                     {task.title}
                   </td>
-                  <td className="py-3 px-4">
-                    <div className="text-slate-300 font-medium">{task.projectTitle}</div>
-                    <div className="text-[11px] text-slate-500">{task.clientName}</div>
+                  <td className="py-4 px-5">
+                    <div className="text-slate-200 font-medium">{task.projectTitle}</div>
+                    <div className="text-xs text-slate-400">{task.clientName}</div>
                   </td>
-                  <td className="py-3 px-4 text-slate-300 font-medium">
+                  <td className="py-4 px-5 text-slate-200 font-medium">
                     {task.assignedEmployeeName}
                   </td>
-                  <td className="py-3 px-4">
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                  <td className="py-4 px-5">
+                    <span className={`px-2.5 py-1 rounded text-xs font-bold ${
                       task.priority === 'Urgent' ? 'bg-rose-500/10 text-rose-400' :
-                      task.priority === 'High' ? 'bg-amber-500/10 text-amber-400' : 'bg-slate-800 text-slate-400'
+                      task.priority === 'High' ? 'bg-amber-500/10 text-amber-400' : 'bg-slate-800 text-slate-300'
                     }`}>
                       {task.priority}
                     </span>
                   </td>
-                  <td className="py-3 px-4 text-slate-400 font-mono">
+                  <td className="py-4 px-5 text-slate-300 font-mono">
                     {task.dueDate}
                   </td>
-                  <td className="py-3 px-4 font-mono font-bold text-indigo-400">
-                    <div className="flex items-center gap-2">
-                      <div className="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <td className="py-4 px-5 font-mono font-bold text-indigo-400">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-16 h-2 bg-slate-800 rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-indigo-500 rounded-full" 
                           style={{ width: `${task.completionPercentage}%` }}
@@ -335,8 +335,8 @@ export const WorkReportsView: React.FC<WorkReportsViewProps> = ({
                       <span>{task.completionPercentage}%</span>
                     </div>
                   </td>
-                  <td className="py-3 px-4">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getStatusBadgeClass(task.status)}`}>
+                  <td className="py-4 px-5">
+                    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${getStatusBadgeClass(task.status)}`}>
                       {task.status}
                     </span>
                   </td>

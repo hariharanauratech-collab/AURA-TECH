@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, Loader2, Shield, User, X } from 'lucide-react';
 import { supabase } from './supabase';
 import { UserRole } from './crmTypes';
@@ -226,12 +226,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           </button>
           <img src="/logo.png" alt="Aura Tech" className="h-10 w-auto object-contain mx-auto mb-2" />
           <h2 className="text-xl font-black text-white tracking-tight uppercase">{title}</h2>
-          <p className="text-xs text-slate-400 mt-1">Secure access to Aura Tech operations</p>
+          <p className="text-sm text-slate-400 mt-1">Secure access to Aura Tech operations</p>
         </div>
 
         <div className="p-5">
           {screen !== 'portals' && (
-            <button type="button" onClick={goBack} className="mb-4 flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white">
+            <button type="button" onClick={goBack} className="mb-4 flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white">
               <ArrowLeft size={14} /> Back
             </button>
           )}
@@ -240,15 +240,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             <div className="space-y-3">
               <button onClick={() => showScreen('employee-login')} className="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-left transition-colors">
                 <span className="flex items-center gap-2 text-sm font-bold text-white"><User size={16} className="text-indigo-400" /> Employee Portal</span>
-                <span className="block mt-1 text-xs text-slate-400">Log in to your employee workspace (7 Core Team Members).</span>
+                <span className="block mt-1 text-sm text-slate-400">Log in to your employee workspace (7 Core Team Members).</span>
               </button>
               <button onClick={() => showScreen('admin-login')} className="w-full p-4 rounded-2xl bg-slate-950 border border-slate-800 hover:border-indigo-500 text-left transition-colors">
                 <span className="flex items-center gap-2 text-sm font-bold text-white"><Shield size={16} className="text-indigo-400" /> Main Admin Portal</span>
-                <span className="block mt-1 text-xs text-slate-400">Full operations, client management, invoices, reports & tasks.</span>
+                <span className="block mt-1 text-sm text-slate-400">Full operations, client management, invoices, reports & tasks.</span>
               </button>
 
               <div className="pt-3 border-t border-slate-800/80">
-                <p className="text-[10px] uppercase font-bold text-slate-500 mb-2">Instant Quick Sign-In (Demo / Offline)</p>
+                <p className="text-xs uppercase font-bold text-slate-500 mb-2">Instant Quick Sign-In (Demo / Offline)</p>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
@@ -256,7 +256,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       setEmail(ADMIN_EMAIL);
                       onAuthenticated('admin');
                     }}
-                    className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[11px] font-bold hover:bg-amber-500/20 text-center"
+                    className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold hover:bg-amber-500/20 text-center"
                   >
                     👑 Admin (Aura Tech)
                   </button>
@@ -266,7 +266,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       setEmail('hariharan.auratech@gmail.com');
                       onAuthenticated('employee');
                     }}
-                    className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-[11px] font-bold hover:bg-indigo-500/20 text-center truncate"
+                    className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold hover:bg-indigo-500/20 text-center truncate"
                   >
                     💼 Hariharan (EMP003)
                   </button>
@@ -274,7 +274,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               </div>
             </div>
           ) : (
-            <form onSubmit={submitHandler} className="space-y-4 text-xs">
+            <form onSubmit={submitHandler} className="space-y-4 text-sm">
               {screen !== 'password-reset' && (
                 <label className="block font-bold text-slate-300 uppercase">
                   Email ID
@@ -317,15 +317,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           )}
 
           {screen === 'employee-login' && (
-            <div className="mt-4 text-center text-xs">
+            <div className="mt-4 text-center text-sm">
               <button onClick={() => showScreen('forgot-password')} className="font-semibold text-indigo-400 hover:text-indigo-300">Forgot Password?</button>
             </div>
           )}
           {screen === 'admin-login' && (
-            <p className="mt-4 text-center text-[11px] text-slate-500">Only the authorized Aura Tech admin email and its Supabase password are accepted.</p>
+            <p className="mt-4 text-center text-xs text-slate-500">Only the authorized Aura Tech admin email and its Supabase password are accepted.</p>
           )}
           <div className="mt-5 border-t border-slate-800 pt-4 text-center">
-            <button onClick={goBack} className="text-xs font-semibold text-slate-500 hover:text-slate-300">
+            <button onClick={goBack} className="text-sm font-semibold text-slate-500 hover:text-slate-300">
               {screen === 'portals' ? 'Close' : 'Choose another portal'}
             </button>
           </div>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+﻿import React, { useRef, useState } from 'react';
 import {
   FileText, Plus, Download, Printer,
   Eye, Search, Trash2, X, MapPin, Mail, Phone
@@ -261,15 +261,15 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
   const getStatusBadge = (status: InvoiceStatus) => {
     switch (status) {
       case 'Paid':
-        return <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Paid</span>;
+        return <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Paid</span>;
       case 'Partially Paid':
-        return <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Partially Paid</span>;
+        return <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Partially Paid</span>;
       case 'Overdue':
-        return <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">Overdue</span>;
+        return <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-500/10 text-rose-400 border border-rose-500/20">Overdue</span>;
       case 'Sent':
-        return <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20">Sent</span>;
+        return <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-500/10 text-sky-400 border border-sky-500/20">Sent</span>;
       default:
-        return <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-slate-800 text-slate-300 border border-slate-700">Draft</span>;
+        return <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-slate-800 text-slate-300 border border-slate-700">Draft</span>;
     }
   };
 
@@ -283,7 +283,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
             <FileText className="w-5 h-5 text-sky-400" />
             Official Quotation & Invoice Management
           </h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-sm text-slate-400">
             Rendered in the exact official Aura Tech branded template layout.
           </p>
         </div>
@@ -291,7 +291,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
         {isAdmin && (
           <button
             onClick={() => setIsCreateModalOpen(true)}
-            className="px-4 py-2.5 rounded-xl bg-linear-to-r from-sky-500 to-blue-600 text-white text-xs font-bold uppercase tracking-wider hover:opacity-95 shadow-lg shadow-sky-500/20 flex items-center gap-2 cursor-pointer"
+            className="px-4 py-2.5 rounded-xl bg-linear-to-r from-sky-500 to-blue-600 text-white text-sm font-bold uppercase tracking-wider hover:opacity-95 shadow-lg shadow-sky-500/20 flex items-center gap-2 cursor-pointer"
           >
             <Plus size={16} />
             Generate Quotation / Invoice
@@ -308,7 +308,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
             placeholder="Search invoice / quotation number, client, company..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+            className="w-full pl-10 pr-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
           />
         </div>
 
@@ -316,7 +316,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-xs text-white focus:outline-none focus:border-sky-500"
+            className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-800 text-sm text-white focus:outline-none focus:border-sky-500"
           >
             <option value="All">All Invoices Status</option>
             <option value="Paid">Paid</option>
@@ -331,8 +331,8 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
       {/* Invoices Table */}
       <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider font-bold border-b border-slate-800">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-slate-950 text-slate-400 uppercase text-xs tracking-wider font-bold border-b border-slate-800">
               <tr>
                 <th className="py-3.5 px-4">Ref Number</th>
                 <th className="py-3.5 px-4">Client & Company</th>
@@ -352,7 +352,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                   </td>
                   <td className="py-3 px-4">
                     <div className="font-semibold text-white">{inv.clientCompany || inv.clientName}</div>
-                    <div className="text-[11px] text-slate-400">{inv.clientName}</div>
+                    <div className="text-xs text-slate-400">{inv.clientName}</div>
                   </td>
                   <td className="py-3 px-4 text-slate-300 max-w-xs truncate">
                     {inv.projectTitle}
@@ -376,7 +376,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                       <button
                         onClick={() => setSelectedInvoice(inv)}
                         title="Preview Exact Aura Tech Template"
-                        className="px-2.5 py-1 text-slate-200 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors font-bold text-[11px] flex items-center gap-1 cursor-pointer"
+                        className="px-2.5 py-1 text-slate-200 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors font-bold text-xs flex items-center gap-1 cursor-pointer"
                       >
                         <Eye size={13} /> View
                       </button>
@@ -403,7 +403,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                             setIsPaymentModalOpen(true);
                           }}
                           title="Record Payment"
-                          className="px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 text-[11px] font-bold border border-emerald-500/20 transition-colors cursor-pointer"
+                          className="px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 text-xs font-bold border border-emerald-500/20 transition-colors cursor-pointer"
                         >
                           + Pay
                         </button>
@@ -427,7 +427,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
             {/* Top Modal Controls */}
             <div className="p-3.5 px-6 border-b border-slate-800 flex items-center justify-between bg-slate-950">
               <div className="flex items-center gap-3">
-                <span className="font-mono text-xs font-bold text-sky-400 bg-sky-500/10 px-2.5 py-1 rounded-lg border border-sky-500/20">
+                <span className="font-mono text-sm font-bold text-sky-400 bg-sky-500/10 px-2.5 py-1 rounded-lg border border-sky-500/20">
                   {selectedInvoice.invoiceNumber}
                 </span>
                 {getStatusBadge(selectedInvoice.status)}
@@ -436,19 +436,19 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => downloadInvoice(selectedInvoice)}
-                  className="px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
+                  className="px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
                 >
                   <Download size={14} /> Download Exact PDF
                 </button>
                 <button
                   onClick={() => downloadInvoiceDocx(selectedInvoice)}
-                  className="px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
+                  className="px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md"
                 >
                   <FileText size={14} /> Download Word
                 </button>
                 <button
                   onClick={() => window.print()}
-                  className="px-3.5 py-1.5 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-300 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-300 text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <Printer size={14} /> Print
                 </button>
@@ -698,14 +698,14 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
             <div className="p-6 border-b border-slate-800 flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-bold text-white tracking-tight">Generate Quotation / Invoice</h3>
-                <p className="text-xs text-slate-400">Generated according to Aura Tech's official design template.</p>
+                <p className="text-sm text-slate-400">Generated according to Aura Tech's official design template.</p>
               </div>
               <button onClick={() => setIsCreateModalOpen(false)} className="p-2 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800">
                 <X size={20} />
               </button>
             </div>
 
-            <form onSubmit={handleCreateInvoice} className="p-6 overflow-y-auto flex-1 space-y-5 text-xs">
+            <form onSubmit={handleCreateInvoice} className="p-6 overflow-y-auto flex-1 space-y-5 text-sm">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5">Client</label>
@@ -756,7 +756,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                       <option key={p.id} value={p.id}>{p.title} — {p.projectType} ({p.status})</option>
                     ))}
                   </select>
-                  <p className="mt-1.5 text-[11px] text-slate-500">
+                  <p className="mt-1.5 text-xs text-slate-500">
                     {linkedProjects.length
                       ? `${linkedProjects.length} project${linkedProjects.length === 1 ? '' : 's'} linked to this client.`
                       : 'No projects are linked to this client; the invoice will use Custom Tech Services.'}
@@ -795,13 +795,13 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                   placeholder="https://example.com/company-logo.png"
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white placeholder:text-slate-600 focus:outline-none focus:border-sky-500"
                 />
-                <p className="mt-1.5 text-[11px] text-slate-500">The logo will appear in the invoice preview and PDF.</p>
+                <p className="mt-1.5 text-xs text-slate-500">The logo will appear in the invoice preview and PDF.</p>
               </div>
               <div className="flex items-start">
                 <label className="mt-6 flex w-full items-center justify-between gap-3 rounded-xl border border-slate-800 bg-slate-950 px-3.5 py-3 cursor-pointer">
                   <span>
                     <span className="block font-bold uppercase tracking-wider text-slate-300">GST on invoice</span>
-                    <span className="mt-1 block text-[11px] text-slate-500">
+                    <span className="mt-1 block text-xs text-slate-500">
                       {gstEnabled ? `Add GST (${taxRate}%) to the bill total.` : 'GST will not be added to the bill total.'}
                     </span>
                   </span>
@@ -858,7 +858,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                   <button
                     type="button"
                     onClick={handleAddItem}
-                    className="text-xs text-sky-400 hover:text-sky-300 font-bold flex items-center gap-1 cursor-pointer"
+                    className="text-sm text-sky-400 hover:text-sky-300 font-bold flex items-center gap-1 cursor-pointer"
                   >
                     <Plus size={14} /> Add Deliverable Item
                   </button>
@@ -873,7 +873,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                         value={item.description}
                         required
                         onChange={(e) => handleItemChange(index, 'description', e.target.value)}
-                        className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-white text-xs"
+                        className="w-full px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-white text-sm"
                       />
                     </div>
                     <div className="col-span-3">
@@ -883,7 +883,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                         placeholder="Amount (₹)"
                         value={item.unitPrice}
                         onChange={(e) => handleItemChange(index, 'unitPrice', e.target.value)}
-                        className="w-full px-2 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-white text-right text-xs font-mono"
+                        className="w-full px-2 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-white text-right text-sm font-mono"
                       />
                     </div>
                     <div className="col-span-1 text-center">
@@ -902,7 +902,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
               </div>
 
               {/* Total Banner */}
-              <div className="p-4 rounded-xl bg-sky-500/10 border border-sky-500/20 flex flex-wrap justify-between items-center gap-3 text-xs">
+              <div className="p-4 rounded-xl bg-sky-500/10 border border-sky-500/20 flex flex-wrap justify-between items-center gap-3 text-sm">
                 <div>
                   <span className="text-slate-400">Total Scope Value: </span>
                   <span className="font-mono text-white font-bold">₹{subtotal.toLocaleString('en-IN')}</span>
@@ -950,14 +950,14 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
             <div className="p-5 border-b border-slate-800 flex items-center justify-between">
               <div>
                 <h3 className="text-base font-bold text-white tracking-tight">Record Payment</h3>
-                <p className="text-xs text-slate-400">{paymentInvoice.invoiceNumber} — {paymentInvoice.clientName}</p>
+                <p className="text-sm text-slate-400">{paymentInvoice.invoiceNumber} — {paymentInvoice.clientName}</p>
               </div>
               <button onClick={() => setIsPaymentModalOpen(false)} className="p-1.5 text-slate-400 hover:text-white rounded-lg">
                 <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleRecordPayment} className="p-5 space-y-4 text-xs">
+            <form onSubmit={handleRecordPayment} className="p-5 space-y-4 text-sm">
               <div>
                 <label className="block font-bold uppercase tracking-wider text-slate-300 mb-1.5">Amount (₹)</label>
                 <input
@@ -969,7 +969,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                   placeholder="e.g. 5500"
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm font-mono font-bold focus:outline-none focus:border-emerald-500"
                 />
-                <p className="text-[11px] text-slate-500 mt-1">Outstanding Balance: ₹{(paymentInvoice.outstandingBalance || 0).toLocaleString('en-IN')}</p>
+                <p className="text-xs text-slate-500 mt-1">Outstanding Balance: ₹{(paymentInvoice.outstandingBalance || 0).toLocaleString('en-IN')}</p>
               </div>
 
               <div>
@@ -1008,7 +1008,7 @@ export const InvoiceView: React.FC<InvoiceViewProps> = ({ isAdmin = true }) => {
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold tracking-wider uppercase text-xs"
+                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold tracking-wider uppercase text-sm"
                 >
                   Confirm Payment
                 </button>

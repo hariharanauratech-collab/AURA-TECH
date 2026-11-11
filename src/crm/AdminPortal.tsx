@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import { 
   LayoutDashboard, Users, FolderGit2, CheckSquare, Clock, BarChart3, 
   FileText, DollarSign, TrendingUp, Shield, Settings, LogOut, Plus, 
@@ -310,7 +310,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col md:flex-row">
       
       {/* ADMIN SIDEBAR */}
-      <aside className="w-full md:w-64 bg-slate-900/80 border-r border-slate-800 flex flex-col shrink-0">
+      <aside className="w-full md:w-72 bg-slate-900/80 border-r border-slate-800 flex flex-col shrink-0">
         
         {/* Brand */}
         <div className="p-5 border-b border-slate-800">
@@ -320,7 +320,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               AURA <span className="text-indigo-500">TECH</span>
             </span>
           </div>
-          <div className="flex items-center justify-between text-[11px] font-bold text-slate-400">
+          <div className="flex items-center justify-between text-xs font-bold text-slate-400">
             <span>Main Admin Control</span>
             <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/30 font-mono">
               v2.5
@@ -329,7 +329,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
         </div>
 
         {/* Sidebar Nav Items */}
-        <nav className="p-3 space-y-1 flex-1 overflow-y-auto text-xs font-semibold">
+        <nav className="p-3 space-y-1 flex-1 overflow-y-auto text-sm font-semibold">
           {[
             { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
             { id: 'requests', label: 'Project Requests', icon: FileText, badge: projectRequests.filter(request => request.status === 'New').length },
@@ -362,7 +362,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   <span>{item.label}</span>
                 </div>
                 {item.badge !== undefined && (
-                  <span className={`text-[10px] px-1.5 py-0.5 rounded-md font-mono ${
+                  <span className={`text-xs px-1.5 py-0.5 rounded-md font-mono ${
                     isActive ? 'bg-indigo-700 text-white' : 'bg-slate-800 text-slate-400'
                   }`}>
                     {item.badge}
@@ -377,7 +377,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
         <div className="p-3 border-t border-slate-800">
           <button
             onClick={onLogout}
-            className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 text-xs font-semibold transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 text-sm font-semibold transition-colors cursor-pointer"
           >
             <LogOut size={14} />
             Exit Admin Portal
@@ -390,12 +390,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
       <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         
         {/* Top Header */}
-        <header className="h-16 px-6 border-b border-slate-800 flex items-center justify-between bg-slate-900/30 shrink-0">
+        <header className="min-h-18 py-3 px-6 sm:px-8 border-b border-slate-800 flex items-center justify-between bg-slate-900/30 shrink-0">
           <div className="flex items-center gap-3">
-            <h1 className="text-base font-bold text-white capitalize">
+            <h1 className="text-xl font-bold text-white capitalize">
               {activeTab.replace('_', ' ')}
             </h1>
-            <span className="text-xs text-slate-500 hidden sm:inline">
+            <span className="text-sm text-slate-500 hidden sm:inline">
               • Aura Tech Central Administration
             </span>
           </div>
@@ -403,13 +403,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsAddProjectOpen(true)}
-              className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Plus size={14} /> New Project
             </button>
             <button
               onClick={() => setIsAddTaskOpen(true)}
-              className="px-3.5 py-1.5 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-200 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="px-3.5 py-1.5 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-200 text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Plus size={14} /> Assign Task
             </button>
@@ -417,7 +417,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
         </header>
 
         {/* Dynamic Tab Body */}
-        <div className="p-6 max-w-7xl w-full mx-auto space-y-6">
+        <div className="p-6 sm:p-8 max-w-[1600px] w-full mx-auto space-y-6">
           
           {/* TAB 1: MAIN ADMIN DASHBOARD */}
           {activeTab === 'dashboard' && (
@@ -426,58 +426,58 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               {/* Executive Business Metrics Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
                 <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Total Employees</p>
-                  <p className="text-2xl font-black text-indigo-400 font-mono">7</p>
-                  <span className="text-[10px] text-slate-500">Aura Core Team</span>
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Total Employees</p>
+                  <p className="text-3xl font-black text-indigo-400 font-mono">7</p>
+                  <span className="text-xs text-slate-500">Aura Core Team</span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Active Clients</p>
-                  <p className="text-2xl font-black text-white font-mono">{businessOverview.activeClients}</p>
-                  <span className="text-[10px] text-slate-500">Confirmed Retainers</span>
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Active Clients</p>
+                  <p className="text-3xl font-black text-white font-mono">{businessOverview.activeClients}</p>
+                  <span className="text-xs text-slate-500">Confirmed Retainers</span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Active Projects</p>
-                  <p className="text-2xl font-black text-white font-mono">{businessOverview.activeProjects}</p>
-                  <span className="text-[10px] text-slate-500">{businessOverview.totalProjects} Total Projects</span>
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Active Projects</p>
+                  <p className="text-3xl font-black text-white font-mono">{businessOverview.activeProjects}</p>
+                  <span className="text-xs text-slate-500">{businessOverview.totalProjects} Total Projects</span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 mb-1">Completed</p>
-                  <p className="text-2xl font-black text-emerald-400 font-mono">{businessOverview.completedProjects}</p>
-                  <span className="text-[10px] text-slate-500">Delivered</span>
+                  <p className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-1">Completed</p>
+                  <p className="text-3xl font-black text-emerald-400 font-mono">{businessOverview.completedProjects}</p>
+                  <span className="text-xs text-slate-500">Delivered</span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-rose-400 mb-1">Overdue Tasks</p>
-                  <p className="text-2xl font-black text-rose-400 font-mono">{businessOverview.overdueTasks}</p>
-                  <span className="text-[10px] text-slate-500">Needs Attention</span>
+                  <p className="text-xs font-bold uppercase tracking-wider text-rose-400 mb-1">Overdue Tasks</p>
+                  <p className="text-3xl font-black text-rose-400 font-mono">{businessOverview.overdueTasks}</p>
+                  <span className="text-xs text-slate-500">Needs Attention</span>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
-                  <p className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 mb-1">Avg Progress</p>
-                  <p className="text-2xl font-black text-indigo-400 font-mono">{businessOverview.overallWorkCompletion}%</p>
-                  <span className="text-[10px] text-slate-500">Weighted Velocity</span>
+                  <p className="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-1">Avg Progress</p>
+                  <p className="text-3xl font-black text-indigo-400 font-mono">{businessOverview.overallWorkCompletion}%</p>
+                  <span className="text-xs text-slate-500">Weighted Velocity</span>
                 </div>
               </div>
 
               {/* Financial Snapshot Bar */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 rounded-3xl bg-gradient-to-r from-slate-900 via-indigo-950/30 to-slate-900 border border-indigo-500/20">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Invoiced Revenue</p>
-                  <p className="text-2xl font-black text-white font-mono mt-1">{formatINR(businessOverview.totalRevenue)}</p>
-                  <p className="text-[11px] text-slate-400 mt-0.5">{businessOverview.totalInvoices} Invoices Generated</p>
+                  <p className="text-sm font-bold uppercase tracking-wider text-slate-400">Total Invoiced Revenue</p>
+                  <p className="text-3xl font-black text-white font-mono mt-1">{formatINR(businessOverview.totalRevenue)}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">{businessOverview.totalInvoices} Invoices Generated</p>
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-emerald-400">Payments Collected</p>
-                  <p className="text-2xl font-black text-emerald-400 font-mono mt-1">{formatINR(businessOverview.paymentsReceived)}</p>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Realized in Bank / UPI</p>
+                  <p className="text-sm font-bold uppercase tracking-wider text-emerald-400">Payments Collected</p>
+                  <p className="text-3xl font-black text-emerald-400 font-mono mt-1">{formatINR(businessOverview.paymentsReceived)}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">Realized in Bank / UPI</p>
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-rose-400">Outstanding Receivables</p>
-                  <p className="text-2xl font-black text-rose-400 font-mono mt-1">{formatINR(businessOverview.outstandingPayments)}</p>
-                  <p className="text-[11px] text-slate-400 mt-0.5">{businessOverview.pendingInvoices} Pending Invoices</p>
+                  <p className="text-sm font-bold uppercase tracking-wider text-rose-400">Outstanding Receivables</p>
+                  <p className="text-3xl font-black text-rose-400 font-mono mt-1">{formatINR(businessOverview.outstandingPayments)}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">{businessOverview.pendingInvoices} Pending Invoices</p>
                 </div>
               </div>
 
@@ -489,16 +489,16 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                       <Users size={16} className="text-indigo-400" />
                       Dedicated Employee Overview & Workload Table (All 7 Members)
                     </h3>
-                    <p className="text-xs text-slate-400">Live operational status, assignments, task completion, and last submitted progress timestamp.</p>
+                    <p className="text-sm text-slate-400">Live operational status, assignments, task completion, and last submitted progress timestamp.</p>
                   </div>
-                  <span className="text-[11px] font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
+                  <span className="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
                     Source: Database Sync
                   </span>
                 </div>
 
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider font-bold border-b border-slate-800">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-slate-950 text-slate-400 uppercase text-xs tracking-wider font-bold border-b border-slate-800">
                       <tr>
                         <th className="py-3 px-4">Employee</th>
                         <th className="py-3 px-3">Emp ID</th>
@@ -530,13 +530,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                                   }}
                                 />
                                 <div>
-                                  <div className="font-bold text-white text-xs">{emp.name}</div>
-                                  <div className="text-[10px] text-slate-400 truncate max-w-[140px]">{emp.designation}</div>
+                                  <div className="font-bold text-white text-sm">{emp.name}</div>
+                                  <div className="text-xs text-slate-400 truncate max-w-[140px]">{emp.designation}</div>
                                 </div>
                               </div>
                             </td>
 
-                            <td className="py-3 px-3 font-mono font-bold text-indigo-400 text-xs">
+                            <td className="py-3 px-3 font-mono font-bold text-indigo-400 text-sm">
                               {emp.id}
                             </td>
 
@@ -572,13 +572,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                                     style={{ width: `${m.overallProgress}%` }}
                                   />
                                 </div>
-                                <span className="font-mono font-bold text-indigo-400 text-xs">
+                                <span className="font-mono font-bold text-indigo-400 text-sm">
                                   {m.overallProgress}%
                                 </span>
                               </div>
                             </td>
 
-                            <td className="py-3 px-4 text-[11px] text-slate-400">
+                            <td className="py-3 px-4 text-xs text-slate-400">
                               {m.lastUpdate ? (
                                 <span>{new Date(m.lastUpdate).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
                               ) : (
@@ -590,7 +590,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                               <div className="flex items-center justify-end gap-1.5">
                                 <button
                                   onClick={() => setSelectedEmployeeDetails(emp)}
-                                  className="px-2.5 py-1 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 font-bold text-[11px] border border-indigo-500/30 transition-colors cursor-pointer"
+                                  className="px-2.5 py-1 rounded-lg bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 font-bold text-xs border border-indigo-500/30 transition-colors cursor-pointer"
                                 >
                                   View Details
                                 </button>
@@ -613,20 +613,20 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h3 className="text-base font-bold text-white tracking-tight">Website Project Requests</h3>
-                  <p className="text-xs text-slate-400">Requests submitted through the public Aura Tech website.</p>
+                  <p className="text-sm text-slate-400">Requests submitted through the public Aura Tech website.</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => void refreshProjectRequests()}
                   disabled={isLoadingRequests}
-                  className="rounded-xl border border-slate-700 px-3 py-2 text-xs font-bold text-slate-200 hover:bg-slate-800 disabled:opacity-50"
+                  className="rounded-xl border border-slate-700 px-3 py-2 text-sm font-bold text-slate-200 hover:bg-slate-800 disabled:opacity-50"
                 >
                   {isLoadingRequests ? 'Refreshing…' : 'Refresh'}
                 </button>
               </div>
 
               {projectRequestError && (
-                <div role="alert" className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-xs text-rose-300">
+                <div role="alert" className="rounded-xl border border-rose-500/30 bg-rose-500/10 p-3 text-sm text-rose-300">
                   {projectRequestError}
                 </div>
               )}
@@ -645,20 +645,20 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                         <div className="min-w-0 space-y-2">
                           <div>
                             <h4 className="font-bold text-white">{request.projectTitle}</h4>
-                            <p className="text-xs text-slate-400">{request.projectType} · {request.clientType} · {new Date(request.createdAt).toLocaleString()}</p>
+                            <p className="text-sm text-slate-400">{request.projectType} · {request.clientType} · {new Date(request.createdAt).toLocaleString()}</p>
                           </div>
-                          <div className="text-xs text-slate-300">
+                          <div className="text-sm text-slate-300">
                             <p className="font-semibold">{request.clientName}</p>
                             <p>{request.clientEmail} · {request.clientPhone}</p>
                           </div>
-                          <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-400">{request.description}</p>
+                          <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-400">{request.description}</p>
                         </div>
-                        <label className="shrink-0 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                        <label className="shrink-0 text-xs font-bold uppercase tracking-wider text-slate-400">
                           Status
                           <select
                             value={request.status}
                             onChange={event => void handleProjectRequestStatusChange(request.id, event.target.value as ProjectRequestStatus)}
-                            className="mt-1 block rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-white"
+                            className="mt-1 block rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm text-white"
                           >
                             {(['New', 'Reviewed', 'Contacted', 'Converted', 'Rejected'] as ProjectRequestStatus[]).map(status => (
                               <option key={status} value={status}>{status}</option>
@@ -679,7 +679,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="text-base font-bold text-white tracking-tight">Aura Tech Seven Core Team</h3>
-                  <p className="text-xs text-slate-400">Complete profiles, assigned duties, and real-time workload metrics.</p>
+                  <p className="text-sm text-slate-400">Complete profiles, assigned duties, and real-time workload metrics.</p>
                 </div>
               </div>
 
@@ -700,29 +700,29 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                         />
                         <div>
                           <h4 className="text-sm font-bold text-white">{emp.name}</h4>
-                          <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">
+                          <span className="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-1.5 py-0.5 rounded border border-indigo-500/20">
                             {emp.id}
                           </span>
-                          <p className="text-xs text-slate-400">{emp.designation}</p>
+                          <p className="text-sm text-slate-400">{emp.designation}</p>
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-slate-950 text-center text-xs">
+                      <div className="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-slate-950 text-center text-sm">
                         <div>
-                          <p className="text-[10px] text-slate-500">Tasks</p>
+                          <p className="text-xs text-slate-500">Tasks</p>
                           <p className="font-bold text-white font-mono">{m.totalTasks}</p>
                         </div>
                         <div>
-                          <p className="text-[10px] text-slate-500">Completed</p>
+                          <p className="text-xs text-slate-500">Completed</p>
                           <p className="font-bold text-emerald-400 font-mono">{m.completedTasks}</p>
                         </div>
                         <div>
-                          <p className="text-[10px] text-slate-500">Progress</p>
+                          <p className="text-xs text-slate-500">Progress</p>
                           <p className="font-bold text-indigo-400 font-mono">{m.overallProgress}%</p>
                         </div>
                       </div>
 
-                      <div className="text-xs text-slate-400 space-y-1">
+                      <div className="text-sm text-slate-400 space-y-1">
                         <p><span className="text-slate-500">Dept:</span> {emp.department}</p>
                         <p><span className="text-slate-500">Email:</span> {emp.email}</p>
                         <p><span className="text-slate-500">Phone:</span> {emp.phone}</p>
@@ -731,7 +731,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                       <div className="pt-2 border-t border-slate-800 flex justify-between items-center">
                         <button
                           onClick={() => setSelectedEmployeeDetails(emp)}
-                          className="text-xs text-indigo-400 hover:text-indigo-300 font-bold"
+                          className="text-sm text-indigo-400 hover:text-indigo-300 font-bold"
                         >
                           View Workload Drawer →
                         </button>
@@ -749,11 +749,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h3 className="text-base font-bold text-white tracking-tight">Clients Master Directory</h3>
-                  <p className="text-xs text-slate-400">All registered clients, contact data, project bookings, and billing histories.</p>
+                  <p className="text-sm text-slate-400">All registered clients, contact data, project bookings, and billing histories.</p>
                 </div>
                 <button
                   onClick={() => setIsAddClientOpen(true)}
-                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <Plus size={14} /> Add New Client
                 </button>
@@ -761,8 +761,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
               <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider font-bold border-b border-slate-800">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-slate-950 text-slate-400 uppercase text-xs tracking-wider font-bold border-b border-slate-800">
                       <tr>
                         <th className="py-3 px-4">Client ID</th>
                         <th className="py-3 px-4">Client Name & Company</th>
@@ -780,11 +780,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                             <td className="py-3 px-4 font-mono font-bold text-indigo-400">{c.id}</td>
                             <td className="py-3 px-4">
                               <div className="font-bold text-white">{c.name}</div>
-                              <div className="text-[11px] text-slate-400">{c.company}</div>
+                              <div className="text-xs text-slate-400">{c.company}</div>
                             </td>
                             <td className="py-3 px-4 text-slate-300">
                               <div>{c.email}</div>
-                              <div className="text-[11px] text-slate-500">{c.phone}</div>
+                              <div className="text-xs text-slate-500">{c.phone}</div>
                             </td>
                             <td className="py-3 px-4 font-semibold text-slate-300">{c.clientType}</td>
                             <td className="py-3 px-4">
@@ -797,7 +797,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                               )}
                             </td>
                             <td className="py-3 px-4">
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                              <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
                                 {c.status}
                               </span>
                             </td>
@@ -817,11 +817,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h3 className="text-base font-bold text-white tracking-tight">Active Projects & Employee Distribution</h3>
-                  <p className="text-xs text-slate-400">Section 5 Compliance: Client projects distributed to chosen team members.</p>
+                  <p className="text-sm text-slate-400">Section 5 Compliance: Client projects distributed to chosen team members.</p>
                 </div>
                 <button
                   onClick={() => setIsAddProjectOpen(true)}
-                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <Plus size={14} /> Create & Distribute Project
                 </button>
@@ -832,31 +832,31 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   <div key={proj.id} className="p-5 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-md border border-indigo-500/20">
+                        <span className="text-xs font-mono text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded-md border border-indigo-500/20">
                           {proj.id}
                         </span>
                         <h4 className="text-sm font-bold text-white mt-1">{proj.title}</h4>
-                        <p className="text-xs text-slate-400">Client: <span className="text-slate-200">{proj.clientName}</span></p>
+                        <p className="text-sm text-slate-400">Client: <span className="text-slate-200">{proj.clientName}</span></p>
                       </div>
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                      <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                         {proj.status}
                       </span>
                     </div>
 
-                    <p className="text-xs text-slate-300 leading-relaxed bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <p className="text-sm text-slate-300 leading-relaxed bg-slate-950 p-3 rounded-xl border border-slate-800">
                       {proj.description}
                     </p>
 
                     {/* Assigned Employees Chips */}
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
                         Assigned Employees ({(proj.assignedEmployees || []).length}):
                       </p>
                       <div className="flex flex-wrap gap-2">
                         {(proj.assignedEmployees || []).map((alloc) => (
-                          <div key={alloc.employeeId} className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-950 border border-slate-800 text-xs">
+                          <div key={alloc.employeeId} className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-950 border border-slate-800 text-sm">
                             <span className="font-bold text-white">{alloc.employeeName}</span>
-                            <span className="text-[10px] text-indigo-400">({alloc.role})</span>
+                            <span className="text-xs text-indigo-400">({alloc.role})</span>
                           </div>
                         ))}
                       </div>
@@ -864,7 +864,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
                     {/* Progress Bar */}
                     <div>
-                      <div className="flex justify-between text-xs mb-1.5 font-medium">
+                      <div className="flex justify-between text-sm mb-1.5 font-medium">
                         <span className="text-slate-400">Calculated Project Progress</span>
                         <span className="font-mono font-bold text-indigo-400">{proj.completionPercentage}%</span>
                       </div>
@@ -876,7 +876,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                       </div>
                     </div>
 
-                    <div className="flex justify-between text-xs text-slate-400 pt-2 border-t border-slate-800">
+                    <div className="flex justify-between text-sm text-slate-400 pt-2 border-t border-slate-800">
                       <span>Budget: <span className="font-mono text-white font-bold">{formatINR(proj.budget)}</span></span>
                       <span>Due: <span className="font-mono text-white">{proj.dueDate}</span></span>
                     </div>
@@ -892,11 +892,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h3 className="text-base font-bold text-white tracking-tight">Task Queue & Reassignment Center</h3>
-                  <p className="text-xs text-slate-400">Assign, reassign, set priorities, and review employee deliverables.</p>
+                  <p className="text-sm text-slate-400">Assign, reassign, set priorities, and review employee deliverables.</p>
                 </div>
                 <button
                   onClick={() => setIsAddTaskOpen(true)}
-                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <Plus size={14} /> Assign New Task
                 </button>
@@ -904,8 +904,8 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
               <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider font-bold border-b border-slate-800">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-slate-950 text-slate-400 uppercase text-xs tracking-wider font-bold border-b border-slate-800">
                       <tr>
                         <th className="py-3 px-4">Task</th>
                         <th className="py-3 px-4">Project</th>
@@ -922,12 +922,12 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                         <tr key={task.id} className="hover:bg-slate-800/30 transition-colors">
                           <td className="py-3 px-4">
                             <div className="font-bold text-white">{task.title}</div>
-                            <div className="text-[10px] text-indigo-400 font-mono">{task.id}</div>
+                            <div className="text-xs text-indigo-400 font-mono">{task.id}</div>
                           </td>
                           <td className="py-3 px-4 text-slate-300">{task.projectTitle}</td>
                           <td className="py-3 px-4 font-semibold text-white">{task.assignedEmployeeName}</td>
                           <td className="py-3 px-4">
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
+                            <span className={`px-2 py-0.5 rounded text-xs font-bold ${
                               task.priority === 'Urgent' ? 'bg-rose-500/10 text-rose-400' :
                               task.priority === 'High' ? 'bg-amber-500/10 text-amber-400' : 'bg-slate-800 text-slate-400'
                             }`}>
@@ -939,7 +939,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                             {task.completionPercentage}%
                           </td>
                           <td className="py-3 px-4">
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${getStatusBadge(task.status)}`}>
+                            <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${getStatusBadge(task.status)}`}>
                               {task.status}
                             </span>
                           </td>
@@ -950,14 +950,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                                   <button
                                     onClick={() => handleApproveTask(task)}
                                     title="Approve completed work"
-                                    className="px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[11px] font-bold"
+                                    className="px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold"
                                   >
                                     Approve
                                   </button>
                                   <button
                                     onClick={() => handleRequestRevision(task)}
                                     title="Request revisions"
-                                    className="px-2 py-1 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/30 text-[11px] font-bold"
+                                    className="px-2 py-1 rounded-lg bg-orange-500/10 text-orange-400 border border-orange-500/30 text-xs font-bold"
                                   >
                                     Revise
                                   </button>
@@ -968,7 +968,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                                   setReassignTaskTarget(task);
                                   setReassignNewEmpId(employees.find(e => e.id !== task.assignedEmployeeId)?.id || '');
                                 }}
-                                className="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-medium"
+                                className="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium"
                               >
                                 Reassign
                               </button>
@@ -988,7 +988,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             <div className="space-y-4 animate-in fade-in duration-200">
               <div>
                 <h3 className="text-base font-bold text-white tracking-tight">Continuous Work Progress Timeline</h3>
-                <p className="text-xs text-slate-400">Every progress entry logged by employees with exact timestamps, completed work, hours, and blockers.</p>
+                <p className="text-sm text-slate-400">Every progress entry logged by employees with exact timestamps, completed work, hours, and blockers.</p>
               </div>
 
               <div className="space-y-3">
@@ -996,13 +996,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   <div key={log.id} className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-2.5">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-white text-xs">{log.employeeName}</span>
-                        <span className="text-[10px] text-slate-400 font-mono">({log.employeeId})</span>
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${getStatusBadge(log.status)}`}>
+                        <span className="font-bold text-white text-sm">{log.employeeName}</span>
+                        <span className="text-xs text-slate-400 font-mono">({log.employeeId})</span>
+                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${getStatusBadge(log.status)}`}>
                           {log.status}
                         </span>
                       </div>
-                      <span className="text-[11px] text-slate-400 flex items-center gap-1 font-mono">
+                      <span className="text-xs text-slate-400 flex items-center gap-1 font-mono">
                         <Clock size={12} />
                         {new Date(log.timestamp).toLocaleString('en-IN', {
                           day: '2-digit', month: 'short', year: 'numeric',
@@ -1011,28 +1011,28 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                       </span>
                     </div>
 
-                    <div className="text-xs font-semibold text-slate-200">
+                    <div className="text-sm font-semibold text-slate-200">
                       Task: <span className="text-indigo-400">{log.taskTitle}</span> • Project: {log.projectTitle}
                     </div>
 
-                    <div className="flex items-center gap-4 text-xs font-mono">
+                    <div className="flex items-center gap-4 text-sm font-mono">
                       <span className="text-indigo-400 font-bold">Progress: {log.completionPercentage}%</span>
                       {log.timeSpentHours > 0 && <span className="text-slate-400">Time Spent: {log.timeSpentHours} hrs</span>}
                     </div>
 
-                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 leading-relaxed">
-                      <p className="font-semibold text-slate-200 text-[11px] mb-1">Work Finished:</p>
+                    <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-sm text-slate-300 leading-relaxed">
+                      <p className="font-semibold text-slate-200 text-xs mb-1">Work Finished:</p>
                       {log.workCompleted}
                     </div>
 
                     {log.workRemaining && (
-                      <p className="text-xs text-slate-400">
+                      <p className="text-sm text-slate-400">
                         <span className="font-semibold text-slate-300">Remaining: </span>{log.workRemaining}
                       </p>
                     )}
 
                     {log.blockers && (
-                      <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-300">
+                      <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-sm text-rose-300">
                         <span className="font-bold">Blocker Reported: </span>{log.blockers}
                       </div>
                     )}
@@ -1061,13 +1061,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             <div className="space-y-4 animate-in fade-in duration-200">
               <div>
                 <h3 className="text-base font-bold text-white tracking-tight">Payments & Ledger Records</h3>
-                <p className="text-xs text-slate-400">Actual collections received via bank transfers, UPI, or corporate cheques.</p>
+                <p className="text-sm text-slate-400">Actual collections received via bank transfers, UPI, or corporate cheques.</p>
               </div>
 
               <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider font-bold border-b border-slate-800">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-slate-950 text-slate-400 uppercase text-xs tracking-wider font-bold border-b border-slate-800">
                       <tr>
                         <th className="py-3 px-4">Payment ID</th>
                         <th className="py-3 px-4">Invoice #</th>
@@ -1085,7 +1085,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                           <td className="py-3 px-4 font-mono text-slate-300">{p.invoiceNumber}</td>
                           <td className="py-3 px-4 font-medium text-white">{p.clientName}</td>
                           <td className="py-3 px-4">
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-300">
+                            <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-slate-800 text-slate-300">
                               {p.paymentMethod}
                             </span>
                           </td>
@@ -1108,23 +1108,23 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             <div className="space-y-6 animate-in fade-in duration-200">
               <div>
                 <h3 className="text-base font-bold text-white tracking-tight">Revenue & Financial Analytics</h3>
-                <p className="text-xs text-slate-400">Section 11 Compliance: Client-wise and project-wise distribution without duplicating shared revenues.</p>
+                <p className="text-sm text-slate-400">Section 11 Compliance: Client-wise and project-wise distribution without duplicating shared revenues.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Project-Wise Revenue */}
                 <div className="p-5 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-white">Project-Wise Revenue Allocation</h4>
+                  <h4 className="text-sm font-bold uppercase tracking-wider text-white">Project-Wise Revenue Allocation</h4>
                   <div className="space-y-2">
                     {projects.map(proj => (
-                      <div key={proj.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex justify-between items-center text-xs">
+                      <div key={proj.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex justify-between items-center text-sm">
                         <div>
                           <p className="font-bold text-white">{proj.title}</p>
-                          <p className="text-[11px] text-slate-500">{proj.clientName}</p>
+                          <p className="text-xs text-slate-500">{proj.clientName}</p>
                         </div>
                         <div className="text-right">
                           <p className="font-mono font-bold text-indigo-400">{formatINR(proj.budget)}</p>
-                          <p className="text-[10px] text-slate-500">{(proj.assignedEmployees || []).length} contributors</p>
+                          <p className="text-xs text-slate-500">{(proj.assignedEmployees || []).length} contributors</p>
                         </div>
                       </div>
                     ))}
@@ -1133,7 +1133,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
                 {/* Client-Wise Invoicing */}
                 <div className="p-5 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-white">Client-Wise Receivables</h4>
+                  <h4 className="text-sm font-bold uppercase tracking-wider text-white">Client-Wise Receivables</h4>
                   <div className="space-y-2">
                     {clients.map(client => {
                       const clientInvoices = invoices.filter(i => i.clientId === client.id);
@@ -1141,14 +1141,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                       const balance = clientInvoices.reduce((s, i) => s + i.outstandingBalance, 0);
 
                       return (
-                        <div key={client.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex justify-between items-center text-xs">
+                        <div key={client.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex justify-between items-center text-sm">
                           <div>
                             <p className="font-bold text-white">{client.company || client.name}</p>
-                            <p className="text-[11px] text-slate-500">{client.email}</p>
+                            <p className="text-xs text-slate-500">{client.email}</p>
                           </div>
                           <div className="text-right">
                             <p className="font-mono font-bold text-white">{formatINR(totalInvoiced)}</p>
-                            <p className={`text-[10px] font-mono ${balance > 0 ? 'text-rose-400' : 'text-emerald-400'}`}>
+                            <p className={`text-xs font-mono ${balance > 0 ? 'text-rose-400' : 'text-emerald-400'}`}>
                               {balance > 0 ? `Due: ${formatINR(balance)}` : 'Fully Settled'}
                             </p>
                           </div>
@@ -1166,13 +1166,13 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             <div className="space-y-4 animate-in fade-in duration-200">
               <div>
                 <h3 className="text-base font-bold text-white tracking-tight">System Audit Trail</h3>
-                <p className="text-xs text-slate-400">Section 12 Compliance: Immutable audit records for assignments, updates, and financial actions.</p>
+                <p className="text-sm text-slate-400">Section 12 Compliance: Immutable audit records for assignments, updates, and financial actions.</p>
               </div>
 
               <div className="rounded-2xl border border-slate-800 bg-slate-900/40 overflow-hidden">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-950 text-slate-400 uppercase text-[10px] tracking-wider font-bold border-b border-slate-800">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-slate-950 text-slate-400 uppercase text-xs tracking-wider font-bold border-b border-slate-800">
                       <tr>
                         <th className="py-3 px-4">Action</th>
                         <th className="py-3 px-4">Actor</th>
@@ -1188,7 +1188,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                           <td className="py-3 px-4 text-indigo-400 font-medium">{log.actor}</td>
                           <td className="py-3 px-4 font-mono text-slate-400">{log.entityType} ({log.entityId})</td>
                           <td className="py-3 px-4 text-slate-300 max-w-md truncate">{log.details}</td>
-                          <td className="py-3 px-4 text-right text-slate-400 font-mono text-[11px]">
+                          <td className="py-3 px-4 text-right text-slate-400 font-mono text-xs">
                             {new Date(log.timestamp).toLocaleString('en-IN', {
                               day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
                             })}
@@ -1204,7 +1204,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
 
           {/* TAB 12: SETTINGS */}
           {activeTab === 'settings' && (
-            <div className="max-w-xl mx-auto p-6 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-5 animate-in fade-in duration-200 text-xs">
+            <div className="max-w-xl mx-auto p-6 rounded-3xl bg-slate-900/60 border border-slate-800 space-y-5 animate-in fade-in duration-200 text-sm">
               <div>
                 <h3 className="text-base font-bold text-white tracking-tight">Aura Tech System Settings</h3>
                 <p className="text-slate-400">Database synchronization, invoice bank accounts, and credentials.</p>
@@ -1248,9 +1248,9 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               </button>
             </div>
 
-            <form onSubmit={handleCreateClient} className="p-5 space-y-3.5 text-xs">
+            <form onSubmit={handleCreateClient} className="p-5 space-y-3.5 text-sm">
               {clientDuplicateWarning && (
-                <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-300 text-xs">
+                <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-300 text-sm">
                   {clientDuplicateWarning}
                 </div>
               )}
@@ -1367,14 +1367,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             <div className="p-5 border-b border-slate-800 flex justify-between items-center">
               <div>
                 <h3 className="text-base font-bold text-white">Create New Project & Allocate Team</h3>
-                <p className="text-xs text-slate-400">Section 5: Select relevant employees to automatically distribute project.</p>
+                <p className="text-sm text-slate-400">Section 5: Select relevant employees to automatically distribute project.</p>
               </div>
               <button onClick={() => setIsAddProjectOpen(false)} className="p-1.5 text-slate-400 hover:text-white rounded-lg">
                 <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleCreateProject} className="p-5 space-y-3.5 text-xs">
+            <form onSubmit={handleCreateProject} className="p-5 space-y-3.5 text-sm">
               <div>
                 <label className="block font-bold text-slate-300 uppercase mb-1">Project Title *</label>
                 <input
@@ -1460,7 +1460,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   {employees.map(emp => {
                     const isAssigned = newProjAssignedEmps.includes(emp.id);
                     return (
-                      <label key={emp.id} className="flex items-center gap-2 cursor-pointer text-[11px] text-slate-300 hover:text-white">
+                      <label key={emp.id} className="flex items-center gap-2 cursor-pointer text-xs text-slate-300 hover:text-white">
                         <input
                           type="checkbox"
                           checked={isAssigned}
@@ -1511,7 +1511,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               </button>
             </div>
 
-            <form onSubmit={handleCreateTask} className="p-5 space-y-3.5 text-xs">
+            <form onSubmit={handleCreateTask} className="p-5 space-y-3.5 text-sm">
               <div>
                 <label className="block font-bold text-slate-300 uppercase mb-1">Task Title *</label>
                 <input
@@ -1634,14 +1634,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
             <div className="p-5 border-b border-slate-800 flex justify-between items-center">
               <div>
                 <h3 className="text-base font-bold text-white">Reassign Task</h3>
-                <p className="text-xs text-slate-400">Current Assignee: {reassignTaskTarget.assignedEmployeeName}</p>
+                <p className="text-sm text-slate-400">Current Assignee: {reassignTaskTarget.assignedEmployeeName}</p>
               </div>
               <button onClick={() => setReassignTaskTarget(null)} className="p-1.5 text-slate-400 hover:text-white rounded-lg">
                 <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleReassignTask} className="p-5 space-y-4 text-xs">
+            <form onSubmit={handleReassignTask} className="p-5 space-y-4 text-sm">
               <div>
                 <label className="block font-bold text-slate-300 uppercase mb-1">New Assignee (Employee)</label>
                 <select
@@ -1703,7 +1703,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                 />
                 <div>
                   <h3 className="text-base font-bold text-white">{selectedEmployeeDetails.name}</h3>
-                  <p className="text-xs text-indigo-400 font-mono">{selectedEmployeeDetails.id} • {selectedEmployeeDetails.designation}</p>
+                  <p className="text-sm text-indigo-400 font-mono">{selectedEmployeeDetails.id} • {selectedEmployeeDetails.designation}</p>
                 </div>
               </div>
               <button onClick={() => setSelectedEmployeeDetails(null)} className="p-1.5 text-slate-400 hover:text-white rounded-lg">
@@ -1711,26 +1711,26 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto flex-1 space-y-4 text-xs">
+            <div className="p-6 overflow-y-auto flex-1 space-y-4 text-sm">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
                 {(() => {
                   const m = crmDb.calculateEmployeeMetrics(selectedEmployeeDetails.id);
                   return (
                     <>
                       <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
-                        <p className="text-[10px] text-slate-500 font-bold uppercase">Tasks</p>
+                        <p className="text-xs text-slate-500 font-bold uppercase">Tasks</p>
                         <p className="text-lg font-black text-white font-mono">{m.totalTasks}</p>
                       </div>
                       <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
-                        <p className="text-[10px] text-slate-500 font-bold uppercase">Completed</p>
+                        <p className="text-xs text-slate-500 font-bold uppercase">Completed</p>
                         <p className="text-lg font-black text-emerald-400 font-mono">{m.completedTasks}</p>
                       </div>
                       <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
-                        <p className="text-[10px] text-slate-500 font-bold uppercase">In-Progress</p>
+                        <p className="text-xs text-slate-500 font-bold uppercase">In-Progress</p>
                         <p className="text-lg font-black text-indigo-400 font-mono">{m.inProgressTasks}</p>
                       </div>
                       <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800">
-                        <p className="text-[10px] text-slate-500 font-bold uppercase">Velocity</p>
+                        <p className="text-xs text-slate-500 font-bold uppercase">Velocity</p>
                         <p className="text-lg font-black text-purple-400 font-mono">{m.overallProgress}%</p>
                       </div>
                     </>
@@ -1745,10 +1745,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                     <div key={t.id} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex justify-between items-center">
                       <div>
                         <p className="font-bold text-white">{t.title}</p>
-                        <p className="text-[11px] text-slate-400">{t.projectTitle} • Due: {t.dueDate}</p>
+                        <p className="text-xs text-slate-400">{t.projectTitle} • Due: {t.dueDate}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${getStatusBadge(t.status)}`}>
+                        <span className={`px-2 py-0.5 rounded text-xs font-bold ${getStatusBadge(t.status)}`}>
                           {t.status}
                         </span>
                         <span className="font-mono font-bold text-indigo-400">{t.completionPercentage}%</span>
