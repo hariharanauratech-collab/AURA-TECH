@@ -26,10 +26,14 @@ export default function AboutModal({ theme, isOpen, onClose, onOpenBookModal }) 
         
         {/* Close Button */}
         <button
+          type="button"
+          name="close"
+          value="close"
           onClick={onClose}
           aria-label="Close about modal"
-          className={`absolute top-3.5 right-3.5 sm:top-6 sm:right-6 p-1.5 sm:p-2 rounded-full transition-colors cursor-pointer ${
-            isDark ? 'bg-slate-900 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-600 hover:text-slate-900'
+          title="Close about modal"
+          className={`absolute top-3.5 right-3.5 sm:top-6 sm:right-6 p-1.5 sm:p-2 rounded-full transition-colors cursor-pointer z-30 ${
+            isDark ? 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800' : 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200'
           }`}
         >
           <X size={18} />

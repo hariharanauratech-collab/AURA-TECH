@@ -66,9 +66,13 @@ export default function ClientDashboardModal({ theme, isOpen, onClose, onOpenBoo
           </div>
 
           <button 
+            type="button"
+            name="close"
+            value="close"
             onClick={onClose} 
-            className="p-1.5 sm:p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="p-1.5 sm:p-2 rounded-full hover:bg-slate-800 text-slate-400 hover:text-white transition-colors cursor-pointer z-30"
             aria-label="Close client dashboard"
+            title="Close client dashboard"
           >
             <X size={18} />
           </button>

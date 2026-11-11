@@ -62,9 +62,13 @@ export default function AdminModal({ theme, isOpen, onClose }) {
       }`}>
         
         <button
+          type="button"
+          name="close"
+          value="close"
           onClick={onClose}
           aria-label="Close admin modal"
-          className={`absolute top-3.5 right-3.5 sm:top-6 sm:right-6 p-2 rounded-full transition-colors z-10 cursor-pointer ${
+          title="Close admin modal"
+          className={`absolute top-3.5 right-3.5 sm:top-6 sm:right-6 p-2 rounded-full transition-colors z-30 cursor-pointer ${
             isDark ? 'bg-slate-900 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-600 hover:text-slate-900'
           }`}
         >

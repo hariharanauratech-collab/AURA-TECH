@@ -104,7 +104,9 @@ export default function RegistrationModal({ theme, portalMode, isOpen, onClose, 
       expectedTime: '1 - 2 Weeks',
       description: ''
     });
-    onClose();
+    if (typeof onClose === 'function') {
+      onClose();
+    }
   };
 
   return (
@@ -114,7 +116,7 @@ export default function RegistrationModal({ theme, portalMode, isOpen, onClose, 
     >
       <div 
         onClick={(e) => e.stopPropagation()}
-        className={`relative w-full max-w-xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl my-3 sm:my-8 border overflow-hidden max-h-[92vh] overflow-y-auto no-scrollbar ${
+        className={`relative w-full max-w-xl rounded-2xl sm:rounded-3xl p-4 sm:p-8 shadow-2xl my-3 sm:my-8 border overflow-x-hidden max-h-[92vh] overflow-y-auto no-scrollbar ${
           isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-200'
         }`}
       >
@@ -134,9 +136,15 @@ export default function RegistrationModal({ theme, portalMode, isOpen, onClose, 
         
         {/* Close Button */}
         <button
-          onClick={handleReset}
-          className={`absolute top-3.5 right-3.5 sm:top-6 sm:right-6 p-1.5 sm:p-2 rounded-full transition-colors cursor-pointer z-10 ${
-            isDark ? 'bg-slate-900 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-600 hover:text-slate-900'
+          type="button"
+          name="close"
+          value="close"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleReset();
+          }}
+          className={`absolute top-3.5 right-3.5 sm:top-6 sm:right-6 p-1.5 sm:p-2 rounded-full transition-colors cursor-pointer z-30 ${
+            isDark ? 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800' : 'bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200'
           }`}
           aria-label="Close booking modal"
           title="Close booking modal"
@@ -488,6 +496,8 @@ Please review my requirements and confirm the project onboarding steps!`;
             </div>
 
             <button
+              type="button"
+              value="close"
               onClick={handleReset}
               className="btn-primary-action py-3 px-8 rounded-xl text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer"
             >

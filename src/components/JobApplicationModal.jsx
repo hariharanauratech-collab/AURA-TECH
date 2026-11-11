@@ -186,11 +186,15 @@ export default function JobApplicationModal({
 
         {/* Close Button */}
         <button
+          type="button"
+          name="close"
+          value="close"
           onClick={handleReset}
-          className={`absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-1.5 sm:p-2 rounded-full transition-colors z-20 cursor-pointer ${
+          className={`absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-1.5 sm:p-2 rounded-full transition-colors z-30 cursor-pointer ${
             isDark ? 'text-slate-400 hover:text-white hover:bg-slate-900' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100'
           }`}
           aria-label="Close Modal"
+          title="Close application modal"
         >
           <X size={18} />
         </button>

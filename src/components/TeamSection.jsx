@@ -176,9 +176,12 @@ export default function TeamSection({ theme, onOpenBookModal }) {
 
             {/* Close Button */}
             <button
+              type="button"
+              name="close"
+              value="close"
               onClick={() => setSelectedMember(null)}
               aria-label="Close member details modal"
-              className={`absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-2 rounded-full transition-colors cursor-pointer z-10 ${
+              className={`absolute top-3.5 right-3.5 sm:top-5 sm:right-5 p-2 rounded-full transition-colors cursor-pointer z-30 ${
                 isDark ? 'bg-slate-900 text-slate-400 hover:text-white' : 'bg-slate-100 text-slate-600 hover:text-slate-900'
               }`}
               title="Close Details"
