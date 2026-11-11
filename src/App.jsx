@@ -17,6 +17,7 @@ import AdminModal from './components/AdminModal';
 import ClientDashboardModal from './components/ClientDashboardModal';
 import AIChatAssistant from './components/AIChatAssistant';
 import AnimatedOfficeBackground from './components/AnimatedOfficeBackground';
+import PortalPrePage from './components/PortalPrePage';
 import AdminDashboard from './pages/AdminDashboard';
 import CRMDashboard from './pages/CRMDashboard';
 
@@ -26,6 +27,7 @@ export default function App() {
   });
 
   const [portalMode, setPortalMode] = useState('student'); // 'student' | 'company' | 'hr'
+  const [hasSelectedPortal, setHasSelectedPortal] = useState(false);
   const navigate = useNavigate();
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
   const [isJobModalOpen, setIsJobModalOpen] = useState(false);
@@ -57,6 +59,17 @@ export default function App() {
 
   const handleOpenAdmin = () => {
     navigate('/admin');
+  };
+
+  const handleSelectPortal = (mode) => {
+    setPortalMode(mode);
+    setHasSelectedPortal(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleOpenPortalSelector = () => {
+    setHasSelectedPortal(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -97,6 +110,36 @@ export default function App() {
       <Route 
         path="*" 
         element={
+          !hasSelectedPortal ? (
+            <>
+              <PortalPrePage
+                theme={theme}
+                onToggleTheme={toggleTheme}
+                onSelectPortal={handleSelectPortal}
+                onOpenClientDashboard={() => setIsClientDashOpen(true)}
+              />
+
+              <ClientDashboardModal
+                theme={theme}
+                isOpen={isClientDashOpen}
+                onClose={() => setIsClientDashOpen(false)}
+                onOpenBookModal={() => {
+                  setIsClientDashOpen(false);
+                  setPortalMode('student');
+                  setHasSelectedPortal(true);
+                  handleOpenBookModal();
+                }}
+              />
+
+              <RegistrationModal
+                theme={theme}
+                portalMode={portalMode}
+                isOpen={isBookModalOpen}
+                onClose={() => setIsBookModalOpen(false)}
+                initialService={initialService}
+              />
+            </>
+          ) : (
           <div className="min-h-screen font-sans relative transition-colors duration-300">
             
             {/* Scroll-Reactive Animated Office Interface Background for the whole page */}
@@ -107,6 +150,7 @@ export default function App() {
               theme={theme}
               portalMode={portalMode}
               setPortalMode={setPortalMode}
+              onOpenPortalSelector={handleOpenPortalSelector}
               onToggleTheme={toggleTheme}
               onOpenBookModal={handleOpenBookModal}
               onOpenAboutModal={() => setIsAboutModalOpen(true)}
@@ -120,7 +164,6 @@ export default function App() {
               <Hero
                 theme={theme}
                 portalMode={portalMode}
-                setPortalMode={setPortalMode}
                 onOpenBookModal={(srv) => handleOpenBookModal(srv)}
                 onOpenAboutModal={() => setIsAboutModalOpen(true)}
                 onOpenClientDashboard={() => setIsClientDashOpen(true)}
@@ -241,6 +284,7 @@ export default function App() {
             />
 
           </div>
+          )
         } 
       />
 

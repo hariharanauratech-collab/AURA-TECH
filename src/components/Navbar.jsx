@@ -10,6 +10,7 @@ export default function Navbar({
   theme, 
   portalMode, 
   setPortalMode, 
+  onOpenPortalSelector,
   onToggleTheme, 
   onOpenBookModal, 
   onOpenAboutModal, 
@@ -148,6 +149,7 @@ export default function Navbar({
     {
       id: 'student',
       name: 'Student Portal',
+      shortName: 'Student',
       desc: 'Capstone, datathons & discounted mentorship',
       icon: GraduationCap,
       active: isStudent,
@@ -156,7 +158,8 @@ export default function Navbar({
     },
     {
       id: 'company',
-      name: 'Company / Org Portal',
+      name: 'Organisation Portal',
+      shortName: 'Organisation',
       desc: 'Enterprise web systems & AI infrastructure',
       icon: Building2,
       active: !isStudent && !isHr,
@@ -165,8 +168,9 @@ export default function Navbar({
     },
     {
       id: 'hr',
-      name: 'HR & Careers Portal',
-      desc: 'Job application form & recruitment database',
+      name: 'Seeking for Job (HR)',
+      shortName: 'Job Seeker',
+      desc: 'Job application form & recruitment hub',
       icon: Briefcase,
       active: isHr,
       badge: 'Hiring',
@@ -176,6 +180,14 @@ export default function Navbar({
 
   // 3. Quick System Actions List
   const actionOptionsList = [
+    ...(onOpenPortalSelector ? [{
+      id: 'portal-selector',
+      name: 'Change Portal Selection Page',
+      desc: 'Choose Student, Organisation, or Seeking for Job',
+      icon: Compass,
+      action: onOpenPortalSelector,
+      badge: 'Switch'
+    }] : []),
     // Track Project (only in Student / Company mode, omitted in HR mode)
     ...(!isHr ? [{
       id: 'track',
@@ -287,9 +299,10 @@ export default function Navbar({
             
             {/* Quick Portal Mode Switcher Pill */}
             <button
-              onClick={() => setPortalMode(isHr ? 'student' : isStudent ? 'company' : 'hr')}
-              title="Click to cycle portal mode (Student / Company / HR)"
-              aria-label="Cycle portal mode between Student, Company, and HR"
+              type="button"
+              onClick={() => (onOpenPortalSelector ? onOpenPortalSelector() : setPortalMode(isHr ? 'student' : isStudent ? 'company' : 'hr'))}
+              title={onOpenPortalSelector ? 'Change portal (Student / Organisation / Seeking for Job)' : 'Click to cycle portal mode'}
+              aria-label="Change portal mode between Student, Organisation, and Seeking for Job"
               className={`px-3 py-2 rounded-xl border text-xs font-black uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-sm shrink-0 whitespace-nowrap ${
                 isHr
                   ? isDark 
@@ -305,7 +318,7 @@ export default function Navbar({
               }`}
             >
               {isHr ? <Briefcase size={14} /> : isStudent ? <GraduationCap size={14} /> : <Building2 size={14} />}
-              <span>{isHr ? 'HR Mode' : isStudent ? 'Student Mode' : 'Company Mode'}</span>
+              <span>{isHr ? 'Seeking Job' : isStudent ? 'Student Mode' : 'Organisation'}</span>
             </button>
 
             {/* Quick Theme Toggle Button */}
@@ -586,9 +599,10 @@ export default function Navbar({
             
             {/* Quick Portal Badge */}
             <button
-              onClick={() => setPortalMode(isHr ? 'student' : isStudent ? 'company' : 'hr')}
-              title="Switch Mode"
-              aria-label="Switch portal mode between Student, Company, and HR"
+              type="button"
+              onClick={() => (onOpenPortalSelector ? onOpenPortalSelector() : setPortalMode(isHr ? 'student' : isStudent ? 'company' : 'hr'))}
+              title={onOpenPortalSelector ? 'Change portal selection' : 'Switch Mode'}
+              aria-label="Change portal mode between Student, Organisation, and Seeking for Job"
               className={`px-2 sm:px-2.5 py-1.5 rounded-lg border text-[10px] sm:text-[11px] font-black uppercase flex items-center gap-1 sm:gap-1.5 cursor-pointer active:scale-95 transition-all ${
                 isHr
                   ? isDark ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-emerald-50 text-emerald-600 border-emerald-200'
@@ -598,7 +612,7 @@ export default function Navbar({
               }`}
             >
               {isHr ? <Briefcase size={12} /> : isStudent ? <GraduationCap size={12} /> : <Building2 size={12} />}
-              <span>{isHr ? 'HR' : isStudent ? 'Student' : 'Company'}</span>
+              <span>{isHr ? 'Job Seeker' : isStudent ? 'Student' : 'Org'}</span>
             </button>
 
             {/* Theme Toggle */}
@@ -689,7 +703,7 @@ export default function Navbar({
                       }`}
                     >
                       <Icon size={16} />
-                      <span className="text-[10px] uppercase font-bold tracking-tight">{p.name.split(' ')[0]}</span>
+                      <span className="text-[10px] uppercase font-bold tracking-tight">{p.shortName || p.name.split(' ')[0]}</span>
                     </button>
                   );
                 })}

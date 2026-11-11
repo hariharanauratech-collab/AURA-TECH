@@ -1,11 +1,9 @@
 import React from 'react';
 import { ArrowRight, Sparkles, ShieldCheck, Zap, Code, Award, CheckCircle2, GraduationCap, Building2, Search, Briefcase, FileSpreadsheet } from 'lucide-react';
-import PortalSwitcher from './PortalSwitcher';
 
 export default function Hero({ 
   theme, 
   portalMode, 
-  setPortalMode, 
   onOpenBookModal, 
   onOpenAboutModal, 
   onOpenClientDashboard,
@@ -43,10 +41,6 @@ export default function Hero({
       }`}></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-        
-        {/* Interactive Front Portal Switcher */}
-        <PortalSwitcher portalMode={portalMode} setPortalMode={setPortalMode} theme={theme} />
-
         {/* Dynamic Tagline Badge */}
         <div className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4.5 py-1.5 rounded-full text-[10px] sm:text-xs font-extrabold uppercase tracking-widest mb-4 sm:mb-6 animate-pulse-glow border ${
           isDark 
