@@ -1,9 +1,17 @@
 @import "tailwindcss";
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
   }
 
   /* Dark Theme Body */
@@ -201,18 +209,35 @@
 }
 
 /* =========================================================
-   SCROLL TRANSACTION & TRANSITION ANIMATIONS
+   CINEMATIC SMOOTH SCROLL REVEAL & TRANSITIONS
    ========================================================= */
 .scroll-section-transition {
   opacity: 0;
-  transform: translateY(28px) scale(0.985);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transform: translateY(22px);
+  filter: blur(4px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), 
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
 }
 
 .scroll-section-transition.is-entered {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
+  filter: blur(0px);
+}
+
+.scroll-card-item {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), 
+              transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.is-entered .scroll-card-item {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @keyframes transactionBeam {
