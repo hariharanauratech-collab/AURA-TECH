@@ -4,6 +4,8 @@ node_modules/
 # Production Build
 dist/
 dist-ssr/
+build/
+built/
 
 # Archives & Temporary Raw CRM Uploads
 crm (3)/

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/ensure-build-dirs.js",
     "preview": "vite preview",
     "start": "npx serve -s dist -l ${PORT:-3000}"
   },
