@@ -17,6 +17,7 @@ import AdminModal from './components/AdminModal';
 import ClientDashboardModal from './components/ClientDashboardModal';
 import AIChatAssistant from './components/AIChatAssistant';
 import AnimatedOfficeBackground from './components/AnimatedOfficeBackground';
+import ScrollTransactionSystem from './components/ScrollTransactionSystem';
 import PortalPrePage from './components/PortalPrePage';
 import OurClientsSection from './components/OurClientsSection';
 import OurClientsModal from './components/OurClientsModal';
@@ -159,6 +160,9 @@ export default function App() {
             
             {/* Scroll-Reactive Animated Office Interface Background for the whole page */}
             <AnimatedOfficeBackground theme={theme} />
+
+            {/* Scroll Transaction & Transition System */}
+            <ScrollTransactionSystem theme={theme} />
             
             {/* Navigation Bar */}
             <Navbar

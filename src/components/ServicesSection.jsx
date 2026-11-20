@@ -98,7 +98,7 @@ export default function ServicesSection({ theme, onBookService }) {
             return (
               <div
                 key={service.id}
-                className="glass-card p-5 sm:p-6 rounded-2xl flex flex-col justify-between group relative overflow-hidden"
+                className="glass-card transaction-card-glow p-5 sm:p-6 rounded-2xl flex flex-col justify-between group relative overflow-hidden"
               >
                 <div className={`absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl transition-all ${
                   isDark ? 'bg-amber-500/5 group-hover:bg-amber-500/15' : 'bg-blue-500/10 group-hover:bg-blue-500/20'

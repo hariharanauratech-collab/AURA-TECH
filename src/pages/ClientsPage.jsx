@@ -10,6 +10,7 @@ import RegistrationModal from '../components/RegistrationModal';
 import JobApplicationModal from '../components/JobApplicationModal';
 import AIChatAssistant from '../components/AIChatAssistant';
 import AnimatedOfficeBackground from '../components/AnimatedOfficeBackground';
+import ScrollTransactionSystem from '../components/ScrollTransactionSystem';
 
 export default function ClientsPage({ theme, onToggleTheme }) {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ export default function ClientsPage({ theme, onToggleTheme }) {
   return (
     <div className="min-h-screen font-sans relative transition-colors duration-300">
       <AnimatedOfficeBackground theme={theme} />
+      <ScrollTransactionSystem theme={theme} />
 
       <Navbar
         theme={theme}

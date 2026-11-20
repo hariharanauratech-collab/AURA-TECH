@@ -70,7 +70,7 @@ export default function AdvantageSection({ theme, onOpenBookModal }) {
             return (
               <div
                 key={item.step}
-                className="glass-card p-5 sm:p-8 rounded-2xl relative overflow-hidden group"
+                className="glass-card transaction-card-glow p-5 sm:p-8 rounded-2xl relative overflow-hidden group"
               >
                 <div className={`text-4xl sm:text-5xl font-black transition-colors absolute top-4 right-5 sm:right-6 pointer-events-none ${
                   isDark ? 'text-amber-500/15 group-hover:text-amber-400/30' : 'text-blue-500/15 group-hover:text-blue-600/30'

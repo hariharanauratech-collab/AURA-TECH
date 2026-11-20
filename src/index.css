@@ -201,6 +201,80 @@
 }
 
 /* =========================================================
+   SCROLL TRANSACTION & TRANSITION ANIMATIONS
+   ========================================================= */
+.scroll-section-transition {
+  opacity: 0;
+  transform: translateY(28px) scale(0.985);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-section-transition.is-entered {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+@keyframes transactionBeam {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(200%);
+    opacity: 0;
+  }
+}
+
+.animate-transaction-beam {
+  animation: transactionBeam 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes transactionFloat {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-70px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.animate-transaction-float {
+  animation: transactionFloat 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Glow sweep for cards upon scroll entrance */
+.transaction-card-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.transaction-card-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.08), transparent);
+  pointer-events: none;
+  transform: skewX(-20deg);
+}
+
+.light-theme .transaction-card-glow::after {
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.08), transparent);
+}
+
+.scroll-section-transition.is-entered .transaction-card-glow::after {
+  animation: transactionBeam 1.8s ease-out 0.2s forwards;
+}
+
+/* =========================================================
    MOBILE VIEW OPTIMIZATIONS (Phone / Tablet Specific)
    Strictly scoped to mobile devices (Desktop view unaffected)
    ========================================================= */

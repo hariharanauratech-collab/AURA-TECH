@@ -97,7 +97,7 @@ export default function OurClientsSection({ theme, onOpenBookModal }) {
             return (
               <div
                 key={client.id}
-                className={`rounded-3xl border p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl relative overflow-hidden group ${
+                className={`rounded-3xl border p-6 sm:p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl relative overflow-hidden group transaction-card-glow ${
                   isDark 
                     ? 'bg-slate-900/70 border-slate-800 hover:border-amber-500/40 shadow-slate-950/80' 
                     : 'bg-white border-slate-200 hover:border-blue-400 shadow-slate-200/60'
