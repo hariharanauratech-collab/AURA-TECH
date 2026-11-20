@@ -6,6 +6,7 @@ export default function Hero({
   portalMode, 
   onOpenBookModal, 
   onOpenAboutModal, 
+  onOpenClientsModal,
   onOpenClientDashboard,
   onOpenJobModal 
 }) {
@@ -151,12 +152,24 @@ export default function Hero({
               </button>
 
               <button
+                type="button"
                 onClick={onOpenAboutModal}
                 className={`w-full sm:w-auto px-5 py-3 sm:py-4 font-bold text-xs uppercase tracking-widest transition-colors flex items-center justify-center gap-1 cursor-pointer ${
                   isDark ? 'text-slate-400 hover:text-amber-400' : 'text-slate-600 hover:text-blue-600'
                 }`}
               >
                 About Us
+              </button>
+
+              <button
+                type="button"
+                onClick={onOpenClientsModal}
+                className={`w-full sm:w-auto px-5 py-3 sm:py-4 font-bold text-xs uppercase tracking-widest transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
+                  isDark ? 'text-slate-400 hover:text-amber-400' : 'text-slate-600 hover:text-blue-600'
+                }`}
+              >
+                <Building2 className="w-3.5 h-3.5" />
+                Our Clients
               </button>
             </>
           )}

@@ -18,8 +18,11 @@ import ClientDashboardModal from './components/ClientDashboardModal';
 import AIChatAssistant from './components/AIChatAssistant';
 import AnimatedOfficeBackground from './components/AnimatedOfficeBackground';
 import PortalPrePage from './components/PortalPrePage';
+import OurClientsSection from './components/OurClientsSection';
+import OurClientsModal from './components/OurClientsModal';
 import AdminDashboard from './pages/AdminDashboard';
 import CRMDashboard from './pages/CRMDashboard';
+import ClientsPage from './pages/ClientsPage';
 
 export default function App() {
   const [theme, setTheme] = useState(() => {
@@ -32,6 +35,7 @@ export default function App() {
   const [isBookModalOpen, setIsBookModalOpen] = useState(false);
   const [isJobModalOpen, setIsJobModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
+  const [isClientsModalOpen, setIsClientsModalOpen] = useState(false);
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const [isClientDashOpen, setIsClientDashOpen] = useState(false);
   const [initialService, setInitialService] = useState('');
@@ -106,6 +110,17 @@ export default function App() {
         } 
       />
 
+      {/* Dedicated Our Clients Page (/clients) */}
+      <Route 
+        path="/clients" 
+        element={
+          <ClientsPage 
+            theme={theme} 
+            onToggleTheme={toggleTheme} 
+          />
+        } 
+      />
+
       {/* Main Public Website (/ and all sub-paths) */}
       <Route 
         path="*" 
@@ -154,6 +169,7 @@ export default function App() {
               onToggleTheme={toggleTheme}
               onOpenBookModal={handleOpenBookModal}
               onOpenAboutModal={() => setIsAboutModalOpen(true)}
+              onOpenClientsModal={() => setIsClientsModalOpen(true)}
               onOpenAdminModal={handleOpenAdmin}
               onOpenClientDashboard={() => setIsClientDashOpen(true)}
               onOpenJobModal={handleOpenJobModal}
@@ -166,6 +182,7 @@ export default function App() {
                 portalMode={portalMode}
                 onOpenBookModal={(srv) => handleOpenBookModal(srv)}
                 onOpenAboutModal={() => setIsAboutModalOpen(true)}
+                onOpenClientsModal={() => setIsClientsModalOpen(true)}
                 onOpenClientDashboard={() => setIsClientDashOpen(true)}
                 onOpenJobModal={handleOpenJobModal}
               />
@@ -176,6 +193,11 @@ export default function App() {
                   <HRServiceSection
                     theme={theme}
                     onOpenJobModal={handleOpenJobModal}
+                  />
+
+                  <OurClientsSection
+                    theme={theme}
+                    onOpenBookModal={(srv) => handleOpenBookModal(srv)}
                   />
 
                   <FAQSection
@@ -207,6 +229,11 @@ export default function App() {
                     onOpenBookModal={(projectTitle) => handleOpenBookModal(projectTitle)}
                   />
 
+                  <OurClientsSection
+                    theme={theme}
+                    onOpenBookModal={(srv) => handleOpenBookModal(srv)}
+                  />
+
                   <TeamSection
                     theme={theme}
                     onOpenBookModal={() => handleOpenBookModal()}
@@ -235,6 +262,7 @@ export default function App() {
               theme={theme}
               portalMode={portalMode}
               onOpenAboutModal={() => setIsAboutModalOpen(true)}
+              onOpenClientsModal={() => setIsClientsModalOpen(true)}
               onOpenBookModal={() => handleOpenBookModal()}
               onOpenAdminModal={handleOpenAdmin}
               onOpenJobModal={handleOpenJobModal}
@@ -246,6 +274,13 @@ export default function App() {
               isOpen={isAboutModalOpen}
               onClose={() => setIsAboutModalOpen(false)}
               onOpenBookModal={() => handleOpenBookModal()}
+            />
+
+            <OurClientsModal
+              theme={theme}
+              isOpen={isClientsModalOpen}
+              onClose={() => setIsClientsModalOpen(false)}
+              onOpenBookModal={handleOpenBookModal}
             />
 
             <RegistrationModal
@@ -281,6 +316,9 @@ export default function App() {
               portalMode={portalMode}
               onOpenBookModal={(service) => handleOpenBookModal(service)}
               onOpenJobModal={handleOpenJobModal}
+              onOpenClientsModal={() => setIsClientsModalOpen(true)}
+              onOpenAboutModal={() => setIsAboutModalOpen(true)}
+              onOpenClientDashboard={() => setIsClientDashOpen(true)}
             />
 
           </div>

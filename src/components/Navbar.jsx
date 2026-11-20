@@ -14,6 +14,7 @@ export default function Navbar({
   onToggleTheme, 
   onOpenBookModal, 
   onOpenAboutModal, 
+  onOpenClientsModal,
   onOpenAdminModal, 
   onOpenClientDashboard,
   onOpenJobModal 
@@ -129,6 +130,15 @@ export default function Navbar({
       desc: 'Our Foundation, Philosophy & Architecture',
       action: onOpenAboutModal,
       icon: Info,
+      hideInHr: false
+    },
+    {
+      id: 'clients',
+      name: 'Our Clients',
+      desc: 'Corporate References, SISC COIR & InfoPluto Profiles',
+      action: onOpenClientsModal,
+      href: '#clients',
+      icon: Building2,
       hideInHr: false
     },
     {

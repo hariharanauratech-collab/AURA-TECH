@@ -309,3 +309,94 @@ export const TEAM_MEMBERS = [
     contributions: "Authored brand copy architectures, project documentation systems, and creative visual presentation decks."
   }
 ];
+
+export const CLIENTS_DATA = [
+  {
+    id: "c1",
+    brandName: "SISC COIR",
+    companyName: "South Indian Coir Substrates Private Limited",
+    industryBadge: "Coir Manufacturing & Agricultural Substrates",
+    category: "Manufacturing & Agriculture",
+    website: "https://southindiancoir.com/",
+    displayUrl: "southindiancoir.com",
+    location: "Tamil Nadu, India",
+    companyOverview: "South Indian Coir Substrates Private Limited (SISC COIR) is a distinguished enterprise operating in the natural coir and agricultural substrate sector. The business produces eco-friendly, high-grade coconut coir growing media engineered for horticulture, floriculture, commercial greenhouse cultivation, hydroponics, and soil conditioning.",
+    businessAreas: [
+      "Coir and coco peat products",
+      "Agricultural and horticultural growing substrates",
+      "Hydroponics and greenhouse cultivation inputs",
+      "Natural coconut fibre products",
+      "B2B bulk supply and export-oriented product distribution"
+    ],
+    productCategories: [
+      "Coco peat blocks and compressed growing media",
+      "Coir grow bags and grow slabs for greenhouse cultivation",
+      "Coco chips and premium growing-media components",
+      "Natural coir fibre and machine-spun coir yarn",
+      "Tailored agricultural coir substrate solutions"
+    ],
+    auraDeliverable: {
+      category: "Corporate Website Development & Digital Presence",
+      title: "Corporate Website Development & Digital Presence",
+      description: "AURA TECH supported the digital presentation of SISC COIR through an elegant, high-performance corporate business website showcasing the company's full coir product catalogue, technical parameters, and global business enquiry channels.",
+      features: [
+        "Responsive corporate website layout optimized for mobile, tablet, and desktop",
+        "Interactive product catalogue with structured specification pages",
+        "Automated B2B business enquiry capture form",
+        "Direct WhatsApp Business instant messaging integration",
+        "Technical SEO setup, meta-tag architecture, and performance optimization"
+      ]
+    },
+    natureOfBusinessNote: "Coir manufacturing, substrate processing, and bulk export represent SISC COIR's business operations; AURA TECH delivered corporate web engineering and digital presence architecture."
+  },
+  {
+    id: "c2",
+    brandName: "InfoPluto Media Works",
+    companyName: "InfoPluto Media Works Private Limited",
+    industryBadge: "Media, Entertainment & Technology",
+    category: "Media & Entertainment",
+    website: "https://www.infopluto.com/",
+    displayUrl: "infopluto.com",
+    associatedPlatform: {
+      name: "IndieMa.in",
+      url: "https://indiema.in/",
+      displayUrl: "indiema.in",
+      description: "An innovative social networking and digital creative platform associated with InfoPluto Media Works."
+    },
+    location: "RS Puram, Coimbatore, Tamil Nadu, India",
+    founder: "Arun Kanth",
+    companyType: "Private Limited Company",
+    companyOverview: "InfoPluto Media Works Private Limited is an innovative media and technology company blending creative media production, software and digital platform development, digital publishing, and advanced technology-driven services. Its business positioning bridges modern cinematic production with cutting-edge digital software systems.",
+    businessAreas: [
+      "Media and entertainment production",
+      "Media technology and digital platform engineering",
+      "Artificial intelligence-enabled content production",
+      "Software and web application development",
+      "OTT and video-streaming platform technology",
+      "Digital and print publishing services",
+      "Cloud hosting, DNS, SSL, and web infrastructure",
+      "Advertising, creative design, and branding production"
+    ],
+    serviceAreas: [
+      "AI-assisted video, advertising, and creative content production",
+      "Custom websites, software applications, and digital platforms",
+      "OTT and video streaming platform solutions",
+      "Mobile applications and modern web portals",
+      "Domain, hosting, DNS, SSL, and server infrastructure services",
+      "Digital and print publishing distribution",
+      "Strategic digital marketing and advertising solutions"
+    ],
+    auraDeliverable: {
+      category: "Digital Technology & Media Solutions",
+      title: "Digital Technology & Media Solutions Collaboration",
+      description: "InfoPluto is a media technology business working across digital content, software platforms, AI-enabled production, and publishing. AURA TECH collaborates on digital technology architectures, AI-assisted media workflows, and high-performance digital platform solutions.",
+      features: [
+        "Digital technology and media platform architecture consulting",
+        "AI-assisted creative workflow technical support and integrations",
+        "Custom software and scalable platform infrastructure",
+        "Digital content infrastructure and streaming systems consultation"
+      ]
+    },
+    natureOfBusinessNote: "Media production, publishing, and creative entertainment represent InfoPluto's business operations; AURA TECH collaborates on digital software engineering and technical platform solutions."
+  }
+];

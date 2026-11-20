@@ -1,44 +1,92 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, X, Send, Bot, User, Sparkles, Loader2 } from 'lucide-react';
+import { 
+  MessageSquare, X, Send, Bot, User, Sparkles, Loader2, 
+  ExternalLink, ArrowRight, Building2, Briefcase, Zap, 
+  CheckCircle2, Search, Info, Globe, Phone, Mail
+} from 'lucide-react';
+import { GoogleGenAI } from '@google/genai';
+import { CLIENTS_DATA, SERVICES_DATA, TEAM_MEMBERS } from '../data/auraData';
 
-export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, onOpenJobModal }) {
+export default function AIChatAssistant({ 
+  theme, 
+  portalMode, 
+  onOpenBookModal, 
+  onOpenJobModal, 
+  onOpenClientsModal, 
+  onOpenAboutModal, 
+  onOpenClientDashboard 
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const isHr = portalMode === 'hr';
+  const isDark = theme === 'dark';
 
   const [messages, setMessages] = useState([
     {
       sender: 'bot',
       text: isHr 
-        ? 'Hello! I am Aura AI, your HR & Careers assistant. How can I help you explore open positions or apply for roles at AURA TECH today?'
-        : 'Hello! I am Aura AI, your technical virtual assistant. How can I help you with AURA TECH services or project registration today?'
+        ? "Hello! I am Aura AI, your HR & Careers assistant. How can I help you explore open positions, verify culture, or submit your job application at AURA TECH today?"
+        : "Hello! I am Aura AI, your technical virtual assistant. Ask me anything about AURA TECH's services, our corporate clients (SISC COIR & InfoPluto), student project capstones, pricing, or project booking!",
+      actions: isHr 
+        ? [
+            { label: '💼 Apply for Job', type: 'job' },
+            { label: '🏢 Our Clients', type: 'clients' }
+          ]
+        : [
+            { label: '🏢 Our Clients', type: 'clients' },
+            { label: '🚀 Book a Project', type: 'book' },
+            { label: '🔍 Track Status', type: 'track' }
+          ]
     }
   ]);
+
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
-  const isDark = theme === 'dark';
 
   useEffect(() => {
     if (isOpen) {
       messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages, isOpen]);
+  }, [messages, isOpen, isTyping]);
 
   const defaultPrompts = [
+    "Who are your clients?",
+    "Tell me about SISC COIR",
+    "Who is InfoPluto?",
     "What services do you offer?",
-    "How to book a project?",
     "Do you offer student discounts?",
-    "What is your turnaround time?"
+    "How to book a project?",
+    "Who is on your team?",
+    "How to track project status?"
   ];
 
   const hrPrompts = [
     "What roles are open?",
     "How do I apply for a job?",
+    "Can freshers apply?",
     "What are the job perks?",
-    "Can freshers apply?"
+    "Who are your clients?",
+    "HR contact details"
   ];
 
   const quickPrompts = isHr ? hrPrompts : defaultPrompts;
+
+  const handleActionClick = (action) => {
+    if (!action) return;
+    if (action.type === 'book') {
+      if (onOpenBookModal) onOpenBookModal(action.payload || '');
+    } else if (action.type === 'job') {
+      if (onOpenJobModal) onOpenJobModal(action.payload || '');
+    } else if (action.type === 'clients') {
+      if (onOpenClientsModal) onOpenClientsModal();
+    } else if (action.type === 'about') {
+      if (onOpenAboutModal) onOpenAboutModal();
+    } else if (action.type === 'track') {
+      if (onOpenClientDashboard) onOpenClientDashboard();
+    } else if (action.type === 'link' && action.url) {
+      window.open(action.url, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   const handleSend = async (textToSend) => {
     const query = textToSend || input;
@@ -49,11 +97,74 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
     if (!textToSend) setInput('');
     setIsTyping(true);
 
+    // Try Gemini API if API Key is available in environment
+    const apiKey = typeof import.meta !== 'undefined' && import.meta.env ? import.meta.env.VITE_GEMINI_API_KEY : null;
+
+    if (apiKey && apiKey.trim() !== '') {
+      try {
+        const ai = new GoogleGenAI({ apiKey });
+        const systemPrompt = `You are Aura AI, the intelligent virtual assistant and technical advisor for AURA TECH.
+Your mission is to provide accurate, professional, friendly, and comprehensive answers to any question asked by users.
+
+COMPANY IDENTITY:
+- Name: AURA TECH (Tagline: "A Reliable Backbone of Your Business")
+- Services: Website Design & Development, Custom Enterprise Software, AI Chatbots & Automation, Mobile Apps (Flutter), UI/UX Design, Logo & Brand Systems, Video Editing, AI Video reels, IoT & Hardware Systems (ESP32/Arduino), Data Visualization.
+- Team: Niranjan A (Founder & CEO, Full Stack Architect), Makizh N (Operations Manager), Dhanya D (Full Stack / SaaS), Priyanka S (Full Stack / AI Video), Vengateshwaran N (IoT Lead), Hariharan S (Design & Video Lead), Praveen Raja G (Creative & Content).
+- Contacts: Phone: +91 90252 55617 / +91 93452 56633 | Email: auratech008@gmail.com | Instagram: @__aura_tech_ | Location: Tamil Nadu, India.
+- Student Policy: Academic capstone & mini projects, up to 50% discount with college email ID, 1-2 weeks turnaround, complete viva prep, diagrams, and report documentation.
+- Enterprise SLA: 100% on-time milestone delivery, 2-4 weeks standard web, 2-4 months enterprise platforms.
+
+CLIENT CORPORATE REFERENCES (IMPORTANT DISTINCTION):
+1. SISC COIR (South Indian Coir Substrates Private Limited):
+   - Industry: Coir manufacturing, coco peat blocks, grow bags, grow slabs, natural coconut fibre products, agricultural and horticultural growing substrates, B2B export distribution.
+   - Official Website: https://southindiancoir.com/
+   - Location: Tamil Nadu, India
+   - AURA TECH Engagement: Corporate Website Development & Digital Presence (responsive layout, product catalogue & spec pages, B2B enquiry form, WhatsApp Business integration, SEO setup).
+   - CRITICAL NOTE: Coir manufacturing is SISC COIR's business; AURA TECH developed their website and digital architecture. Do NOT claim AURA TECH manufactures coir.
+2. InfoPluto Media Works Private Limited:
+   - Industry: Media and entertainment technology, AI-enabled content production, digital and print publishing, OTT video streaming, cloud hosting, creative advertising.
+   - Associated Platform: IndieMa.in (https://indiema.in/) - innovative social networking platform.
+   - Location: RS Puram, Coimbatore, Tamil Nadu, India | Founder: Arun Kanth
+   - Official Website: https://www.infopluto.com/
+   - AURA TECH Engagement: Digital Technology & Media Solutions collaboration, AI production workflows, scalable web platform systems, media tech consulting.
+   - CRITICAL NOTE: Media production is InfoPluto's business; AURA TECH collaborates on digital software engineering and platform technology.
+
+CAREERS & HR:
+- Roles: Full Stack Developer, UI/UX Designer, AI/ML Engineer, Mobile App Developer, Video Editor, IoT Engineer.
+- Perks: 100% mentorship, competitive stipends, remote/hybrid, fast 48-hour response. Freshers are welcome!
+
+Tone: Clear, polite, confident, concise, and structured with bullet points. Always offer relevant next steps.`;
+
+        const response = await ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: [
+            { role: 'user', parts: [{ text: `${systemPrompt}\n\nUser Question: ${query}` }] }
+          ]
+        });
+
+        const replyText = response.text || "Thank you for reaching out to AURA TECH! How can our engineering team assist you further?";
+        
+        // Auto-generate relevant action pills based on query context
+        const actions = deriveActionPills(query, isHr);
+
+        setMessages(prev => [...prev, { 
+          sender: 'bot', 
+          text: replyText,
+          actions: actions
+        }]);
+        setIsTyping(false);
+        return;
+      } catch (err) {
+        console.warn("Gemini API call failed or timed out, falling back to local smart engine:", err);
+      }
+    }
+
+    // High-performance, flexible smart local engine fallback
     setTimeout(() => {
-      let botResponse = getAuraResponse(query, onOpenBookModal, onOpenJobModal, isHr);
-      setMessages(prev => [...prev, { sender: 'bot', text: botResponse }]);
+      const { text, actions } = getSmartAuraResponse(query, isHr);
+      setMessages(prev => [...prev, { sender: 'bot', text, actions }]);
       setIsTyping(false);
-    }, 600);
+    }, 450);
   };
 
   return (
@@ -62,14 +173,15 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
       {/* Floating Chat Trigger Button */}
       {!isOpen && (
         <button
+          type="button"
           onClick={() => setIsOpen(true)}
           className="group relative flex items-center gap-2 sm:gap-3 p-3 sm:p-4 rounded-full btn-primary-action shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
           aria-label="Open Aura AI Chat Assistant"
         >
           <div className="relative">
             <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-amber-400 rounded-full border-2 border-slate-950 animate-ping"></span>
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-amber-400 rounded-full border-2 border-slate-950"></span>
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-amber-400 rounded-full border-2 border-slate-950 animate-ping" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-amber-400 rounded-full border-2 border-slate-950" />
           </div>
           <span className="hidden sm:inline font-black text-xs uppercase tracking-wider pr-1">
             Aura AI
@@ -79,16 +191,16 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
 
       {/* Chat Box Panel */}
       {isOpen && (
-        <div className={`w-[calc(100vw-32px)] max-w-[380px] h-[480px] sm:h-[520px] max-h-[82vh] rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200 border ${
+        <div className={`w-[calc(100vw-32px)] max-w-[420px] h-[520px] sm:h-[580px] max-h-[85vh] rounded-2xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-200 border ${
           isDark ? 'bg-slate-950 border-amber-500/30' : 'bg-white border-slate-300'
         }`}>
           
           {/* Header */}
-          <div className={`p-4 border-b flex items-center justify-between ${
+          <div className={`p-3.5 sm:p-4 border-b flex items-center justify-between ${
             isDark ? 'bg-black border-amber-500/20' : 'bg-slate-50 border-slate-200'
           }`}>
             <div className="flex items-center gap-3">
-              <div className="logo-badge bg-white p-1 rounded-lg border border-slate-200">
+              <div className="logo-badge bg-white p-1 rounded-lg border border-slate-200 shadow-sm">
                 <img src="/logo.png" alt="Aura Logo" className="h-6 w-auto object-contain" />
               </div>
               <div>
@@ -97,12 +209,16 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
                   <Sparkles size={13} className={isDark ? 'text-amber-400' : 'text-blue-600'} />
                 </h4>
                 <span className={`text-[10px] font-bold flex items-center gap-1 ${isDark ? 'text-amber-400' : 'text-blue-600'}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${isDark ? 'bg-amber-400' : 'bg-blue-600'}`}></span> Online • Instant Answers
+                  <span className={`w-1.5 h-1.5 rounded-full ${isDark ? 'bg-amber-400' : 'bg-blue-600'}`} />
+                  Always Active • Intelligent Answers
                 </span>
               </div>
             </div>
 
             <button
+              type="button"
+              name="close"
+              value="close"
               onClick={() => setIsOpen(false)}
               aria-label="Close Aura AI Assistant"
               className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
@@ -114,7 +230,7 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
           </div>
 
           {/* Messages Area */}
-          <div className={`flex-1 p-4 overflow-y-auto space-y-3.5 custom-scrollbar text-xs ${
+          <div className={`flex-1 p-3.5 sm:p-4 overflow-y-auto space-y-3.5 custom-scrollbar text-xs ${
             isDark ? 'bg-black/60' : 'bg-slate-50/50'
           }`}>
             {messages.map((msg, index) => (
@@ -130,16 +246,44 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
                   </div>
                 )}
                 
-                <div
-                  className={`max-w-[80%] p-3 rounded-2xl leading-relaxed ${
-                    msg.sender === 'user'
-                      ? 'btn-primary-action rounded-tr-none font-bold shadow-md'
-                      : isDark 
-                        ? 'bg-slate-900 border border-slate-800 text-slate-200 rounded-tl-none' 
-                        : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none shadow-sm'
-                  }`}
-                >
-                  {msg.text}
+                <div className="max-w-[85%] space-y-2">
+                  <div
+                    className={`p-3 rounded-2xl leading-relaxed whitespace-pre-line ${
+                      msg.sender === 'user'
+                        ? 'btn-primary-action rounded-tr-none font-bold shadow-md'
+                        : isDark 
+                          ? 'bg-slate-900 border border-slate-800 text-slate-200 rounded-tl-none shadow-sm' 
+                          : 'bg-white border border-slate-200 text-slate-800 rounded-tl-none shadow-sm'
+                    }`}
+                  >
+                    {renderFormattedMessage(msg.text, isDark)}
+                  </div>
+
+                  {/* Render Action Buttons / Pills if provided */}
+                  {msg.actions && msg.actions.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pt-1">
+                      {msg.actions.map((act, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => handleActionClick(act)}
+                          className={`px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider flex items-center gap-1 border transition-all cursor-pointer shadow-sm hover:scale-105 active:scale-95 ${
+                            isDark
+                              ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20'
+                              : 'bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100'
+                          }`}
+                        >
+                          {act.type === 'book' && <Zap size={11} />}
+                          {act.type === 'clients' && <Building2 size={11} />}
+                          {act.type === 'job' && <Briefcase size={11} />}
+                          {act.type === 'track' && <Search size={11} />}
+                          {act.type === 'about' && <Info size={11} />}
+                          {act.type === 'link' && <ExternalLink size={11} />}
+                          <span>{act.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 {msg.sender === 'user' && (
@@ -160,25 +304,26 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
                   <Bot size={15} />
                 </div>
                 <div className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border ${
-                  isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
+                  isDark ? 'bg-slate-900 border-slate-800 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
                 }`}>
                   <Loader2 size={13} className={`animate-spin ${isDark ? 'text-amber-400' : 'text-blue-600'}`} />
-                  <span>Aura AI is thinking...</span>
+                  <span>Aura AI is formulating response...</span>
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Quick Prompts */}
-          <div className={`px-3 py-2 border-t flex gap-2 overflow-x-auto custom-scrollbar ${
+          {/* Quick Prompts Bar */}
+          <div className={`px-3 py-2 border-t flex gap-1.5 overflow-x-auto no-scrollbar ${
             isDark ? 'bg-black/90 border-slate-800' : 'bg-white border-slate-200'
           }`}>
             {quickPrompts.map((prompt, idx) => (
               <button
                 key={idx}
+                type="button"
                 onClick={() => handleSend(prompt)}
-                className={`px-2.5 py-1 rounded-full text-[10px] font-bold whitespace-nowrap transition-colors border ${
+                className={`px-2.5 py-1 rounded-full text-[10px] font-bold whitespace-nowrap transition-colors border cursor-pointer ${
                   isDark 
                     ? 'bg-slate-900 hover:bg-amber-500/20 border-amber-500/20 text-slate-300 hover:text-amber-400' 
                     : 'bg-slate-100 hover:bg-blue-50 border-slate-200 text-slate-700 hover:text-blue-600'
@@ -189,7 +334,7 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
             ))}
           </div>
 
-          {/* Input Area */}
+          {/* Input Form */}
           <div className={`p-3 border-t ${isDark ? 'bg-black border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
             <form
               onSubmit={(e) => {
@@ -205,9 +350,11 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask Aura AI a question..."
+                placeholder="Ask about clients, services, pricing, jobs..."
                 className={`flex-1 rounded-xl px-3 py-2 text-xs focus:outline-none transition-colors border ${
-                  isDark ? 'bg-slate-900 border-slate-800 focus:border-amber-500 text-white' : 'bg-white border-slate-300 focus:border-blue-600 text-slate-900'
+                  isDark 
+                    ? 'bg-slate-900 border-slate-800 focus:border-amber-500 text-white placeholder-slate-500' 
+                    : 'bg-white border-slate-300 focus:border-blue-600 text-slate-900 placeholder-slate-400'
                 }`}
               />
               <button
@@ -228,42 +375,381 @@ export default function AIChatAssistant({ theme, portalMode, onOpenBookModal, on
   );
 }
 
-function getAuraResponse(q, onOpenBookModal, onOpenJobModal, isHr) {
-  const query = q.toLowerCase();
+// Formats links and highlights inside bot responses
+function renderFormattedMessage(text, isDark) {
+  if (!text) return null;
+  
+  // Replace URLs with clickable anchors
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
 
-  if (isHr) {
-    if (query.includes('role') || query.includes('job') || query.includes('position') || query.includes('vacancy') || query.includes('opening')) {
-      return "AURA TECH is actively hiring for:\n• Full Stack Developer\n• UI/UX Designer\n• AI / Machine Learning Engineer\n• Mobile App Developer\n• Video Editor & Motion Designer\n• IoT & Embedded Systems Engineer\n\nClick 'Apply Now' to submit your application!";
+  return parts.map((part, index) => {
+    if (part.match(urlRegex)) {
+      return (
+        <a
+          key={index}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`font-black underline inline-flex items-center gap-0.5 ${
+            isDark ? 'text-amber-400' : 'text-blue-600'
+          }`}
+        >
+          {part.replace('https://', '')}
+          <ExternalLink size={10} className="inline ml-0.5" />
+        </a>
+      );
     }
-    if (query.includes('apply') || query.includes('resume') || query.includes('submit') || query.includes('form') || query.includes('how')) {
-      return "To apply, simply click the 'Apply Now' button! You'll fill in your Name, Age, Role, Mobile Number, Gmail ID, Skills, optional Portfolio link, and upload your Resume. Our HR team reviews submissions within 48 hours.";
-    }
-    if (query.includes('perk') || query.includes('benefit') || query.includes('salary') || query.includes('stipend') || query.includes('pay') || query.includes('compensation')) {
-      return "AURA TECH perks include:\n• 100% Mentorship & Pair Programming\n• Competitive stipends & industry packages\n• Flexible remote & hybrid working options\n• Work on live production & enterprise systems\n\nClick 'Apply Now' to join our team!";
-    }
-    if (query.includes('fresher') || query.includes('student') || query.includes('intern') || query.includes('experience')) {
-      return "Yes! Freshers, students, and self-taught developers are welcome to apply. We value passion, problem-solving, and your project portfolio over traditional pedigree. Click 'Apply Now' to apply!";
-    }
-    if (query.includes('contact') || query.includes('email') || query.includes('phone') || query.includes('hr')) {
-      return "You can reach our recruitment team:\n• HR Direct: +91 90252 55617\n• Careers Helpdesk: +91 93452 56633\n• Email: auratech008@gmail.com\n\nClick 'Apply Now' to submit your details directly.";
-    }
-    return "AURA TECH is looking for ambitious builders and innovators. Click 'Apply Now' to submit your candidate profile, resume, and skills!";
+    return part;
+  });
+}
+
+// Derive quick action pills from user query
+function deriveActionPills(query, isHr) {
+  const q = query.toLowerCase();
+  const pills = [];
+
+  if (q.includes('client') || q.includes('sisc') || q.includes('infopluto') || q.includes('indiema') || q.includes('coir')) {
+    pills.push({ label: '🏢 View Our Clients', type: 'clients' });
+  }
+  if (q.includes('book') || q.includes('price') || q.includes('quote') || q.includes('cost') || q.includes('service') || q.includes('website') || q.includes('student')) {
+    pills.push({ label: '🚀 Book a Project', type: 'book' });
+  }
+  if (q.includes('job') || q.includes('career') || q.includes('role') || q.includes('hiring') || q.includes('apply') || isHr) {
+    pills.push({ label: '💼 Apply for Job', type: 'job' });
+  }
+  if (q.includes('track') || q.includes('status') || q.includes('code') || q.includes('progress')) {
+    pills.push({ label: '🔍 Track Status', type: 'track' });
+  }
+  if (q.includes('about') || q.includes('who') || q.includes('team') || q.includes('foundation')) {
+    pills.push({ label: 'ℹ️ About AURA TECH', type: 'about' });
   }
 
-  if (query.includes('service') || query.includes('offer') || query.includes('do')) {
-    return "AURA TECH offers Website Development, Custom Software, AI Chatbots, Mobile Apps (Flutter), UI/UX Design, Logo Branding, Data Visualization, and Video Editing. You can click 'Book Service' under any section to request a project!";
+  return pills.slice(0, 3);
+}
+
+// Advanced Multi-Intent Conversational Knowledge Engine
+function getSmartAuraResponse(rawQuery, isHr) {
+  const q = rawQuery.toLowerCase().trim();
+
+  // 1. SISC COIR Questions
+  if (
+    q.includes('sisc') || 
+    (q.includes('coir') && !q.includes('make')) || 
+    q.includes('south indian coir') || 
+    q.includes('coco peat') || 
+    q.includes('substrate') ||
+    q.includes('grow bag')
+  ) {
+    return {
+      text: "🌱 SISC COIR (South Indian Coir Substrates Private Limited) is one of AURA TECH's premier corporate clients based in Tamil Nadu, India.\n\n• Client's Core Business: Natural coir manufacturing, coco peat blocks, greenhouse grow bags & grow slabs, coco chips, and horticultural growing substrates for global B2B distribution.\n• AURA TECH Deliverables: We engineered their responsive Corporate Website & Digital Presence (https://southindiancoir.com/), featuring an interactive product catalogue, B2B business enquiry capture form, WhatsApp Business integration, and full technical SEO configuration.\n\n*(Note: Coir manufacturing is SISC COIR's business; AURA TECH provides corporate web engineering and digital solutions.)*",
+      actions: [
+        { label: '🏢 View SISC Profile', type: 'clients' },
+        { label: '🚀 Book Web Project', type: 'book', payload: 'Corporate Website Development' },
+        { label: '🌐 southindiancoir.com', type: 'link', url: 'https://southindiancoir.com/' }
+      ]
+    };
   }
-  if (query.includes('book') || query.includes('register') || query.includes('start')) {
-    return "Booking a project is easy! Click the 'Book Project' button on the navigation bar or contact section, fill in your details (Student or Enterprise), and our team will get in touch with you within 24 hours.";
+
+  // 2. InfoPluto Media Works & IndieMa Questions
+  if (
+    q.includes('infopluto') || 
+    q.includes('info pluto') || 
+    q.includes('indiema') || 
+    q.includes('indie ma') || 
+    q.includes('arun kanth') ||
+    (q.includes('media works') && !q.includes('social'))
+  ) {
+    return {
+      text: "🎬 InfoPluto Media Works Private Limited is a distinguished client headquartered in RS Puram, Coimbatore, Tamil Nadu, founded by Arun Kanth.\n\n• Client's Core Business: Media and entertainment technology, AI-enabled video and creative content production, OTT streaming platforms, digital and print publishing, cloud hosting, and creative advertising. They also operate the social platform IndieMa.in (https://indiema.in/).\n• AURA TECH Scope: Digital Technology & Media Solutions collaboration, AI content workflows, scalable platform infrastructure, and high-performance digital systems.\n\n*(Note: Media production and publishing are InfoPluto's business; AURA TECH collaborates on digital software engineering and technical platform solutions.)*",
+      actions: [
+        { label: '🏢 View InfoPluto Profile', type: 'clients' },
+        { label: '🚀 Discuss Media Tech', type: 'book', payload: 'Digital Technology & Media Solutions' },
+        { label: '🌐 infopluto.com', type: 'link', url: 'https://www.infopluto.com/' }
+      ]
+    };
   }
-  if (query.includes('student') || query.includes('college') || query.includes('discount')) {
-    return "Yes! AURA TECH specializes in helping students with college projects, datathons, final year capstone projects, and AI apps. Students get dedicated project guidance and special budget-friendly pricing!";
+
+  // 3. Question: "Do you manufacture coir / do you produce movies?"
+  if ((q.includes('do you') || q.includes('do we')) && (q.includes('coir') || q.includes('peat') || q.includes('movie') || q.includes('film'))) {
+    return {
+      text: "AURA TECH is a software development and digital engineering company!\n\n• SISC COIR is our client in the coir manufacturing and agricultural substrate sector. AURA TECH engineered their official corporate website (https://southindiancoir.com/).\n• InfoPluto Media Works is our client in media production, entertainment technology, and digital publishing. AURA TECH collaborates on digital software and AI platforms.\n\nWe provide the technology, websites, mobile apps, and AI software that power these enterprises!",
+      actions: [
+        { label: '🏢 View All Clients', type: 'clients' },
+        { label: '🚀 Book Tech Project', type: 'book' }
+      ]
+    };
   }
-  if (query.includes('time') || query.includes('turnaround') || query.includes('duration') || query.includes('days')) {
-    return "Standard websites and simple applications take 2 to 4 weeks. Complex enterprise applications or custom AI integrations range from 2 to 4 months. We guarantee 100% on-time milestone delivery!";
+
+  // 4. Client Listing & Corporate References
+  if (
+    q.includes('client') || 
+    q.includes('customer') || 
+    q.includes('portfolio') || 
+    q.includes('case study') || 
+    q.includes('reference') ||
+    q.includes('who do you work with') ||
+    q.includes('past work')
+  ) {
+    return {
+      text: "AURA TECH is proud to partner with visionary organizations across manufacturing, media, and education:\n\n1. SISC COIR (South Indian Coir Substrates Pvt Ltd) — Natural coir & agricultural substrates (Deliverable: Corporate website, product catalogue & SEO).\n2. InfoPluto Media Works Pvt Ltd — Media technology, AI production & IndieMa.in platform (Deliverable: Digital Technology & Media Solutions).\n3. Sankara College of Science & Commerce — Academic admissions & student support AI Chatbot.\n4. National Datathon Committee — EventReg Pro high-traffic registration engine.\n\nClick 'Our Clients' to view in-depth profiles and official links!",
+      actions: [
+        { label: '🏢 Explore Our Clients', type: 'clients' },
+        { label: '🚀 Request a Quote', type: 'book' }
+      ]
+    };
   }
-  if (query.includes('contact') || query.includes('email') || query.includes('phone') || query.includes('call') || query.includes('reach') || query.includes('help')) {
-    return "You can reach us directly:\n• AURA TECH Direct: +91 90252 55617\n• HELP DESK: +91 93452 56633\n• Email: auratech008@gmail.com\n• Instagram: @__aura_tech_\nOur response team is ready to assist you!";
+
+  // 5. HR / Careers Questions
+  if (
+    isHr || 
+    q.includes('job') || 
+    q.includes('hiring') || 
+    q.includes('vacancy') || 
+    q.includes('openings') || 
+    q.includes('career') || 
+    q.includes('apply') || 
+    q.includes('resume') || 
+    q.includes('interview') || 
+    q.includes('stipend') || 
+    q.includes('fresher') || 
+    q.includes('intern')
+  ) {
+    if (q.includes('fresher') || q.includes('intern') || q.includes('student')) {
+      return {
+        text: "Yes, freshers and students are warmly welcomed at AURA TECH! We prioritize your actual coding passion, problem-solving skills, and personal projects over traditional credentials. Every junior engineer receives 100% pair programming mentorship.",
+        actions: [{ label: '💼 Apply Now', type: 'job' }]
+      };
+    }
+    if (q.includes('perk') || q.includes('salary') || q.includes('stipend') || q.includes('culture') || q.includes('remote')) {
+      return {
+        text: "AURA TECH Team Perks:\n• 100% Mentorship & Pair Programming with senior architects\n• Competitive stipends & industry benchmark salaries\n• Flexible remote and hybrid work environment\n• Hands-on production experience on enterprise & AI systems\n• Fast 48-hour application response SLA",
+        actions: [{ label: '💼 Submit Application', type: 'job' }]
+      };
+    }
+    return {
+      text: "AURA TECH is actively recruiting top talent:\n• Full Stack Developer (React / Node / Vite)\n• UI/UX Designer (Figma / Design Systems)\n• AI & Machine Learning Engineer (Python / LLMs)\n• Flutter Mobile App Developer\n• Video Editor & Motion Graphics Designer\n• IoT & Embedded Systems Engineer (ESP32 / Arduino)\n\nClick 'Apply for Job' to submit your details and resume!",
+      actions: [
+        { label: '💼 Apply for Job', type: 'job' },
+        { label: '🏢 View Our Clients', type: 'clients' }
+      ]
+    };
   }
-  return "AURA TECH is a reliable backbone of your business. We deliver high-quality, budget-friendly design and engineering solutions. Would you like to book a project consultation with our team?";
+
+  // 6. Student Projects & Discounts
+  if (
+    q.includes('student') || 
+    q.includes('college') || 
+    q.includes('capstone') || 
+    q.includes('final year') || 
+    q.includes('mini project') || 
+    q.includes('discount') || 
+    q.includes('viva') || 
+    q.includes('report') || 
+    q.includes('documentation')
+  ) {
+    return {
+      text: "🎓 Academic & Student Projects at AURA TECH:\n\n• Exclusive Discount: Up to 50% discount on project development when registering with your college email ID!\n• Comprehensive Support: We provide verified source code, architecture diagrams, IEEE format project reports, and 1-on-1 viva prep calls so you score top marks.\n• Fast Turnaround: 1 to 2 weeks delivery for rapid submission.\n• Popular Topics: AI Chatbots, Full-Stack Web Apps, Flutter Apps, IoT Hardware, and Machine Learning models.",
+      actions: [
+        { label: '🎓 Book Student Project', type: 'book', payload: 'College / Student Project' },
+        { label: '🔍 Track Project', type: 'track' }
+      ]
+    };
+  }
+
+  // 7. Services & Technical Capabilities
+  if (
+    q.includes('service') || 
+    q.includes('offer') || 
+    q.includes('build') || 
+    q.includes('create') || 
+    q.includes('develop') || 
+    q.includes('website') || 
+    q.includes('app') || 
+    q.includes('chatbot') || 
+    q.includes('ai') || 
+    q.includes('iot') || 
+    q.includes('flutter') || 
+    q.includes('ui') || 
+    q.includes('ux') || 
+    q.includes('design') || 
+    q.includes('video')
+  ) {
+    return {
+      text: "AURA TECH provides end-to-end digital solutions:\n\n• Website Development: High-speed responsive web applications & corporate portals\n• AI Chatbots & Agents: Intelligent conversational bots powered by LLMs\n• Mobile Applications: Flutter cross-platform iOS & Android apps\n• UI/UX & Brand Design: Figma interfaces, logos, and comprehensive design systems\n• IoT Solutions: ESP32 & Arduino hardware microcontrollers & live telemetry dashboards\n• Video & Motion Design: Cinematic editing, post-production, and generative AI reels\n• Data Visualization: Interactive business intelligence analytics dashboards",
+      actions: [
+        { label: '🚀 Book a Service', type: 'book' },
+        { label: '🏢 View Client Work', type: 'clients' }
+      ]
+    };
+  }
+
+  // 8. Pricing, Quotes & Estimates
+  if (
+    q.includes('price') || 
+    q.includes('cost') || 
+    q.includes('quote') || 
+    q.includes('quotation') || 
+    q.includes('how much') || 
+    q.includes('rate') || 
+    q.includes('charge') || 
+    q.includes('budget') || 
+    q.includes('cheap') || 
+    q.includes('affordable')
+  ) {
+    return {
+      text: "💰 Transparent & Budget-Friendly Pricing:\n\n• Student & Academic: Heavily subsidized packages with up to 50% discount for students.\n• Corporate & Business: Milestone-based pricing tailored to exact scope, with zero hidden charges and free consultation.\n• Instant Quotes: Click 'Book a Project', choose your project type, and our team will provide a detailed quote within 24 hours!",
+      actions: [
+        { label: '🚀 Request Project Quote', type: 'book' },
+        { label: '📞 Contact Support', type: 'link', url: 'tel:+919025255617' }
+      ]
+    };
+  }
+
+  // 9. Timelines & Turnaround Time
+  if (
+    q.includes('time') || 
+    q.includes('turnaround') || 
+    q.includes('duration') || 
+    q.includes('how long') || 
+    q.includes('days') || 
+    q.includes('weeks') || 
+    q.includes('deadline') || 
+    q.includes('fast')
+  ) {
+    return {
+      text: "⚡ Delivery Timelines & SLA Guarantee:\n\n• Student & Fast-Track Projects: 1 to 2 Weeks\n• Standard Business Websites: 2 to 4 Weeks\n• Custom Software & Enterprise AI: 2 to 4 Months\n\nEvery project comes with milestone tracking and 100% on-time delivery commitment!",
+      actions: [
+        { label: '🚀 Book Fast-Track Project', type: 'book' },
+        { label: '🔍 Track Project', type: 'track' }
+      ]
+    };
+  }
+
+  // 10. Project Tracking & Status
+  if (
+    q.includes('track') || 
+    q.includes('status') || 
+    q.includes('tracking code') || 
+    q.includes('where is my project') || 
+    q.includes('progress')
+  ) {
+    return {
+      text: "🔍 You can track your project progress in real time!\n\nWhen you book a project, you receive a unique Project ID / Tracking Code (e.g., AURA-101). Click 'Track Project Status' to view live milestones, developer notes, and completion percentages.",
+      actions: [
+        { label: '🔍 Track Project Status', type: 'track' },
+        { label: '🚀 Book New Project', type: 'book' }
+      ]
+    };
+  }
+
+  // 11. Team & Leadership
+  if (
+    q.includes('team') || 
+    q.includes('who is') || 
+    q.includes('founder') || 
+    q.includes('ceo') || 
+    q.includes('niranjan') || 
+    q.includes('makizh') || 
+    q.includes('hariharan') || 
+    q.includes('priyanka') || 
+    q.includes('dhanya') || 
+    q.includes('praveen') || 
+    q.includes('vengateshwaran')
+  ) {
+    return {
+      text: "Meet the core leadership and engineering team of AURA TECH:\n\n• Niranjan A — Founder & CEO (Enterprise Full Stack Architecture & Leadership)\n• Makizh N — Operations Manager (Agile Project Delivery & Client Relations)\n• Dhanya D — Full Stack / SaaS Developer (Cloud APIs & Web Architecture)\n• Priyanka S — Full Stack / AI Video Specialist (Generative AI & Media Pipelines)\n• Vengateshwaran N — IoT & Embedded Systems Lead (ESP32/Arduino & Telemetry)\n• Hariharan S — Lead UI/UX Designer & Video Editor (Brand Systems & Aesthetics)\n• Praveen Raja G — Creative Designer & Content Strategist (Copywriting & Layout)",
+      actions: [
+        { label: 'ℹ️ About AURA TECH', type: 'about' },
+        { label: '🏢 View Our Clients', type: 'clients' }
+      ]
+    };
+  }
+
+  // 12. Contact, Helpdesk & Address
+  if (
+    q.includes('contact') || 
+    q.includes('phone') || 
+    q.includes('number') || 
+    q.includes('call') || 
+    q.includes('email') || 
+    q.includes('location') || 
+    q.includes('office') || 
+    q.includes('address') || 
+    q.includes('coimbatore') || 
+    q.includes('instagram') || 
+    q.includes('reach') || 
+    q.includes('helpdesk')
+  ) {
+    return {
+      text: "Reach out to AURA TECH directly:\n\n• AURA TECH Direct: +91 90252 55617\n• Helpdesk & Support: +91 93452 56633\n• Official Email: auratech008@gmail.com\n• Instagram: @__aura_tech_\n• Headquarters: Tamil Nadu, India\n\nOur client response team is available 24/7!",
+      actions: [
+        { label: '📞 Call Now (+91 90252 55617)', type: 'link', url: 'tel:+919025255617' },
+        { label: '✉️ Email Us', type: 'link', url: 'mailto:auratech008@gmail.com' },
+        { label: '🚀 Book Consultation', type: 'book' }
+      ]
+    };
+  }
+
+  // 13. About Us & Company Philosophy
+  if (
+    q.includes('about') || 
+    q.includes('who are you') || 
+    q.includes('what is aura tech') || 
+    q.includes('why choose') || 
+    q.includes('reliable') || 
+    q.includes('guarantee')
+  ) {
+    return {
+      text: "AURA TECH is 'A Reliable Backbone of Your Business'. We deliver high-performance, budget-friendly web systems, AI software, mobile apps, and branding solutions for students, growing startups, and established enterprises.\n\nFrom concept and UI/UX design to cloud deployment and post-launch maintenance, we ensure seamless execution with zero downtime.",
+      actions: [
+        { label: 'ℹ️ Read About Us', type: 'about' },
+        { label: '🏢 Explore Our Clients', type: 'clients' },
+        { label: '🚀 Book Project', type: 'book' }
+      ]
+    };
+  }
+
+  // 14. Conversational Greetings & Thanks
+  if (
+    q.startsWith('hi') || 
+    q.startsWith('hello') || 
+    q.startsWith('hey') || 
+    q.includes('vanakkam') || 
+    q.includes('namaste') || 
+    q.includes('good morning') || 
+    q.includes('good afternoon') || 
+    q.includes('good evening') ||
+    q === 'yo' || 
+    q === 'hola'
+  ) {
+    return {
+      text: "Hello! Welcome to AURA TECH. I am Aura AI, ready to assist you.\n\nWould you like to:\n1. Explore our corporate clients (SISC COIR & InfoPluto)?\n2. Learn about student project discounts?\n3. Request a customized project quotation?\n4. Inquire about open job positions?",
+      actions: [
+        { label: '🏢 Our Clients', type: 'clients' },
+        { label: '🚀 Book a Project', type: 'book' },
+        { label: '💼 Careers & Jobs', type: 'job' }
+      ]
+    };
+  }
+
+  if (q.includes('thank') || q.includes('super') || q.includes('awesome') || q.includes('great') || q.includes('good job') || q.includes('nice')) {
+    return {
+      text: "You're very welcome! It's our absolute pleasure to assist you. If you need any technical help or want to book a project, our team is right here.",
+      actions: [
+        { label: '🚀 Book a Project', type: 'book' },
+        { label: '🏢 View Our Clients', type: 'clients' }
+      ]
+    };
+  }
+
+  // 15. Intelligent Universal Fallback with Contextual Assistance
+  return {
+    text: `Thank you for asking! AURA TECH specializes in high-performance digital engineering, including corporate web systems, AI chatbots, mobile applications, and cloud platforms.\n\nWhether you're looking for client references (like SISC COIR and InfoPluto), student capstones, job openings, or an enterprise quotation, I'm here to assist!`,
+    actions: [
+      { label: '🏢 View Our Clients', type: 'clients' },
+      { label: '🚀 Book a Project', type: 'book' },
+      { label: 'ℹ️ About AURA TECH', type: 'about' }
+    ]
+  };
 }

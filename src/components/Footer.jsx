@@ -1,7 +1,7 @@
 import React from 'react';
 import { Database, ArrowUp, Mail, Shield } from 'lucide-react';
 
-export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenBookModal, onOpenAdminModal, onOpenJobModal }) {
+export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenClientsModal, onOpenBookModal, onOpenAdminModal, onOpenJobModal }) {
   const isDark = theme === 'dark';
   const isHr = portalMode === 'hr';
 
@@ -51,6 +51,7 @@ export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenBook
             {isHr ? (
               <>
                 <button onClick={onOpenAboutModal} className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>About Us</button>
+                <button onClick={onOpenClientsModal} className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Our Clients</button>
                 <a href="#hr-portal" className={`transition-colors text-emerald-400 hover:text-emerald-300`}>Open Positions</a>
                 <a href="#faq" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>FAQ</a>
                 <a href="#contact" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Contact</a>
@@ -63,6 +64,7 @@ export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenBook
             ) : (
               <>
                 <button onClick={onOpenAboutModal} className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>About Us</button>
+                <button onClick={onOpenClientsModal} className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Our Clients</button>
                 <a href="#services" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Services</a>
                 <a href="#showcase" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Showcase</a>
                 <a href="#hr-portal" className={`transition-colors text-emerald-400 hover:text-emerald-300 flex items-center gap-1`}>Careers / HR</a>
