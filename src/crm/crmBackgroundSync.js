@@ -1,4 +1,4 @@
-import { crmDb, DEFAULT_EMPLOYEES, DEFAULT_CLIENTS, DEFAULT_PROJECTS, DEFAULT_TASKS, DEFAULT_INVOICES, DEFAULT_PAYMENTS, DEFAULT_AUDIT_LOGS, DEFAULT_NOTIFICATIONS } from './crmDbService';
+import { crmDb, DEFAULT_EMPLOYEES, DEFAULT_CLIENTS, DEFAULT_PROJECTS, DEFAULT_TASKS, DEFAULT_INVOICES, DEFAULT_PAYMENTS, DEFAULT_AUDIT_LOGS, DEFAULT_NOTIFICATIONS, purgeLegacyDummyData } from './crmDbService';
 import { supabaseService } from './supabase';
 import { spreadsheetService } from './spreadsheetService';
 
@@ -38,6 +38,7 @@ export function initCrmBackground() {
 }
 
 function primeCrmDatabase() {
+  purgeLegacyDummyData();
   const EMPLOYEES_KEY = 'aura_crm_employees';
   const CLIENTS_KEY = 'aura_crm_clients';
   const PROJECTS_KEY = 'aura_crm_projects';

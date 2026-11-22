@@ -118,7 +118,7 @@ export default function CRMDashboard({ theme = 'dark', onToggleTheme }) {
     return (
       <div className="min-h-screen bg-slate-950 text-slate-100">
         <div className="bg-slate-900/90 border-b border-slate-800 px-6 py-3 flex items-center justify-between text-sm">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <button
               onClick={() => navigate('/')}
               className="text-slate-300 hover:text-white flex items-center gap-1.5 font-semibold cursor-pointer"
@@ -126,7 +126,14 @@ export default function CRMDashboard({ theme = 'dark', onToggleTheme }) {
               <ArrowLeft size={16} /> Back to Aura Tech Site
             </button>
             <span className="text-slate-600">|</span>
-            <span className="text-amber-400 font-bold flex items-center gap-1.5">
+            <button
+              onClick={() => navigate('/admin')}
+              className="px-3 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500/20 flex items-center gap-1.5 font-bold cursor-pointer transition-all text-xs"
+            >
+              <Shield size={14} /> Switch to Bookings &amp; HR Portal (/admin)
+            </button>
+            <span className="text-slate-600">|</span>
+            <span className="text-indigo-400 font-bold flex items-center gap-1.5">
               <Shield size={15} /> Enterprise CRM Suite Active
             </span>
           </div>
@@ -194,8 +201,16 @@ export default function CRMDashboard({ theme = 'dark', onToggleTheme }) {
 
         <div className="flex items-center gap-3">
           <button
+            onClick={() => navigate('/admin')}
+            className={`px-4 py-2.5 rounded-xl border text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer ${
+              isDark ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20' : 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100'
+            }`}
+          >
+            <Shield size={16} /> Admin Portal (/admin)
+          </button>
+          <button
             onClick={() => navigate('/')}
-            className={`px-4 py-2.5 rounded-xl border text-sm font-bold flex items-center gap-2 transition-colors ${
+            className={`px-4 py-2.5 rounded-xl border text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer ${
               isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white' : 'bg-white border-slate-300 text-slate-700 hover:text-slate-900'
             }`}
           >

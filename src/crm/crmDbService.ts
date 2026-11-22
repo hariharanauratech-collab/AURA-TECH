@@ -113,706 +113,75 @@ export const DEFAULT_EMPLOYEES: Employee[] = [
   }
 ];
 
-export const DEFAULT_CLIENTS: Client[] = [
-  {
-    id: 'CLI-1001',
-    name: 'Anand Kumar',
-    company: 'Apex Retailers Pvt Ltd',
-    email: 'anand@apexretail.in',
-    phone: '+91 98451 22340',
-    address: '42, Tech Park Boulevard, Electronic City, Bangalore, KA 560100',
-    gstin: '29AABCA1234F1Z5',
-    clientType: 'Enterprise',
-    status: 'Active',
-    totalBudget: 150000,
-    createdAt: '2026-09-01T10:00:00Z',
-    notes: 'Premium enterprise e-commerce platform with multi-vendor backend.'
-  },
-  {
-    id: 'CLI-1002',
-    name: 'Dr. Shalini Menon',
-    company: 'Nova Healthcare Diagnostics',
-    email: 'contact@novadiagnostics.com',
-    phone: '+91 94471 88990',
-    address: '12-B, Medical Enclave, Gandhipuram, Coimbatore, TN 641012',
-    gstin: '33AABCN5678G1Z2',
-    clientType: 'Professional',
-    status: 'Active',
-    totalBudget: 85000,
-    createdAt: '2026-09-10T11:30:00Z',
-    notes: 'Telemedicine and report booking portal with SMS notifications.'
-  },
-  {
-    id: 'CLI-1003',
-    name: 'Vikram Seth',
-    company: 'Horizon FinTech Labs',
-    email: 'vikram@horizonfintech.io',
-    phone: '+91 98112 34567',
-    address: 'Tower 4, Cyber Gateway, Hitec City, Hyderabad, TS 500081',
-    gstin: '36AABCH9012K1Z8',
-    clientType: 'Enterprise',
-    status: 'Active',
-    totalBudget: 210000,
-    createdAt: '2026-09-18T09:15:00Z',
-    notes: 'Financial dashboard and real-time ledger visualization.'
-  },
-  {
-    id: 'CLI-1004',
-    name: 'Kavitha Radhakrishnan',
-    company: 'EduSpark Global Academy',
-    email: 'kavitha@eduspark.edu',
-    phone: '+91 97908 12345',
-    address: '88, College Road, Anna Nagar, Chennai, TN 600040',
-    gstin: '33AABCE3456D1Z1',
-    clientType: 'Professional',
-    status: 'Active',
-    totalBudget: 60000,
-    createdAt: '2026-09-25T14:20:00Z',
-    notes: 'Campus AI Chatbot for student queries and course registration.'
-  },
-  {
-    id: 'CLI-1005',
-    name: 'Rohan Sharma',
-    company: 'GreenVibe Organics',
-    email: 'rohan@greenvibe.in',
-    phone: '+91 96500 77889',
-    address: '15, Indiranagar 100ft Road, Bangalore, KA 560038',
-    clientType: 'Professional',
-    status: 'Lead',
-    totalBudget: 45000,
-    createdAt: '2026-10-05T16:00:00Z',
-    notes: 'Brand visual identity, logo design and storefront.'
-  }
-];
+export const DEFAULT_CLIENTS: Client[] = [];
 
-export const DEFAULT_PROJECTS: Project[] = [
-  {
-    id: 'PRJ-2001',
-    title: 'Apex E-Commerce Platform & Mobile App',
-    description: 'High performance multi-vendor web portal with secure payment gateway, inventory sync, and client mobile dashboard.',
-    clientId: 'CLI-1001',
-    clientName: 'Apex Retailers Pvt Ltd',
-    projectType: 'Website',
-    budget: 150000,
-    status: 'In Progress',
-    startDate: '2026-09-05',
-    dueDate: '2026-11-20',
-    completionPercentage: 72,
-    assignedEmployeeIds: ['EMP001', 'EMP002', 'EMP004', 'EMP007'],
-    assignedEmployees: [
-      { employeeId: 'EMP001', employeeName: 'Niranjan', role: 'Backend Lead', responsibility: 'High-throughput payment APIs & PostgreSQL schema' },
-      { employeeId: 'EMP002', employeeName: 'Makizh', role: 'Full-Stack Lead', responsibility: 'System architecture, Supabase auth & order engine' },
-      { employeeId: 'EMP004', employeeName: 'Priyanka', role: 'UI/UX Designer', responsibility: 'Design system, interactive checkout mockups' },
-      { employeeId: 'EMP007', employeeName: 'Vengateshwaran', role: 'Frontend Developer', responsibility: 'Responsive catalog UI & animated cart drawer' }
-    ],
-    createdAt: '2026-09-05T10:00:00Z'
-  },
-  {
-    id: 'PRJ-2002',
-    title: 'Nova Healthcare Diagnostic Booking Portal',
-    description: 'Patient lab test booking, doctor consultation scheduling, and automated PDF test report delivery.',
-    clientId: 'CLI-1002',
-    clientName: 'Nova Healthcare Diagnostics',
-    projectType: 'Application',
-    budget: 85000,
-    status: 'In Progress',
-    startDate: '2026-09-12',
-    dueDate: '2026-11-10',
-    completionPercentage: 58,
-    assignedEmployeeIds: ['EMP003', 'EMP005', 'EMP006'],
-    assignedEmployees: [
-      { employeeId: 'EMP003', employeeName: 'Hariharan', role: 'Web Developer', responsibility: 'Appointment booking form & video consult widget' },
-      { employeeId: 'EMP005', employeeName: 'Dhanya', role: 'Full-Stack Developer', responsibility: 'Patient record management & database encryption' },
-      { employeeId: 'EMP006', employeeName: 'Praveen Raja', role: 'UI/UX Designer', responsibility: 'Clean medical design & accessibility compliance' }
-    ],
-    createdAt: '2026-09-12T11:00:00Z'
-  },
-  {
-    id: 'PRJ-2003',
-    title: 'Horizon FinTech Real-Time Analytics Dashboard',
-    description: 'Enterprise transaction visualization with interactive charts, fraud detection alerts, and PDF statements.',
-    clientId: 'CLI-1003',
-    clientName: 'Horizon FinTech Labs',
-    projectType: 'Data Visualization',
-    budget: 210000,
-    status: 'In Progress',
-    startDate: '2026-09-20',
-    dueDate: '2026-12-15',
-    completionPercentage: 45,
-    assignedEmployeeIds: ['EMP001', 'EMP002', 'EMP005', 'EMP007'],
-    assignedEmployees: [
-      { employeeId: 'EMP001', employeeName: 'Niranjan', role: 'Backend Architect', responsibility: 'WebSocket pipeline & real-time streaming queries' },
-      { employeeId: 'EMP002', employeeName: 'Makizh', role: 'Tech Lead', responsibility: 'Data models, aggregation engine & cloud scaling' },
-      { employeeId: 'EMP005', employeeName: 'Dhanya', role: 'Frontend Engineer', responsibility: 'High-frequency charting & metric tables' },
-      { employeeId: 'EMP007', employeeName: 'Vengateshwaran', role: 'Frontend UI', responsibility: 'Dark mode theme & responsive navigation suite' }
-    ],
-    createdAt: '2026-09-20T09:30:00Z'
-  },
-  {
-    id: 'PRJ-2004',
-    title: 'EduSpark Campus AI Virtual Concierge',
-    description: 'Intelligent AI chatbot trained on campus handbook, student syllabus, admissions faq, and event timetable.',
-    clientId: 'CLI-1004',
-    clientName: 'EduSpark Global Academy',
-    projectType: 'AI Chatbot',
-    budget: 60000,
-    status: 'In Progress',
-    startDate: '2026-09-28',
-    dueDate: '2026-11-05',
-    completionPercentage: 80,
-    assignedEmployeeIds: ['EMP002', 'EMP003', 'EMP004'],
-    assignedEmployees: [
-      { employeeId: 'EMP002', employeeName: 'Makizh', role: 'AI & Backend Lead', responsibility: 'LLM RAG embeddings, Gemini API & prompt safety' },
-      { employeeId: 'EMP003', employeeName: 'Hariharan', role: 'Integration Developer', responsibility: 'Chatbot embed snippet & speech synthesis' },
-      { employeeId: 'EMP004', employeeName: 'Priyanka', role: 'UI Designer', responsibility: 'Chat bubble animations & avatar customization' }
-    ],
-    createdAt: '2026-09-28T14:00:00Z'
-  }
-];
+export const DEFAULT_PROJECTS: Project[] = [];
 
-export const DEFAULT_TASKS: Task[] = [
-  {
-    id: 'TSK-3001',
-    title: 'Payment Gateway Integration & Webhook Handler',
-    description: 'Configure Razorpay & Stripe webhooks with idempotent signature checks and automated invoice status updates.',
-    projectId: 'PRJ-2001',
-    projectTitle: 'Apex E-Commerce Platform & Mobile App',
-    clientId: 'CLI-1001',
-    clientName: 'Apex Retailers Pvt Ltd',
-    assignedEmployeeId: 'EMP001',
-    assignedEmployeeName: 'Niranjan',
-    priority: 'Urgent',
-    startDate: '2026-09-10',
-    dueDate: '2026-10-30',
-    estimatedHours: 35,
-    actualHours: 30,
-    status: 'In Progress',
-    completionPercentage: 85,
-    adminInstructions: 'Ensure zero payment drop rate and log all gateway verification errors.',
-    employeeUpdates: 'Payment webhooks completed and verified in sandbox. Preparing production key switch.',
-    weight: 1.5,
-    history: [
-      { timestamp: '2026-09-10T10:00:00Z', actor: 'Main Admin', action: 'Created task and assigned to Niranjan' },
-      { timestamp: '2026-10-15T16:20:00Z', actor: 'Niranjan', action: 'Progress update: 50% -> 85%' }
-    ],
-    createdAt: '2026-09-10T10:00:00Z',
-    updatedAt: '2026-10-15T16:20:00Z'
-  },
-  {
-    id: 'TSK-3002',
-    title: 'Multi-Vendor Product Catalog & Search Filtering',
-    description: 'Build fast faceted search, category trees, and stock availability monitors.',
-    projectId: 'PRJ-2001',
-    projectTitle: 'Apex E-Commerce Platform & Mobile App',
-    clientId: 'CLI-1001',
-    clientName: 'Apex Retailers Pvt Ltd',
-    assignedEmployeeId: 'EMP007',
-    assignedEmployeeName: 'Vengateshwaran',
-    priority: 'High',
-    startDate: '2026-09-12',
-    dueDate: '2026-10-25',
-    estimatedHours: 40,
-    actualHours: 38,
-    status: 'In Progress',
-    completionPercentage: 75,
-    adminInstructions: 'Keep responsive filter drawer smooth on mobile viewports.',
-    employeeUpdates: 'Filter drawer and search debounce implemented. Writing pagination tests.',
-    weight: 1.0,
-    history: [
-      { timestamp: '2026-09-12T11:00:00Z', actor: 'Main Admin', action: 'Created and assigned to Vengateshwaran' }
-    ],
-    createdAt: '2026-09-12T11:00:00Z',
-    updatedAt: '2026-10-20T14:30:00Z'
-  },
-  {
-    id: 'TSK-3003',
-    title: 'High-Fidelity Checkout & Mobile Cart UI/UX',
-    description: 'Design complete checkout funnel in Figma including order review, shipping calculation, and discount coupon preview.',
-    projectId: 'PRJ-2001',
-    projectTitle: 'Apex E-Commerce Platform & Mobile App',
-    clientId: 'CLI-1001',
-    clientName: 'Apex Retailers Pvt Ltd',
-    assignedEmployeeId: 'EMP004',
-    assignedEmployeeName: 'Priyanka',
-    priority: 'Medium',
-    startDate: '2026-09-08',
-    dueDate: '2026-09-28',
-    estimatedHours: 25,
-    actualHours: 24,
-    status: 'Completed',
-    completionPercentage: 100,
-    adminInstructions: 'Follow modern dark and clean aesthetics aligned with Apex branding.',
-    employeeUpdates: 'Designs approved by client and shared with engineering team.',
-    weight: 1.0,
-    history: [
-      { timestamp: '2026-09-08T09:00:00Z', actor: 'Main Admin', action: 'Created task' },
-      { timestamp: '2026-09-28T18:00:00Z', actor: 'Main Admin', action: 'Approved completed work' }
-    ],
-    createdAt: '2026-09-08T09:00:00Z',
-    updatedAt: '2026-09-28T18:00:00Z'
-  },
-  {
-    id: 'TSK-3004',
-    title: 'Patient Diagnostic Report Auto-Generator & Cloud Storage',
-    description: 'Generate secure encrypted PDF laboratory test reports with barcode verification and automated patient email delivery.',
-    projectId: 'PRJ-2002',
-    projectTitle: 'Nova Healthcare Diagnostic Booking Portal',
-    clientId: 'CLI-1002',
-    clientName: 'Nova Healthcare Diagnostics',
-    assignedEmployeeId: 'EMP005',
-    assignedEmployeeName: 'Dhanya',
-    priority: 'Urgent',
-    startDate: '2026-09-15',
-    dueDate: '2026-10-28',
-    estimatedHours: 30,
-    actualHours: 26,
-    status: 'In Progress',
-    completionPercentage: 65,
-    adminInstructions: 'Ensure HIPAA/data privacy compliance and strict access tokens for patient links.',
-    employeeUpdates: 'PDF generation template calibrated. Connecting cloud storage bucket.',
-    weight: 1.2,
-    history: [
-      { timestamp: '2026-09-15T10:00:00Z', actor: 'Main Admin', action: 'Created task and assigned to Dhanya' }
-    ],
-    createdAt: '2026-09-15T10:00:00Z',
-    updatedAt: '2026-10-22T17:00:00Z'
-  },
-  {
-    id: 'TSK-3005',
-    title: 'Video Consultation WebRTC Component',
-    description: 'Integrate browser-based encrypted video consultation between doctor and patient with waiting room countdown.',
-    projectId: 'PRJ-2002',
-    projectTitle: 'Nova Healthcare Diagnostic Booking Portal',
-    clientId: 'CLI-1002',
-    clientName: 'Nova Healthcare Diagnostics',
-    assignedEmployeeId: 'EMP003',
-    assignedEmployeeName: 'Hariharan',
-    priority: 'High',
-    startDate: '2026-09-18',
-    dueDate: '2026-11-02',
-    estimatedHours: 35,
-    actualHours: 28,
-    status: 'In Progress',
-    completionPercentage: 55,
-    adminInstructions: 'Make sure audio/video mute toggles and screen share work reliably on mobile browsers.',
-    employeeUpdates: 'Signaling server hooked up. Testing multi-participant latency.',
-    weight: 1.0,
-    history: [
-      { timestamp: '2026-09-18T14:00:00Z', actor: 'Main Admin', action: 'Assigned to Hariharan' }
-    ],
-    createdAt: '2026-09-18T14:00:00Z',
-    updatedAt: '2026-10-24T12:00:00Z'
-  },
-  {
-    id: 'TSK-3006',
-    title: 'Real-Time Financial Ledger & Streaming Chart Widgets',
-    description: 'Render sub-second WebSocket transaction tickers and candlestick financial metrics using optimized canvas.',
-    projectId: 'PRJ-2003',
-    projectTitle: 'Horizon FinTech Real-Time Analytics Dashboard',
-    clientId: 'CLI-1003',
-    clientName: 'Horizon FinTech Labs',
-    assignedEmployeeId: 'EMP002',
-    assignedEmployeeName: 'Makizh',
-    priority: 'Urgent',
-    startDate: '2026-09-22',
-    dueDate: '2026-11-15',
-    estimatedHours: 50,
-    actualHours: 32,
-    status: 'In Progress',
-    completionPercentage: 60,
-    adminInstructions: 'Zero memory leaks during continuous 8-hour browser execution.',
-    employeeUpdates: 'Canvas chart renderer completed. Benchmarked at 60 FPS with 10k data points.',
-    weight: 2.0,
-    history: [
-      { timestamp: '2026-09-22T09:00:00Z', actor: 'Main Admin', action: 'Assigned to Makizh' }
-    ],
-    createdAt: '2026-09-22T09:00:00Z',
-    updatedAt: '2026-10-25T15:30:00Z'
-  },
-  {
-    id: 'TSK-3007',
-    title: 'RAG Knowledge Vector Base & Gemini Prompt Pipeline',
-    description: 'Embed university documentation into vector store with contextual chunking and response safety validation.',
-    projectId: 'PRJ-2004',
-    projectTitle: 'EduSpark Campus AI Virtual Concierge',
-    clientId: 'CLI-1004',
-    clientName: 'EduSpark Global Academy',
-    assignedEmployeeId: 'EMP002',
-    assignedEmployeeName: 'Makizh',
-    priority: 'High',
-    startDate: '2026-09-30',
-    dueDate: '2026-10-26',
-    estimatedHours: 25,
-    actualHours: 25,
-    status: 'Under Review',
-    completionPercentage: 95,
-    adminInstructions: 'Verify bilingual Tamil and English answer accuracy.',
-    employeeUpdates: 'Knowledge base ingested with 240 handbook pages. Ready for final admin acceptance.',
-    weight: 1.5,
-    history: [
-      { timestamp: '2026-09-30T10:00:00Z', actor: 'Main Admin', action: 'Assigned to Makizh' },
-      { timestamp: '2026-10-26T16:00:00Z', actor: 'Makizh', action: 'Submitted for Admin Review' }
-    ],
-    createdAt: '2026-09-30T10:00:00Z',
-    updatedAt: '2026-10-26T16:00:00Z'
-  },
-  {
-    id: 'TSK-3008',
-    title: 'Medical UI Accessibility Overhaul',
-    description: 'Review contrast ratios, typography scale, and keyboard navigability across patient test booking steps.',
-    projectId: 'PRJ-2002',
-    projectTitle: 'Nova Healthcare Diagnostic Booking Portal',
-    clientId: 'CLI-1002',
-    clientName: 'Nova Healthcare Diagnostics',
-    assignedEmployeeId: 'EMP006',
-    assignedEmployeeName: 'Praveen Raja',
-    priority: 'Low',
-    startDate: '2026-10-01',
-    dueDate: '2026-10-20',
-    estimatedHours: 15,
-    actualHours: 14,
-    status: 'Completed',
-    completionPercentage: 100,
-    adminInstructions: 'WCAG AAA contrast adherence.',
-    employeeUpdates: 'Accessibility audit score 98/100 on Google Lighthouse.',
-    weight: 0.8,
-    history: [
-      { timestamp: '2026-10-01T11:00:00Z', actor: 'Main Admin', action: 'Assigned to Praveen Raja' },
-      { timestamp: '2026-10-20T17:00:00Z', actor: 'Main Admin', action: 'Approved completed work' }
-    ],
-    createdAt: '2026-10-01T11:00:00Z',
-    updatedAt: '2026-10-20T17:00:00Z'
-  }
-];
+export const DEFAULT_TASKS: Task[] = [];
 
-export const DEFAULT_PROGRESS_LOGS: TaskProgressLog[] = [
-  {
-    id: 'LOG-4001',
-    taskId: 'TSK-3001',
-    taskTitle: 'Payment Gateway Integration & Webhook Handler',
-    projectId: 'PRJ-2001',
-    projectTitle: 'Apex E-Commerce Platform & Mobile App',
-    employeeId: 'EMP001',
-    employeeName: 'Niranjan',
-    completionPercentage: 45,
-    workCompleted: 'Created payment controller, signature verification utility, and test environment credentials setup.',
-    workRemaining: 'Webhook idempotency tests and auto refund handlers.',
-    timeSpentHours: 12,
-    status: 'In Progress',
-    blockers: 'Awaiting client production merchant webhook secret.',
-    nextPlannedActivity: 'Run mock checkout tests on staging.',
-    attachments: [],
-    timestamp: '2026-09-20T15:30:00Z'
-  },
-  {
-    id: 'LOG-4002',
-    taskId: 'TSK-3001',
-    taskTitle: 'Payment Gateway Integration & Webhook Handler',
-    projectId: 'PRJ-2001',
-    projectTitle: 'Apex E-Commerce Platform & Mobile App',
-    employeeId: 'EMP001',
-    employeeName: 'Niranjan',
-    completionPercentage: 85,
-    workCompleted: 'Completed Razorpay webhook listeners. Successfully processed 20 automated test transactions with status sync to invoices.',
-    workRemaining: 'Final client acceptance testing and live webhook endpoint registration.',
-    timeSpentHours: 18,
-    status: 'In Progress',
-    blockers: 'None',
-    nextPlannedActivity: 'Conduct final load test with 50 concurrent transactions.',
-    attachments: [],
-    timestamp: '2026-10-15T16:20:00Z'
-  },
-  {
-    id: 'LOG-4003',
-    taskId: 'TSK-3004',
-    taskTitle: 'Patient Diagnostic Report Auto-Generator & Cloud Storage',
-    projectId: 'PRJ-2002',
-    projectTitle: 'Nova Healthcare Diagnostic Booking Portal',
-    employeeId: 'EMP005',
-    employeeName: 'Dhanya',
-    completionPercentage: 65,
-    workCompleted: 'Designed PDF layout template, header branding, and lab reference values table.',
-    workRemaining: 'Automated email dispatch with password-protected attachment.',
-    timeSpentHours: 14,
-    status: 'In Progress',
-    blockers: 'Need hospital lab director signature asset for the stamp block.',
-    nextPlannedActivity: 'Configure SMTP credentials for report mailing.',
-    attachments: [],
-    timestamp: '2026-10-22T17:00:00Z'
-  },
-  {
-    id: 'LOG-4004',
-    taskId: 'TSK-3007',
-    taskTitle: 'RAG Knowledge Vector Base & Gemini Prompt Pipeline',
-    projectId: 'PRJ-2004',
-    projectTitle: 'EduSpark Campus AI Virtual Concierge',
-    employeeId: 'EMP002',
-    employeeName: 'Makizh',
-    completionPercentage: 95,
-    workCompleted: 'Ingested 240 handbook pages into vector embeddings. Verified 98% accuracy on syllabus questions.',
-    workRemaining: 'Admin walkthrough and review.',
-    timeSpentHours: 25,
-    status: 'Under Review',
-    blockers: 'None',
-    nextPlannedActivity: 'Present demo to college dean and registrar.',
-    attachments: [],
-    timestamp: '2026-10-26T16:00:00Z'
-  }
-];
+export const DEFAULT_PROGRESS_LOGS: TaskProgressLog[] = [];
 
-export const DEFAULT_INVOICES: Invoice[] = [
-  {
-    id: 'INV-5001',
-    invoiceNumber: 'AT-INV-2026-001',
-    invoiceDate: '2026-09-08',
-    dueDate: '2026-09-22',
-    clientId: 'CLI-1001',
-    clientName: 'Anand Kumar',
-    clientCompany: 'Apex Retailers Pvt Ltd',
-    clientEmail: 'anand@apexretail.in',
-    clientPhone: '+91 98451 22340',
-    clientAddress: '42, Tech Park Boulevard, Electronic City, Bangalore, KA 560100',
-    clientGstin: '29AABCA1234F1Z5',
-    projectId: 'PRJ-2001',
-    projectTitle: 'Apex E-Commerce Platform & Mobile App',
-    items: [
-      { id: '1', description: 'Phase 1: Architecture, UI/UX Design System & Mobile Prototypes', quantity: 1, unitPrice: 50000, amount: 50000 },
-      { id: '2', description: 'Phase 2: Full-Stack Multi-Vendor Development & Database Setup', quantity: 1, unitPrice: 70000, amount: 70000 }
-    ],
-    subtotal: 120000,
-    discountRate: 5,
-    discountAmount: 6000,
-    taxRate: 18,
-    taxAmount: 20520,
-    totalAmount: 134520,
-    paidAmount: 134520,
-    outstandingBalance: 0,
-    status: 'Paid',
-    paymentInstructions: 'Bank: HDFC Bank | A/C: 50200089271632 | IFSC: HDFC0001234 | UPI: auratech@hdfcbank',
-    notes: 'Payment received in full with thanks. Work actively progressing into final stage.',
-    createdAt: '2026-09-08T10:00:00Z'
-  },
-  {
-    id: 'INV-5002',
-    invoiceNumber: 'AT-INV-2026-002',
-    invoiceDate: '2026-09-15',
-    dueDate: '2026-10-15',
-    clientId: 'CLI-1002',
-    clientName: 'Dr. Shalini Menon',
-    clientCompany: 'Nova Healthcare Diagnostics',
-    clientEmail: 'contact@novadiagnostics.com',
-    clientPhone: '+91 94471 88990',
-    clientAddress: '12-B, Medical Enclave, Gandhipuram, Coimbatore, TN 641012',
-    clientGstin: '33AABCN5678G1Z2',
-    projectId: 'PRJ-2002',
-    projectTitle: 'Nova Healthcare Diagnostic Booking Portal',
-    items: [
-      { id: '1', description: 'Patient Appointment Booking Engine & Consultation Scheduling', quantity: 1, unitPrice: 45000, amount: 45000 },
-      { id: '2', description: 'Automated Diagnostic Report Generator & HIPAA Secure Cloud Storage', quantity: 1, unitPrice: 35000, amount: 35000 }
-    ],
-    subtotal: 80000,
-    discountRate: 0,
-    discountAmount: 0,
-    taxRate: 18,
-    taxAmount: 14400,
-    totalAmount: 94400,
-    paidAmount: 50000,
-    outstandingBalance: 44400,
-    status: 'Partially Paid',
-    paymentInstructions: 'Bank: HDFC Bank | A/C: 50200089271632 | IFSC: HDFC0001234 | UPI: auratech@hdfcbank',
-    notes: 'Advance installment received. Balance payable upon completion of Phase 2.',
-    createdAt: '2026-09-15T12:00:00Z'
-  },
-  {
-    id: 'INV-5003',
-    invoiceNumber: 'AT-INV-2026-003',
-    invoiceDate: '2026-10-02',
-    dueDate: '2026-10-25',
-    clientId: 'CLI-1003',
-    clientName: 'Vikram Seth',
-    clientCompany: 'Horizon FinTech Labs',
-    clientEmail: 'vikram@horizonfintech.io',
-    clientPhone: '+91 98112 34567',
-    clientAddress: 'Tower 4, Cyber Gateway, Hitec City, Hyderabad, TS 500081',
-    clientGstin: '36AABCH9012K1Z8',
-    projectId: 'PRJ-2003',
-    projectTitle: 'Horizon FinTech Real-Time Analytics Dashboard',
-    items: [
-      { id: '1', description: 'Real-time WebSocket Streaming Engine & Aggregation Pipeline', quantity: 1, unitPrice: 90000, amount: 90000 },
-      { id: '2', description: 'High-Frequency Canvas Data Visualization Suite & Dark Obsidian UI', quantity: 1, unitPrice: 80000, amount: 80000 }
-    ],
-    subtotal: 170000,
-    discountRate: 10,
-    discountAmount: 17000,
-    taxRate: 18,
-    taxAmount: 27540,
-    totalAmount: 180540,
-    paidAmount: 0,
-    outstandingBalance: 180540,
-    status: 'Overdue',
-    paymentInstructions: 'Bank: HDFC Bank | A/C: 50200089271632 | IFSC: HDFC0001234 | UPI: auratech@hdfcbank',
-    notes: 'Invoice overdue by 3 days. Reminder email dispatched to finance department.',
-    createdAt: '2026-10-02T10:00:00Z'
-  },
-  {
-    id: 'INV-5004',
-    invoiceNumber: 'AT-INV-2026-004',
-    invoiceDate: '2026-10-10',
-    dueDate: '2026-11-10',
-    clientId: 'CLI-1004',
-    clientName: 'Kavitha Radhakrishnan',
-    clientCompany: 'EduSpark Global Academy',
-    clientEmail: 'kavitha@eduspark.edu',
-    clientPhone: '+91 97908 12345',
-    clientAddress: '88, College Road, Anna Nagar, Chennai, TN 600040',
-    clientGstin: '33AABCE3456D1Z1',
-    projectId: 'PRJ-2004',
-    projectTitle: 'EduSpark Campus AI Virtual Concierge',
-    items: [
-      { id: '1', description: 'Campus AI Chatbot RAG System & LLM Prompt Engineering', quantity: 1, unitPrice: 40000, amount: 40000 },
-      { id: '2', description: 'Bilingual Tamil / English Knowledge Embeddings & Campus Web Widget', quantity: 1, unitPrice: 15000, amount: 15000 }
-    ],
-    subtotal: 55000,
-    discountRate: 10,
-    discountAmount: 5500,
-    taxRate: 18,
-    taxAmount: 8910,
-    totalAmount: 58410,
-    paidAmount: 58410,
-    outstandingBalance: 0,
-    status: 'Paid',
-    paymentInstructions: 'Bank: HDFC Bank | A/C: 50200089271632 | IFSC: HDFC0001234 | UPI: auratech@hdfcbank',
-    notes: 'Paid via RTGS. Invoice settled.',
-    createdAt: '2026-10-10T14:00:00Z'
-  }
-];
+export const DEFAULT_INVOICES: Invoice[] = [];
 
-export const DEFAULT_PAYMENTS: Payment[] = [
-  {
-    id: 'PAY-6001',
-    invoiceId: 'INV-5001',
-    invoiceNumber: 'AT-INV-2026-001',
-    clientId: 'CLI-1001',
-    clientName: 'Anand Kumar (Apex Retailers)',
-    projectId: 'PRJ-2001',
-    amount: 134520,
-    paymentDate: '2026-09-12',
-    paymentMethod: 'Bank Transfer',
-    transactionReference: 'HDFC-RTGS-981273948',
-    notes: 'Full payment received against invoice AT-INV-2026-001.',
-    recordedBy: 'Main Admin',
-    createdAt: '2026-09-12T16:00:00Z'
-  },
-  {
-    id: 'PAY-6002',
-    invoiceId: 'INV-5002',
-    invoiceNumber: 'AT-INV-2026-002',
-    clientId: 'CLI-1002',
-    clientName: 'Dr. Shalini Menon (Nova Healthcare)',
-    projectId: 'PRJ-2002',
-    amount: 50000,
-    paymentDate: '2026-09-20',
-    paymentMethod: 'UPI',
-    transactionReference: 'UPI-REF-238491823719',
-    notes: 'First milestone advance received via UPI.',
-    recordedBy: 'Main Admin',
-    createdAt: '2026-09-20T11:30:00Z'
-  },
-  {
-    id: 'PAY-6003',
-    invoiceId: 'INV-5004',
-    invoiceNumber: 'AT-INV-2026-004',
-    clientId: 'CLI-1004',
-    clientName: 'Kavitha Radhakrishnan (EduSpark)',
-    projectId: 'PRJ-2004',
-    amount: 58410,
-    paymentDate: '2026-10-14',
-    paymentMethod: 'Bank Transfer',
-    transactionReference: 'SBI-NEFT-883719234',
-    notes: 'Full settlement for AI Chatbot deployment.',
-    recordedBy: 'Main Admin',
-    createdAt: '2026-10-14T15:00:00Z'
-  }
-];
+export const DEFAULT_PAYMENTS: Payment[] = [];
 
 export const DEFAULT_AUDIT_LOGS: AuditLog[] = [
   {
-    id: 'AUD-7001',
-    action: 'Task Reassigned',
-    actor: 'Main Admin',
+    id: 'AUD-INIT-001',
+    action: 'System Initialized Fresh',
+    actor: 'System Admin',
     actorRole: 'admin',
-    entityType: 'Task',
-    entityId: 'TSK-3001',
-    details: 'Reassigned task priority to Urgent and updated milestone due date to 2026-10-30.',
-    timestamp: '2026-10-12T10:15:00Z'
-  },
-  {
-    id: 'AUD-7002',
-    action: 'Work Progress Submitted',
-    actor: 'Niranjan (EMP001)',
-    actorRole: 'employee',
-    entityType: 'Progress',
-    entityId: 'TSK-3001',
-    details: 'Submitted 85% progress: completed payment webhooks and verified test orders.',
-    timestamp: '2026-10-15T16:20:00Z'
-  },
-  {
-    id: 'AUD-7003',
-    action: 'Payment Recorded',
-    actor: 'Main Admin',
-    actorRole: 'admin',
-    entityType: 'Payment',
-    entityId: 'PAY-6003',
-    details: 'Recorded payment of Rs 58,410 from EduSpark Academy against AT-INV-2026-004.',
-    timestamp: '2026-10-14T15:00:00Z'
-  },
-  {
-    id: 'AUD-7004',
-    action: 'Project Created',
-    actor: 'Main Admin',
-    actorRole: 'admin',
-    entityType: 'Project',
-    entityId: 'PRJ-2004',
-    details: 'Created EduSpark Campus AI Concierge and distributed to Makizh, Hariharan & Priyanka.',
-    timestamp: '2026-09-28T14:00:00Z'
+    entityType: 'System',
+    entityId: 'SYS-INIT',
+    details: 'Aura Tech Enterprise CRM Suite initialized fresh with 7 Core Employee accounts.',
+    timestamp: new Date().toISOString()
   }
 ];
 
-export const DEFAULT_NOTIFICATIONS: NotificationItem[] = [
-  {
-    id: 'NOTIF-8001',
-    recipientEmployeeId: 'EMP001',
-    title: 'Urgent Priority Updated',
-    message: 'Main Admin elevated task "Payment Gateway Integration" priority to Urgent.',
-    type: 'assignment',
-    read: false,
-    createdAt: '2026-10-12T10:15:00Z'
-  },
-  {
-    id: 'NOTIF-8002',
-    recipientEmployeeId: 'EMP002',
-    title: 'New Project Assignment',
-    message: 'You have been assigned as Lead for project "EduSpark Campus AI Virtual Concierge".',
-    type: 'assignment',
-    read: true,
-    createdAt: '2026-09-28T14:00:00Z'
-  },
-  {
-    id: 'NOTIF-8003',
-    recipientEmployeeId: 'EMP005',
-    title: 'Upcoming Deadline Reminder',
-    message: 'Task "Patient Diagnostic Report Auto-Generator" is due on 2026-10-28.',
-    type: 'deadline',
-    read: false,
-    createdAt: '2026-10-24T09:00:00Z'
+export const DEFAULT_NOTIFICATIONS: NotificationItem[] = [];
+
+export const FRESH_SLATE_KEY = 'aura_crm_fresh_slate_2026_v4';
+
+export function purgeLegacyDummyData() {
+  if (typeof window === 'undefined') return;
+  if (!localStorage.getItem(FRESH_SLATE_KEY)) {
+    try {
+      localStorage.removeItem(CLIENTS_KEY);
+      localStorage.removeItem(PROJECTS_KEY);
+      localStorage.removeItem(TASKS_KEY);
+      localStorage.removeItem(PROGRESS_LOGS_KEY);
+      localStorage.removeItem(INVOICES_KEY);
+      localStorage.removeItem(PAYMENTS_KEY);
+      localStorage.removeItem(AUDIT_LOGS_KEY);
+      localStorage.removeItem(NOTIFICATIONS_KEY);
+      localStorage.removeItem('aura_crm_project_requests');
+      localStorage.removeItem('aura_submissions');
+
+      localStorage.setItem(CLIENTS_KEY, JSON.stringify([]));
+      localStorage.setItem(PROJECTS_KEY, JSON.stringify([]));
+      localStorage.setItem(TASKS_KEY, JSON.stringify([]));
+      localStorage.setItem(PROGRESS_LOGS_KEY, JSON.stringify([]));
+      localStorage.setItem(INVOICES_KEY, JSON.stringify([]));
+      localStorage.setItem(PAYMENTS_KEY, JSON.stringify([]));
+      localStorage.setItem(AUDIT_LOGS_KEY, JSON.stringify(DEFAULT_AUDIT_LOGS));
+      localStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify([]));
+      localStorage.setItem('aura_crm_project_requests', JSON.stringify([]));
+      localStorage.setItem('aura_submissions', JSON.stringify([]));
+      localStorage.setItem(EMPLOYEES_KEY, JSON.stringify(DEFAULT_EMPLOYEES));
+
+      localStorage.setItem(FRESH_SLATE_KEY, 'true');
+    } catch (e) {
+      console.warn('Error purging legacy dummy records:', e);
+    }
   }
-];
+}
 
 class CrmDbService {
   private cloudInitialization: Promise<void> | null = null;
 
   private initStorage() {
     if (typeof window === 'undefined') return;
+    purgeLegacyDummyData();
 
     if (!localStorage.getItem(EMPLOYEES_KEY)) {
       localStorage.setItem(EMPLOYEES_KEY, JSON.stringify(DEFAULT_EMPLOYEES));

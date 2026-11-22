@@ -15,6 +15,7 @@ import { InvoiceView } from './InvoiceView';
 import { WorkReportsView } from './WorkReportsView';
 import { ProgressModal } from './ProgressModal';
 import { formatINR } from './pdfService';
+import { employeeAuthService } from './employeeAuthService';
 
 interface AdminPortalProps {
   onLogout: () => void;
@@ -727,6 +728,33 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                         <p><span className="text-slate-500">Email:</span> {emp.email}</p>
                         <p><span className="text-slate-500">Phone:</span> {emp.phone}</p>
                       </div>
+
+                      {/* Password Security Status */}
+                      {(() => {
+                        const cred = employeeAuthService.findEmployee(emp.id);
+                        if (!cred) return null;
+                        return (
+                          <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+                            <span className="text-slate-500 text-[11px] font-medium">Auth Status:</span>
+                            {cred.resetRequested ? (
+                              <button
+                                onClick={() => {
+                                  const res = employeeAuthService.adminApproveReset(emp.id);
+                                  alert(`Reset approved for ${emp.name}!\nTemporary Password: ${res.tempPassword}\nProvide this code to the employee.`);
+                                  setDataVersion(v => v + 1);
+                                }}
+                                className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-black uppercase animate-pulse cursor-pointer"
+                              >
+                                Approve Reset
+                              </button>
+                            ) : cred.hasChangedPassword ? (
+                              <span className="text-emerald-400 text-[11px] font-bold">Custom Password Active</span>
+                            ) : (
+                              <span className="text-amber-400 text-[11px] font-bold">1-Time Setup Pending</span>
+                            )}
+                          </div>
+                        );
+                      })()}
 
                       <div className="pt-2 border-t border-slate-800 flex justify-between items-center">
                         <button

@@ -3,7 +3,7 @@ import {
   Database, Download, Search, Filter, Plus, Trash2, Edit3, 
   CheckCircle2, Clock, AlertCircle, ArrowLeft, LogOut, Lock, 
   UserCheck, Shield, Sparkles, Sun, Moon, RefreshCw, BarChart2, Eye,
-  Mail, MessageSquare, Briefcase
+  Mail, MessageSquare, Briefcase, KeyRound, ShieldAlert, Key
 } from 'lucide-react';
 import { PROJECT_TYPES } from '../data/auraData';
 import { sendEmailNotification, sendWhatsAppNotification } from '../lib/notificationService';
@@ -11,6 +11,8 @@ import AnimatedOfficeBackground from '../components/AnimatedOfficeBackground';
 import AdminHRApplicationsView from '../components/AdminHRApplicationsView';
 import { getHRApplications, updateApplicationStatus, deleteApplication } from '../lib/hrService';
 import { AdminPortal } from '../crm/AdminPortal';
+import { employeeAuthService } from '../crm/employeeAuthService';
+import { purgeLegacyDummyData } from '../crm/crmDbService';
 
 export default function AdminDashboard({ theme, onToggleTheme }) {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
@@ -20,9 +22,14 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const [adminTab, setAdminTab] = useState('bookings'); // 'bookings' | 'hr'
+  const [adminTab, setAdminTab] = useState('bookings'); // 'bookings' | 'hr' | 'crm' | 'staff-security'
   const [submissions, setSubmissions] = useState([]);
   const [hrApplications, setHrApplications] = useState([]);
+  const [staffList, setStaffList] = useState([]);
+  const [pendingResetsCount, setPendingResetsCount] = useState(0);
+  const [selectedStaffForPassword, setSelectedStaffForPassword] = useState(null);
+  const [customPasswordInput, setCustomPasswordInput] = useState('');
+  const [actionSuccessMessage, setActionSuccessMessage] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [userTypeFilter, setUserTypeFilter] = useState('All');
@@ -44,9 +51,34 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
   const isDark = theme === 'dark';
 
   useEffect(() => {
+    purgeLegacyDummyData();
     loadSubmissions();
     loadHRApps();
+    loadStaffSecurity();
   }, []);
+
+  const loadStaffSecurity = () => {
+    const list = employeeAuthService.getAllEmployees();
+    setStaffList(list);
+    setPendingResetsCount(list.filter(e => e.resetRequested).length);
+  };
+
+  const handleApproveReset = (empId) => {
+    const result = employeeAuthService.adminApproveReset(empId);
+    if (result.success) {
+      loadStaffSecurity();
+      setActionSuccessMessage(`Reset approved for ${empId}! Temporary passcode generated: "${result.tempPassword}". (Provide this passcode to the employee so they can set their new personal password upon login.)`);
+    }
+  };
+
+  const handleSetCustomPassword = (empId) => {
+    if (!customPasswordInput.trim()) return;
+    employeeAuthService.adminSetPassword(empId, customPasswordInput.trim(), true);
+    setSelectedStaffForPassword(null);
+    setCustomPasswordInput('');
+    loadStaffSecurity();
+    setActionSuccessMessage(`Successfully updated password for ${empId}. The employee will set their own permanent password on next login.`);
+  };
 
   const loadSubmissions = () => {
     const data = JSON.parse(localStorage.getItem('aura_submissions') || '[]');
@@ -357,6 +389,15 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
 
           <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-3 flex-wrap pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800/40">
             <a
+              href="/crm"
+              className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-colors ${
+                isDark ? 'bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border-indigo-500/30' : 'bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border-indigo-200'
+              }`}
+            >
+              <Shield size={14} /> Open CRM (/crm)
+            </a>
+
+            <a
               href="/"
               className={`px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-colors ${
                 isDark ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-800' : 'bg-slate-100 hover:bg-slate-200 text-slate-800 border-slate-300'
@@ -435,8 +476,34 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
             <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
               adminTab === 'crm' ? 'bg-black/20 text-white font-black' : isDark ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700'
             }`}>
-              7 Staff & Projects
+              7 Staff &amp; Projects
             </span>
+          </button>
+
+          <button
+            onClick={() => {
+              loadStaffSecurity();
+              setAdminTab('staff-security');
+            }}
+            className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
+              adminTab === 'staff-security'
+                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-black shadow-lg shadow-amber-500/25 font-black'
+                : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <KeyRound size={15} />
+            <span>Staff Passwords &amp; Resets</span>
+            {pendingResetsCount > 0 ? (
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-red-500 text-white animate-pulse">
+                {pendingResetsCount} Reset
+              </span>
+            ) : (
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                adminTab === 'staff-security' ? 'bg-black/20 text-black font-black' : isDark ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700'
+              }`}>
+                7 Staff
+              </span>
+            )}
           </button>
         </div>
 
@@ -697,6 +764,201 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
         onUpdateStatus={handleUpdateHRStatus}
         onDelete={handleDeleteHRApplication}
       />
+    ) : adminTab === 'staff-security' ? (
+      <div className={`p-6 sm:p-8 rounded-3xl border shadow-2xl ${
+        isDark ? 'bg-slate-950/90 border-slate-800' : 'bg-white border-slate-200'
+      }`}>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-6 border-b border-slate-800">
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className={`text-xl sm:text-2xl font-black uppercase tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                Staff Security &amp; Passwords
+              </h2>
+              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ${
+                pendingResetsCount > 0 ? 'bg-rose-500/20 text-rose-400 border border-rose-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+              }`}>
+                {pendingResetsCount > 0 ? `${pendingResetsCount} Action Required` : 'All 7 Staff Synced'}
+              </span>
+            </div>
+            <p className={`text-xs mt-1 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              Authorize employee password resets, monitor one-time setup status, or issue temporary passcodes.
+            </p>
+          </div>
+          <button
+            onClick={loadStaffSecurity}
+            className={`px-4 py-2 rounded-xl border text-xs font-bold flex items-center gap-2 cursor-pointer transition-colors ${
+              isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white' : 'bg-slate-100 border-slate-300 text-slate-700 hover:text-slate-900'
+            }`}
+          >
+            <RefreshCw size={14} /> Refresh Staff List
+          </button>
+        </div>
+
+        {actionSuccessMessage && (
+          <div className="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
+              <span>{actionSuccessMessage}</span>
+            </div>
+            <button
+              onClick={() => setActionSuccessMessage('')}
+              className="text-emerald-400 hover:text-emerald-200 text-xs underline cursor-pointer"
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
+
+        {/* Staff Table */}
+        <div className="overflow-x-auto rounded-2xl border border-slate-800/80">
+          <table className="w-full text-left text-xs">
+            <thead className={`text-[10px] uppercase font-black tracking-wider ${
+              isDark ? 'bg-slate-900 text-slate-400' : 'bg-slate-100 text-slate-600'
+            }`}>
+              <tr>
+                <th className="py-3.5 px-4">Employee</th>
+                <th className="py-3.5 px-4">Username &amp; Email</th>
+                <th className="py-3.5 px-4">Password Setup Status</th>
+                <th className="py-3.5 px-4 text-right">Admin Security Controls</th>
+              </tr>
+            </thead>
+            <tbody className={`divide-y ${isDark ? 'divide-slate-800/60' : 'divide-slate-200'}`}>
+              {staffList.map((emp) => (
+                <tr key={emp.employeeId} className={`transition-colors ${
+                  emp.resetRequested ? 'bg-rose-500/5' : isDark ? 'hover:bg-slate-900/40' : 'hover:bg-slate-50'
+                }`}>
+                  <td className="py-4 px-4 font-bold">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 text-white flex items-center justify-center font-black text-xs shadow-md">
+                        {emp.name.charAt(0)}
+                      </div>
+                      <div>
+                        <div className={`font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{emp.name}</div>
+                        <div className="text-[10px] text-slate-500 font-mono">{emp.employeeId}</div>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td className="py-4 px-4">
+                    <div className={isDark ? 'text-slate-300' : 'text-slate-700'}>{emp.email}</div>
+                    <div className="text-[10px] text-slate-500">Aliases: {emp.aliases.slice(0, 2).join(', ')}</div>
+                  </td>
+
+                  <td className="py-4 px-4">
+                    {emp.resetRequested ? (
+                      <div className="flex flex-col gap-1">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse">
+                          <AlertCircle size={12} /> Reset Requested
+                        </span>
+                        {emp.resetReason && (
+                          <span className="text-[10px] text-slate-400 italic">"{emp.resetReason}"</span>
+                        )}
+                      </div>
+                    ) : emp.hasChangedPassword ? (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                        <CheckCircle2 size={12} /> Custom Password Active
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-amber-500/15 text-amber-400 border border-amber-500/30">
+                        <Clock size={12} /> 1-Time Setup Pending
+                      </span>
+                    )}
+                  </td>
+
+                  <td className="py-4 px-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      {emp.resetRequested ? (
+                        <button
+                          onClick={() => handleApproveReset(emp.employeeId)}
+                          className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:opacity-95 text-black font-black text-xs uppercase shadow-md flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <CheckCircle2 size={13} /> Approve &amp; Generate Code
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => handleApproveReset(emp.employeeId)}
+                          className="px-3 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 font-bold text-xs flex items-center gap-1 cursor-pointer transition-colors"
+                          title="Generate a temporary 1-time setup passcode"
+                        >
+                          <Key size={13} /> Issue Temp Code
+                        </button>
+                      )}
+
+                      <button
+                        onClick={() => setSelectedStaffForPassword(emp)}
+                        className={`px-3 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-1 cursor-pointer transition-colors ${
+                          isDark ? 'bg-slate-900 border-slate-700 text-slate-300 hover:text-white' : 'bg-slate-100 border-slate-300 text-slate-700 hover:text-slate-900'
+                        }`}
+                      >
+                        <Lock size={13} /> Set Password
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Set Custom Password Modal */}
+        {selectedStaffForPassword && (
+          <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+            <div className={`w-full max-w-md p-6 sm:p-7 rounded-3xl border shadow-2xl ${
+              isDark ? 'bg-slate-950 border-amber-500/30 text-white' : 'bg-white border-slate-200 text-slate-900'
+            }`}>
+              <div className="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                <div className="flex items-center gap-2">
+                  <KeyRound size={18} className="text-amber-400" />
+                  <h3 className="font-black text-sm uppercase">Set Password for {selectedStaffForPassword.name}</h3>
+                </div>
+                <button
+                  onClick={() => setSelectedStaffForPassword(null)}
+                  className="p-1 text-slate-400 hover:text-white cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <p className="text-xs text-slate-400 mb-4">
+                Enter a new password for <span className="font-bold text-white">{selectedStaffForPassword.name}</span> ({selectedStaffForPassword.employeeId}). The employee will be asked to choose their permanent password upon logging in.
+              </p>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider mb-1 text-slate-400">
+                    New Temporary or Direct Password
+                  </label>
+                  <input
+                    type="text"
+                    value={customPasswordInput}
+                    onChange={(e) => setCustomPasswordInput(e.target.value)}
+                    placeholder="e.g. aura@emp99"
+                    className={`w-full rounded-xl py-2.5 px-3.5 text-xs focus:outline-none border ${
+                      isDark ? 'bg-slate-900 border-slate-800 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'
+                    }`}
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-2 pt-2">
+                  <button
+                    onClick={() => setSelectedStaffForPassword(null)}
+                    className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-400 hover:text-white cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => handleSetCustomPassword(selectedStaffForPassword.employeeId)}
+                    disabled={!customPasswordInput.trim()}
+                    className="btn-primary-action px-5 py-2 rounded-xl text-xs font-black uppercase tracking-wider cursor-pointer disabled:opacity-50"
+                  >
+                    Save &amp; Update
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     ) : (
       <div className="rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden shadow-2xl">
         <AdminPortal onLogout={handleLogout} />
