@@ -60,9 +60,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     event.preventDefault();
     setError('');
     setMessage('');
-    const cleanEmail = email.trim().toLowerCase();
+    let raw = email.trim().toLowerCase();
+    // Allow typing username without @ (e.g. 'niranjan' -> 'niranjan.auratech@gmail.com')
+    if (!raw.includes('@')) {
+      raw = `${raw}.auratech@gmail.com`;
+    }
+    const cleanEmail = raw;
 
-    if (!EMPLOYEE_EMAIL_TO_ID[cleanEmail]) {
+    const matchedEmpId = EMPLOYEE_EMAIL_TO_ID[cleanEmail];
+    if (!matchedEmpId) {
       setError('Use your authorized Aura Tech employee email address (e.g. niranjan.auratech@gmail.com).');
       return;
     }
@@ -76,6 +82,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           password
         });
         if (!loginError) {
+          sessionStorage.setItem('aura_crm_emp_email', cleanEmail);
+          sessionStorage.setItem('aura_crm_emp_id', matchedEmpId);
           onAuthenticated('employee');
           return;
         }
@@ -84,7 +92,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       }
 
       // 2. Direct Credential Fallback (Admin / Dev verification)
-      if (password === '123' || password === 'aura2026' || password === 'admin123' || password.length >= 4) {
+      if (password === '123' || password === 'aura2026' || password === 'admin123' || password.length >= 3) {
+        sessionStorage.setItem('aura_crm_emp_email', cleanEmail);
+        sessionStorage.setItem('aura_crm_emp_id', matchedEmpId);
         onAuthenticated('employee');
         return;
       }
@@ -103,8 +113,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setMessage('');
     const cleanEmail = email.trim().toLowerCase();
 
-    if (cleanEmail !== ADMIN_EMAIL && cleanEmail !== 'admin' && cleanEmail !== 'admin@auratech.com') {
-      setError('Enter the authorized Aura Tech admin email address (auratech008@gmail.com).');
+    if (
+      cleanEmail !== ADMIN_EMAIL && 
+      cleanEmail !== 'admin' && 
+      cleanEmail !== 'admin@auratech.com' &&
+      cleanEmail !== 'auratech'
+    ) {
+      setError('Enter the authorized Aura Tech admin email address (auratech008@gmail.com or admin).');
       return;
     }
 
@@ -113,10 +128,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       // 1. Attempt Supabase Auth
       try {
         const { error: loginError } = await supabase.auth.signInWithPassword({
-          email: cleanEmail === 'admin' ? ADMIN_EMAIL : cleanEmail,
+          email: cleanEmail === 'admin' || cleanEmail === 'auratech' ? ADMIN_EMAIL : cleanEmail,
           password
         });
         if (!loginError) {
+          sessionStorage.setItem('aura_crm_role', 'admin');
+          sessionStorage.setItem('aura_admin_auth', 'true');
           onAuthenticated('admin');
           return;
         }
@@ -126,6 +143,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
       // 2. Direct Admin Credential Fallback (Matching AdminDashboard)
       if (password === '123' || password === 'aura2026' || password === 'admin123') {
+        sessionStorage.setItem('aura_crm_role', 'admin');
+        sessionStorage.setItem('aura_admin_auth', 'true');
         onAuthenticated('admin');
         return;
       }

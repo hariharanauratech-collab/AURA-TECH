@@ -134,6 +134,7 @@ export default function RegistrationModal({ theme, portalMode, isOpen, onClose, 
           }`} />
         </div>
         
+        <div className="relative z-10 flex flex-col">
         {/* Close Button */}
         <button
           type="button"
@@ -506,6 +507,7 @@ Please review my requirements and confirm the project onboarding steps!`;
           </div>
         )}
 
+        </div>
       </div>
     </div>
   );

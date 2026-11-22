@@ -47,7 +47,8 @@ export default function ClientDashboardModal({ theme, isOpen, onClose, onOpenBoo
           }`} />
         </div>
         
-        {/* Header */}
+        <div className="relative z-10 flex flex-col">
+          {/* Header */}
         <div className="flex items-center justify-between mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-slate-800">
           <div>
             <div className="flex items-center gap-2">
@@ -226,6 +227,7 @@ export default function ClientDashboardModal({ theme, isOpen, onClose, onOpenBoo
           </div>
         )}
 
+        </div>
       </div>
     </div>
   );

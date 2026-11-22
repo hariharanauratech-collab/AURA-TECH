@@ -76,16 +76,16 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
     const cleanId = loginEmail.trim().toLowerCase();
     const cleanPass = loginPassword.trim();
 
-    // Temporary Admin credentials check: ID = admin, Password = 123
+    // Temporary Admin credentials check: ID = admin / auratech008@gmail.com, Password = 123
     if (
-      (cleanId === 'admin' || cleanId === 'admin@auratech.com') && 
+      (cleanId === 'admin' || cleanId === 'admin@auratech.com' || cleanId === 'auratech008@gmail.com' || cleanId === 'auratech') && 
       (cleanPass === '123' || cleanPass === 'aura2026' || cleanPass === 'admin123')
     ) {
       sessionStorage.setItem('aura_admin_auth', 'true');
       setIsAuthenticated(true);
       setLoginError('');
     } else {
-      setLoginError('Invalid ID or Password. (Temporary Admin Login: admin / 123)');
+      setLoginError('Invalid ID or Password. (Admin Login: admin / 123 or auratech008@gmail.com / 123)');
     }
   };
 
