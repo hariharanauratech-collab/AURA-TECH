@@ -86,7 +86,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
       setIsAuthenticated(true);
       setLoginError('');
     } else {
-      setLoginError('Invalid ID or Password. (Admin Login: admin / 123 or auratech008@gmail.com / 123)');
+      setLoginError('Invalid ID or Password.');
     }
   };
 
@@ -249,13 +249,6 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
             </div>
           )}
 
-          <div className={`p-3 rounded-xl border text-xs mb-4 text-center font-bold ${
-            isDark ? 'bg-amber-500/10 border-amber-500/30 text-amber-400' : 'bg-blue-50 border-blue-200 text-blue-700'
-          }`}>
-            🔐 Temporary Admin Access:<br />
-            ID: <span className="underline font-mono font-black">admin</span> &nbsp;|&nbsp; Password: <span className="underline font-mono font-black">123</span>
-          </div>
-
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label htmlFor="admin-login-id" className={`block text-xs font-bold uppercase tracking-wider mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>
@@ -268,7 +261,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
                 required
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="admin"
+                placeholder="Enter admin ID or email"
                 className={`w-full rounded-xl py-3 px-4 text-xs focus:outline-none transition-colors border ${
                   isDark ? 'bg-slate-900 border-slate-800 text-white focus:border-amber-500' : 'bg-slate-50 border-slate-300 text-slate-900 focus:border-blue-600'
                 }`}
@@ -286,7 +279,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
                 required
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
-                placeholder="123"
+                placeholder="Enter password"
                 className={`w-full rounded-xl py-3 px-4 text-xs focus:outline-none transition-colors border ${
                   isDark ? 'bg-slate-900 border-slate-800 text-white focus:border-amber-500' : 'bg-slate-50 border-slate-300 text-slate-900 focus:border-blue-600'
                 }`}

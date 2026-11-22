@@ -107,7 +107,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         return;
       }
 
-      setError('Invalid password. (Temporary Team Access: Use standard password or 123)');
+      setError('Invalid password. Please check your credentials.');
     } catch (loginError) {
       setError(loginError instanceof Error ? loginError.message : 'Login failed.');
     } finally {
@@ -161,7 +161,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         return;
       }
 
-      setError('Invalid admin credentials. (Temporary Admin Password: 123)');
+      setError('Invalid admin credentials. Please check your admin ID and password.');
     } catch (loginError) {
       setError(loginError instanceof Error ? loginError.message : 'Admin login failed.');
     } finally {
