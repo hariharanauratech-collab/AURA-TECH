@@ -82,8 +82,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           password
         });
         if (!loginError) {
+          localStorage.setItem('aura_crm_emp_email', cleanEmail);
+          localStorage.setItem('aura_crm_emp_id', matchedEmpId);
+          localStorage.setItem('aura_crm_role', 'employee');
           sessionStorage.setItem('aura_crm_emp_email', cleanEmail);
           sessionStorage.setItem('aura_crm_emp_id', matchedEmpId);
+          sessionStorage.setItem('aura_crm_role', 'employee');
           onAuthenticated('employee');
           return;
         }
@@ -93,8 +97,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
       // 2. Direct Credential Fallback (Admin / Dev verification)
       if (password === '123' || password === 'aura2026' || password === 'admin123' || password.length >= 3) {
+        localStorage.setItem('aura_crm_emp_email', cleanEmail);
+        localStorage.setItem('aura_crm_emp_id', matchedEmpId);
+        localStorage.setItem('aura_crm_role', 'employee');
         sessionStorage.setItem('aura_crm_emp_email', cleanEmail);
         sessionStorage.setItem('aura_crm_emp_id', matchedEmpId);
+        sessionStorage.setItem('aura_crm_role', 'employee');
         onAuthenticated('employee');
         return;
       }
@@ -132,6 +140,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           password
         });
         if (!loginError) {
+          localStorage.setItem('aura_crm_role', 'admin');
+          localStorage.setItem('aura_admin_auth', 'true');
           sessionStorage.setItem('aura_crm_role', 'admin');
           sessionStorage.setItem('aura_admin_auth', 'true');
           onAuthenticated('admin');
@@ -143,6 +153,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
       // 2. Direct Admin Credential Fallback (Matching AdminDashboard)
       if (password === '123' || password === 'aura2026' || password === 'admin123') {
+        localStorage.setItem('aura_crm_role', 'admin');
+        localStorage.setItem('aura_admin_auth', 'true');
         sessionStorage.setItem('aura_crm_role', 'admin');
         sessionStorage.setItem('aura_admin_auth', 'true');
         onAuthenticated('admin');
@@ -265,46 +277,37 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <span className="flex items-center gap-2 text-sm font-bold text-white"><Shield size={16} className="text-indigo-400" /> Main Admin Portal</span>
                 <span className="block mt-1 text-sm text-slate-400">Full operations, client management, invoices, reports & tasks.</span>
               </button>
-
-              <div className="pt-3 border-t border-slate-800/80">
-                <p className="text-xs uppercase font-bold text-slate-500 mb-2">Instant Quick Sign-In (Demo / Offline)</p>
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEmail(ADMIN_EMAIL);
-                      onAuthenticated('admin');
-                    }}
-                    className="p-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold hover:bg-amber-500/20 text-center"
-                  >
-                    👑 Admin (Aura Tech)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEmail('hariharan.auratech@gmail.com');
-                      onAuthenticated('employee');
-                    }}
-                    className="p-2 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold hover:bg-indigo-500/20 text-center truncate"
-                  >
-                    💼 Hariharan (EMP003)
-                  </button>
-                </div>
-              </div>
             </div>
           ) : (
             <form onSubmit={submitHandler} className="space-y-4 text-sm">
               {screen !== 'password-reset' && (
                 <label className="block font-bold text-slate-300 uppercase">
-                  Email ID
-                  <input type="email" autoComplete="email" required value={email} onChange={(event) => setEmail(event.target.value)} className={`${fieldClass} mt-1.5 normal-case`} />
+                  {screen === 'employee-login' ? 'Employee Email or Name' : 'Admin ID or Email'}
+                  <input
+                    type="text"
+                    autoComplete="username"
+                    required
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder={screen === 'employee-login' ? 'e.g. niranjan or niranjan.auratech@gmail.com' : 'admin or auratech008@gmail.com'}
+                    className={`${fieldClass} mt-1.5 normal-case`}
+                  />
                 </label>
               )}
 
               {!isEmailOnly && (
                 <label className="block font-bold text-slate-300 uppercase">
                   {isRecoveryForm ? 'New Password' : 'Password'}
-                  <input type="password" autoComplete={isRecoveryForm ? 'new-password' : 'current-password'} minLength={8} required value={password} onChange={(event) => setPassword(event.target.value)} className={`${fieldClass} mt-1.5 normal-case`} />
+                  <input
+                    type="password"
+                    autoComplete={isRecoveryForm ? 'new-password' : 'current-password'}
+                    minLength={isRecoveryForm ? 8 : 1}
+                    required
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    placeholder="Enter password"
+                    className={`${fieldClass} mt-1.5 normal-case`}
+                  />
                 </label>
               )}
 

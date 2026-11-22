@@ -11,11 +11,23 @@ import AnimatedOfficeBackground from '../components/AnimatedOfficeBackground';
 export default function CRMDashboard({ theme = 'dark', onToggleTheme }) {
   const navigate = useNavigate();
   const [authenticatedRole, setAuthenticatedRole] = useState(() => {
-    return sessionStorage.getItem('aura_crm_role') || null;
+    return localStorage.getItem('aura_crm_role') || sessionStorage.getItem('aura_crm_role') || null;
   });
   const [currentEmployee, setCurrentEmployee] = useState(() => {
-    const savedId = sessionStorage.getItem('aura_crm_emp_id');
-    return savedId ? crmDb.getEmployeeById(savedId) : null;
+    const savedId = localStorage.getItem('aura_crm_emp_id') || sessionStorage.getItem('aura_crm_emp_id');
+    const savedEmail = localStorage.getItem('aura_crm_emp_email') || sessionStorage.getItem('aura_crm_emp_email');
+    if (savedId) {
+      const emp = crmDb.getEmployeeById(savedId);
+      if (emp) return emp;
+    }
+    if (savedEmail) {
+      const matchedId = EMPLOYEE_EMAIL_TO_ID[savedEmail.toLowerCase()];
+      if (matchedId) {
+        const emp = crmDb.getEmployeeById(matchedId);
+        if (emp) return emp;
+      }
+    }
+    return null;
   });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [initialPortal, setInitialPortal] = useState(null);
@@ -26,15 +38,36 @@ export default function CRMDashboard({ theme = 'dark', onToggleTheme }) {
     // If not authenticated on initial mount, open AuthModal by default
     if (!authenticatedRole) {
       setIsAuthModalOpen(true);
+      return;
+    }
+
+    if (authenticatedRole === 'admin') {
+      crmDb.initializeCloudDatabase(true, '').catch((e) => {
+        console.warn('CRM cloud init note:', e);
+      });
+      setCurrentEmployee(null);
+    } else if (authenticatedRole === 'employee') {
+      const savedEmail = localStorage.getItem('aura_crm_emp_email') || sessionStorage.getItem('aura_crm_emp_email') || 'hariharan.auratech@gmail.com';
+      const savedId = localStorage.getItem('aura_crm_emp_id') || sessionStorage.getItem('aura_crm_emp_id') || EMPLOYEE_EMAIL_TO_ID[savedEmail.toLowerCase()] || 'EMP003';
+      const emp = crmDb.getEmployeeById(savedId) || crmDb.getEmployees()[0];
+      if (emp) {
+        setCurrentEmployee(emp);
+      }
+      crmDb.initializeCloudDatabase(false, emp ? emp.id : savedId).catch((e) => {
+        console.warn('CRM cloud init note:', e);
+      });
     }
   }, [authenticatedRole]);
 
   const handleAuthenticated = async (role) => {
     setAuthenticatedRole(role);
+    localStorage.setItem('aura_crm_role', role);
     sessionStorage.setItem('aura_crm_role', role);
     setIsAuthModalOpen(false);
 
     if (role === 'admin') {
+      localStorage.setItem('aura_admin_auth', 'true');
+      sessionStorage.setItem('aura_admin_auth', 'true');
       try {
         await crmDb.initializeCloudDatabase(true, '');
       } catch (e) {
@@ -43,9 +76,12 @@ export default function CRMDashboard({ theme = 'dark', onToggleTheme }) {
       setCurrentEmployee(null);
     } else {
       // Find employee
-      const savedEmail = sessionStorage.getItem('aura_crm_emp_email') || 'hariharan.auratech@gmail.com';
-      const empId = EMPLOYEE_EMAIL_TO_ID[savedEmail.toLowerCase()] || 'EMP003';
+      const savedEmail = localStorage.getItem('aura_crm_emp_email') || sessionStorage.getItem('aura_crm_emp_email') || 'hariharan.auratech@gmail.com';
+      const empId = EMPLOYEE_EMAIL_TO_ID[savedEmail.toLowerCase()] || localStorage.getItem('aura_crm_emp_id') || 'EMP003';
+      localStorage.setItem('aura_crm_emp_id', empId);
+      localStorage.setItem('aura_crm_emp_email', savedEmail);
       sessionStorage.setItem('aura_crm_emp_id', empId);
+      sessionStorage.setItem('aura_crm_emp_email', savedEmail);
       const emp = crmDb.getEmployeeById(empId);
       setCurrentEmployee(emp || crmDb.getEmployees()[0]);
 
@@ -59,9 +95,14 @@ export default function CRMDashboard({ theme = 'dark', onToggleTheme }) {
 
   const handleLogout = () => {
     crmDb.disableCloudPersistence();
+    localStorage.removeItem('aura_crm_role');
+    localStorage.removeItem('aura_crm_emp_id');
+    localStorage.removeItem('aura_crm_emp_email');
+    localStorage.removeItem('aura_admin_auth');
     sessionStorage.removeItem('aura_crm_role');
     sessionStorage.removeItem('aura_crm_emp_id');
     sessionStorage.removeItem('aura_crm_emp_email');
+    sessionStorage.removeItem('aura_admin_auth');
     setAuthenticatedRole(null);
     setCurrentEmployee(null);
     setIsAuthModalOpen(false);

@@ -14,7 +14,7 @@ import { AdminPortal } from '../crm/AdminPortal';
 
 export default function AdminDashboard({ theme, onToggleTheme }) {
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return sessionStorage.getItem('aura_admin_auth') === 'true';
+    return localStorage.getItem('aura_admin_auth') === 'true' || sessionStorage.getItem('aura_admin_auth') === 'true';
   });
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -81,6 +81,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
       (cleanId === 'admin' || cleanId === 'admin@auratech.com' || cleanId === 'auratech008@gmail.com' || cleanId === 'auratech') && 
       (cleanPass === '123' || cleanPass === 'aura2026' || cleanPass === 'admin123')
     ) {
+      localStorage.setItem('aura_admin_auth', 'true');
       sessionStorage.setItem('aura_admin_auth', 'true');
       setIsAuthenticated(true);
       setLoginError('');
@@ -90,6 +91,7 @@ export default function AdminDashboard({ theme, onToggleTheme }) {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('aura_admin_auth');
     sessionStorage.removeItem('aura_admin_auth');
     setIsAuthenticated(false);
   };
