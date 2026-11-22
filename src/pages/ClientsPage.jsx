@@ -40,7 +40,7 @@ export default function ClientsPage({ theme, onToggleTheme }) {
         onOpenPortalSelector={() => navigate('/')}
         onToggleTheme={onToggleTheme}
         onOpenBookModal={handleOpenBookModal}
-        onOpenAboutModal={() => setIsAboutModalOpen(true)}
+        onOpenAboutModal={() => navigate('/about')}
         onOpenClientsModal={() => setIsClientsModalOpen(true)}
         onOpenAdminModal={() => navigate('/admin')}
         onOpenClientDashboard={() => navigate('/')}
@@ -82,6 +82,7 @@ export default function ClientsPage({ theme, onToggleTheme }) {
       <Footer
         theme={theme}
         portalMode={portalMode}
+        setPortalMode={setPortalMode}
         onOpenAboutModal={() => setIsAboutModalOpen(true)}
         onOpenClientsModal={() => setIsClientsModalOpen(true)}
         onOpenBookModal={() => handleOpenBookModal()}
@@ -123,7 +124,7 @@ export default function ClientsPage({ theme, onToggleTheme }) {
         onOpenBookModal={handleOpenBookModal}
         onOpenJobModal={() => setIsJobModalOpen(true)}
         onOpenClientsModal={() => setIsClientsModalOpen(true)}
-        onOpenAboutModal={() => setIsAboutModalOpen(true)}
+        onOpenAboutModal={() => navigate('/about')}
       />
     </div>
   );

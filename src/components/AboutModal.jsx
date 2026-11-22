@@ -1,8 +1,10 @@
 import React from 'react';
-import { X, ShieldCheck, Award, Target, Rocket } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { X, ShieldCheck, Award, Target, Rocket, ArrowRight } from 'lucide-react';
 
 export default function AboutModal({ theme, isOpen, onClose, onOpenBookModal }) {
   if (!isOpen) return null;
+  const navigate = useNavigate();
   const isDark = theme === 'dark';
 
   return (
@@ -122,17 +124,29 @@ export default function AboutModal({ theme, isOpen, onClose, onOpenBookModal }) 
               onClose();
               onOpenBookModal();
             }}
-            className="flex-1 btn-primary-action py-3 px-6 rounded-xl font-black text-xs uppercase tracking-wider shadow-lg text-center"
+            className="flex-1 btn-primary-action py-3 px-6 rounded-xl font-black text-xs uppercase tracking-wider shadow-lg text-center cursor-pointer"
           >
             Register Your Project Now
           </button>
           <button
+            onClick={() => {
+              onClose();
+              navigate('/about');
+            }}
+            className={`py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors text-center border flex items-center justify-center gap-1.5 cursor-pointer ${
+              isDark ? 'bg-slate-900 hover:bg-slate-800 text-amber-400 border-amber-500/30' : 'bg-slate-100 hover:bg-slate-200 text-blue-600 border-blue-200'
+            }`}
+          >
+            <span>View Full Page</span>
+            <ArrowRight size={13} />
+          </button>
+          <button
             onClick={onClose}
-            className={`py-3 px-6 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors text-center border ${
+            className={`py-3 px-4 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors text-center border cursor-pointer ${
               isDark ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-800' : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'
             }`}
           >
-            Close Window
+            Close
           </button>
         </div>
 

@@ -24,12 +24,13 @@ export default function AIChatAssistant({
     {
       sender: 'bot',
       text: isHr 
-        ? "Hello! I am Aura AI, your HR & Careers assistant. How can I help you explore open positions, verify culture, or submit your job application at AURA TECH today?"
+        ? "Hello! Welcome to the AURA TECH Job Seekers & Talent Portal. I am Aura AI, your career advisor. How can I help you explore open roles, hiring culture, or submit your job application at AURA TECH today?"
         : "Hello! I am Aura AI, your technical virtual assistant. Ask me anything about AURA TECH's services, our corporate clients (SISC COIR & InfoPluto), student project capstones, pricing, or project booking!",
       actions: isHr 
         ? [
             { label: '💼 Apply for Job', type: 'job' },
-            { label: '🏢 Our Clients', type: 'clients' }
+            { label: '🏢 Our Clients', type: 'clients' },
+            { label: 'ℹ️ About AURA TECH', type: 'about' }
           ]
         : [
             { label: '🏢 Our Clients', type: 'clients' },
@@ -38,6 +39,34 @@ export default function AIChatAssistant({
           ]
     }
   ]);
+
+  // Synchronize greeting when switching between Student / Company and Job Seekers portal
+  useEffect(() => {
+    setMessages(prev => {
+      if (prev.length <= 1) {
+        return [
+          {
+            sender: 'bot',
+            text: isHr 
+              ? "Hello! Welcome to the AURA TECH Job Seekers & Talent Portal. I am Aura AI, your career advisor. How can I help you explore open roles, hiring culture, or submit your job application at AURA TECH today?"
+              : "Hello! I am Aura AI, your technical virtual assistant. Ask me anything about AURA TECH's services, our corporate clients (SISC COIR & InfoPluto), student project capstones, pricing, or project booking!",
+            actions: isHr 
+              ? [
+                  { label: '💼 Apply for Job', type: 'job' },
+                  { label: '🏢 Our Clients', type: 'clients' },
+                  { label: 'ℹ️ About AURA TECH', type: 'about' }
+                ]
+              : [
+                  { label: '🏢 Our Clients', type: 'clients' },
+                  { label: '🚀 Book a Project', type: 'book' },
+                  { label: '🔍 Track Status', type: 'track' }
+                ]
+          }
+        ];
+      }
+      return prev;
+    });
+  }, [isHr]);
 
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -409,13 +438,17 @@ function deriveActionPills(query, isHr) {
   const q = query.toLowerCase();
   const pills = [];
 
+  if (isHr) {
+    pills.push({ label: '💼 Apply for Job', type: 'job' });
+  }
+
   if (q.includes('client') || q.includes('sisc') || q.includes('infopluto') || q.includes('indiema') || q.includes('coir')) {
     pills.push({ label: '🏢 View Our Clients', type: 'clients' });
   }
-  if (q.includes('book') || q.includes('price') || q.includes('quote') || q.includes('cost') || q.includes('service') || q.includes('website') || q.includes('student')) {
+  if (!isHr && (q.includes('book') || q.includes('price') || q.includes('quote') || q.includes('cost') || q.includes('service') || q.includes('website') || q.includes('student'))) {
     pills.push({ label: '🚀 Book a Project', type: 'book' });
   }
-  if (q.includes('job') || q.includes('career') || q.includes('role') || q.includes('hiring') || q.includes('apply') || isHr) {
+  if (!isHr && (q.includes('job') || q.includes('career') || q.includes('role') || q.includes('hiring') || q.includes('apply') || q.includes('fresher') || q.includes('intern'))) {
     pills.push({ label: '💼 Apply for Job', type: 'job' });
   }
   if (q.includes('track') || q.includes('status') || q.includes('code') || q.includes('progress')) {
@@ -500,38 +533,96 @@ function getSmartAuraResponse(rawQuery, isHr) {
     };
   }
 
-  // 5. HR / Careers Questions
-  if (
-    isHr || 
+  // 5. HR / Careers Questions (Active Roles, How to Apply, Freshers, Perks, Interview, Recruiter)
+  const isJobRelatedQuery = (
     q.includes('job') || 
     q.includes('hiring') || 
     q.includes('vacancy') || 
+    q.includes('vacancies') ||
+    q.includes('opening') || 
     q.includes('openings') || 
     q.includes('career') || 
+    q.includes('careers') || 
     q.includes('apply') || 
+    q.includes('application') || 
     q.includes('resume') || 
+    q.includes('cv') || 
     q.includes('interview') || 
     q.includes('stipend') || 
+    q.includes('salary') || 
     q.includes('fresher') || 
-    q.includes('intern')
-  ) {
-    if (q.includes('fresher') || q.includes('intern') || q.includes('student')) {
+    q.includes('intern') || 
+    q.includes('internship') || 
+    q.includes('perk') || 
+    q.includes('work culture') ||
+    q.includes('recruiter') ||
+    q.includes('recruitment')
+  );
+
+  if (isJobRelatedQuery) {
+    // 5A: How to apply & application steps
+    if (q.includes('how to apply') || q.includes('how do i apply') || q.includes('apply process') || q.includes('resume') || q.includes('cv') || q.includes('submit application')) {
       return {
-        text: "Yes, freshers and students are warmly welcomed at AURA TECH! We prioritize your actual coding passion, problem-solving skills, and personal projects over traditional credentials. Every junior engineer receives 100% pair programming mentorship.",
-        actions: [{ label: '💼 Apply Now', type: 'job' }]
+        text: "💼 How to Apply at AURA TECH:\n\n1. Online Application: Click 'Apply for Job' below to submit your details, choose your desired role, and attach your resume.\n2. Direct Email: You can also email your resume & GitHub / Portfolio link to auratech008@gmail.com.\n3. 15-Min Technical Chat: A friendly discussion on your projects, problem-solving mindset, and code.\n4. Fast 48-72h Offer SLA: We respect your time and provide fast interview feedback!\n\nNo rigid gatekeeping—we value demonstrable projects and passion above all.",
+        actions: [
+          { label: '💼 Open Application Form', type: 'job' },
+          { label: '✉️ Email Resume', type: 'link', url: 'mailto:auratech008@gmail.com' },
+          { label: '📞 HR Desk (+91 90252 55617)', type: 'link', url: 'tel:+919025255617' }
+        ]
       };
     }
-    if (q.includes('perk') || q.includes('salary') || q.includes('stipend') || q.includes('culture') || q.includes('remote')) {
+
+    // 5B: Freshers & Student Internships
+    if (q.includes('fresher') || q.includes('freshers') || q.includes('intern') || q.includes('internship') || q.includes('student') || q.includes('experience requirement')) {
       return {
-        text: "AURA TECH Team Perks:\n• 100% Mentorship & Pair Programming with senior architects\n• Competitive stipends & industry benchmark salaries\n• Flexible remote and hybrid work environment\n• Hands-on production experience on enterprise & AI systems\n• Fast 48-hour application response SLA",
-        actions: [{ label: '💼 Submit Application', type: 'job' }]
+        text: "🎓 Freshers & Interns at AURA TECH:\n\n• 100% Welcomed: We actively hire freshers, pre-final/final year students, and self-taught developers!\n• Skills Over Degrees: We evaluate your GitHub repositories, personal projects, and curiosity rather than years on a resume.\n• 1-on-1 Mentorship: Every junior engineer and intern is paired with a senior software architect for daily guidance and pair programming.\n• Paid & Industry-Standard: All internships include competitive stipends and high-potential PPO (Pre-Placement Offer) conversion.",
+        actions: [
+          { label: '💼 Apply as Fresher / Intern', type: 'job' },
+          { label: '📞 Contact HR Desk', type: 'link', url: 'tel:+919025255617' }
+        ]
       };
     }
+
+    // 5C: Perks, Salary, Stipend, Remote Work & Culture
+    if (q.includes('perk') || q.includes('salary') || q.includes('stipend') || q.includes('culture') || q.includes('remote') || q.includes('hybrid') || q.includes('wfh') || q.includes('benefit') || q.includes('allowance')) {
+      return {
+        text: "🌟 AURA TECH Team Perks & Culture:\n\n• Flexible Remote & Hybrid Work: Work from wherever you are most productive with flexible working hours.\n• 1-on-1 Senior Mentorship: Direct pair programming on production systems.\n• Competitive Compensation: Industry-benchmark salaries for full-time roles and fair stipends for interns.\n• Cutting-Edge Modern Stack: Work with React 19, Vite, Tailwind v4, Python AI agents, Supabase, and ESP32 IoT hardware.\n• Guaranteed 48-Hour Response SLA: We never leave applicants hanging in silence.",
+        actions: [
+          { label: '💼 Submit Your Application', type: 'job' },
+          { label: '🏢 Explore Our Clients', type: 'clients' }
+        ]
+      };
+    }
+
+    // 5D: Interview stages & selection process
+    if (q.includes('interview') || q.includes('round') || q.includes('process') || q.includes('selection') || q.includes('test') || q.includes('assessment')) {
+      return {
+        text: "🎯 Transparent 3-Stage Interview Process:\n\n1. Stage 1: Portfolio & Code Walkthrough (15-20 mins) — We review your GitHub, past projects, or design showcase.\n2. Stage 2: Practical Architecture & Problem Solving — A practical chat on how you write code and think through challenges.\n3. Stage 3: Culture & Offer Rollout — Compensation alignment and onboarding plan. The entire turnaround is 48 to 72 hours!",
+        actions: [
+          { label: '💼 Apply for Job', type: 'job' },
+          { label: '✉️ Email HR', type: 'link', url: 'mailto:auratech008@gmail.com' }
+        ]
+      };
+    }
+
+    // 5E: HR Contact & Recruiter info
+    if (q.includes('hr') || q.includes('recruiter') || q.includes('recruitment') || q.includes('hiring team')) {
+      return {
+        text: "📞 AURA TECH Talent & Recruitment Team:\n\n• HR Direct Contact: +91 90252 55617\n• Careers Desk Email: auratech008@gmail.com\n• WhatsApp Support: +91 90252 55617\n• Location: Tamil Nadu, India\n\nOur hiring managers review all submissions within 2 business days!",
+        actions: [
+          { label: '📞 Call HR (+91 90252 55617)', type: 'link', url: 'tel:+919025255617' },
+          { label: '💼 Apply Online', type: 'job' }
+        ]
+      };
+    }
+
+    // 5F: Active Open Positions & Roles
     return {
-      text: "AURA TECH is actively recruiting top talent:\n• Full Stack Developer (React / Node / Vite)\n• UI/UX Designer (Figma / Design Systems)\n• AI & Machine Learning Engineer (Python / LLMs)\n• Flutter Mobile App Developer\n• Video Editor & Motion Graphics Designer\n• IoT & Embedded Systems Engineer (ESP32 / Arduino)\n\nClick 'Apply for Job' to submit your details and resume!",
+      text: "🚀 AURA TECH is actively recruiting passionate talent across 6 tracks:\n\n1. Full Stack Developer — React 19, TypeScript, Vite, Node.js, REST APIs, and database design.\n2. UI/UX Designer — Figma design systems, modern glassmorphism micro-interactions, responsive mobile/web layout.\n3. AI & ML Engineer — Python, LLM agents, Gemini API, RAG workflows, and computer vision.\n4. Flutter Mobile Developer — Cross-platform Android & iOS development with state management.\n5. Video Editor & Motion Graphics — Premiere Pro, After Effects, cinematic editing, and Generative AI reels.\n6. IoT & Embedded Systems Engineer — ESP32, Arduino, sensor integration, and real-time telemetry dashboards.\n\nClick 'Apply for Job' to begin your application!",
       actions: [
         { label: '💼 Apply for Job', type: 'job' },
-        { label: '🏢 View Our Clients', type: 'clients' }
+        { label: '🏢 View Our Clients', type: 'clients' },
+        { label: 'ℹ️ About AURA TECH', type: 'about' }
       ]
     };
   }
@@ -723,6 +814,17 @@ function getSmartAuraResponse(rawQuery, isHr) {
     q === 'yo' || 
     q === 'hola'
   ) {
+    if (isHr) {
+      return {
+        text: "Hello! Welcome to the AURA TECH Job Seekers & Talent Portal. I am Aura AI, your career advisor.\n\nHow can I help you take the next step in your career?\n1. Check active openings (Full Stack, UI/UX, AI/ML, Flutter, Video, IoT)?\n2. Learn about freshers & internship mentorship?\n3. Explore our remote work perks and culture?\n4. Learn about our company, founders, and corporate clients?",
+        actions: [
+          { label: '💼 View Open Roles', type: 'job' },
+          { label: '🏢 Our Clients', type: 'clients' },
+          { label: 'ℹ️ About AURA TECH', type: 'about' }
+        ]
+      };
+    }
+
     return {
       text: "Hello! Welcome to AURA TECH. I am Aura AI, ready to assist you.\n\nWould you like to:\n1. Explore our corporate clients (SISC COIR & InfoPluto)?\n2. Learn about student project discounts?\n3. Request a customized project quotation?\n4. Inquire about open job positions?",
       actions: [
@@ -735,15 +837,33 @@ function getSmartAuraResponse(rawQuery, isHr) {
 
   if (q.includes('thank') || q.includes('super') || q.includes('awesome') || q.includes('great') || q.includes('good job') || q.includes('nice')) {
     return {
-      text: "You're very welcome! It's our absolute pleasure to assist you. If you need any technical help or want to book a project, our team is right here.",
-      actions: [
-        { label: '🚀 Book a Project', type: 'book' },
-        { label: '🏢 View Our Clients', type: 'clients' }
-      ]
+      text: isHr 
+        ? "You're very welcome! If you have any further questions about our roles, interview stages, or work culture, just let me know. Best of luck with your application!"
+        : "You're very welcome! It's our absolute pleasure to assist you. If you need any technical help or want to book a project, our team is right here.",
+      actions: isHr 
+        ? [
+            { label: '💼 Apply for Job', type: 'job' },
+            { label: '🏢 View Our Clients', type: 'clients' }
+          ]
+        : [
+            { label: '🚀 Book a Project', type: 'book' },
+            { label: '🏢 View Our Clients', type: 'clients' }
+          ]
     };
   }
 
   // 15. Intelligent Universal Fallback with Contextual Assistance
+  if (isHr) {
+    return {
+      text: "Thank you for asking! In the AURA TECH Job Seekers Portal, you can explore open engineering roles (Full Stack, UI/UX, AI/ML, Flutter, Video, IoT), verify our freshers mentorship policy, check remote perks, or submit your job application.\n\nYou can also ask me about our corporate clients (like SISC COIR and InfoPluto), our engineering team, or reach out to recruitment at auratech008@gmail.com.",
+      actions: [
+        { label: '💼 Apply for Job', type: 'job' },
+        { label: '🏢 View Our Clients', type: 'clients' },
+        { label: 'ℹ️ About AURA TECH', type: 'about' }
+      ]
+    };
+  }
+
   return {
     text: `Thank you for asking! AURA TECH specializes in high-performance digital engineering, including corporate web systems, AI chatbots, mobile applications, and cloud platforms.\n\nWhether you're looking for client references (like SISC COIR and InfoPluto), student capstones, job openings, or an enterprise quotation, I'm here to assist!`,
     actions: [

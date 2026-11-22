@@ -1,12 +1,72 @@
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Database, ArrowUp, Mail, Shield } from 'lucide-react';
 
-export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenClientsModal, onOpenBookModal, onOpenAdminModal, onOpenJobModal }) {
+export default function Footer({ 
+  theme, 
+  portalMode, 
+  setPortalMode,
+  onOpenAboutModal, 
+  onOpenClientsModal, 
+  onOpenBookModal, 
+  onOpenAdminModal, 
+  onOpenJobModal 
+}) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const isDark = theme === 'dark';
   const isHr = portalMode === 'hr';
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSectionScroll = (e, targetId) => {
+    if (e) e.preventDefault();
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      if (setPortalMode && (targetId === 'services' || targetId === 'showcase' || targetId === 'advantages')) {
+        setPortalMode('student');
+      }
+      navigate(`/#${targetId}`);
+    }
+  };
+
+  const handleAboutClick = () => {
+    if (onOpenAboutModal) {
+      onOpenAboutModal();
+    } else {
+      navigate('/about');
+    }
+  };
+
+  const handleClientsClick = (e) => {
+    const el = document.getElementById('clients');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (onOpenClientsModal) {
+      onOpenClientsModal();
+    } else {
+      navigate('/clients');
+    }
+  };
+
+  const handleJobClick = () => {
+    if (onOpenJobModal) {
+      onOpenJobModal();
+    } else {
+      handleSectionScroll(null, 'hr-portal');
+    }
+  };
+
+  const handleBookClick = () => {
+    if (onOpenBookModal) {
+      onOpenBookModal();
+    } else {
+      handleSectionScroll(null, 'services');
+    }
   };
 
   return (
@@ -46,58 +106,142 @@ export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenClie
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links with Guaranteed Interactive Properties */}
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-3 sm:gap-6 text-[11px] sm:text-xs font-extrabold uppercase tracking-widest text-slate-300">
             {isHr ? (
               <>
-                <button onClick={onOpenAboutModal} className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>About Us</button>
-                <button onClick={onOpenClientsModal} className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Our Clients</button>
-                <a href="#hr-portal" className={`transition-colors text-emerald-400 hover:text-emerald-300`}>Open Positions</a>
-                <a href="#faq" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>FAQ</a>
-                <a href="#contact" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Contact</a>
-                {onOpenJobModal && (
-                  <button onClick={() => onOpenJobModal()} className={`transition-colors cursor-pointer font-black ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-400 hover:text-blue-300'}`}>
-                    Apply Now
-                  </button>
-                )}
+                <button 
+                  type="button"
+                  onClick={handleAboutClick} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  About Us
+                </button>
+                <button 
+                  type="button"
+                  onClick={handleClientsClick} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  Our Clients
+                </button>
+                <button 
+                  type="button"
+                  onClick={(e) => handleSectionScroll(e, 'hr-portal')} 
+                  className="transition-colors text-emerald-400 hover:text-emerald-300 cursor-pointer"
+                >
+                  Open Positions
+                </button>
+                <button 
+                  type="button"
+                  onClick={(e) => handleSectionScroll(e, 'faq')} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  FAQ
+                </button>
+                <button 
+                  type="button"
+                  onClick={(e) => handleSectionScroll(e, 'contact')} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  Contact
+                </button>
+                <button 
+                  type="button"
+                  onClick={handleJobClick} 
+                  className={`transition-colors cursor-pointer font-black ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-400 hover:text-blue-300'}`}
+                >
+                  Apply Now
+                </button>
               </>
             ) : (
               <>
-                <button onClick={onOpenAboutModal} className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>About Us</button>
-                <button onClick={onOpenClientsModal} className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Our Clients</button>
-                <a href="#services" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Services</a>
-                <a href="#showcase" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Showcase</a>
-                <a href="#hr-portal" className={`transition-colors text-emerald-400 hover:text-emerald-300 flex items-center gap-1`}>Careers / HR</a>
-                <a href="#advantages" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>Why Us</a>
-                <a href="#faq" className={`transition-colors ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}>FAQ</a>
-                {onOpenJobModal && (
-                  <button onClick={() => onOpenJobModal()} className={`transition-colors cursor-pointer ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-400 hover:text-blue-300'}`}>
-                    Apply For Job
-                  </button>
-                )}
-                <button onClick={onOpenBookModal} className={`transition-colors cursor-pointer ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-400 hover:text-blue-300'}`}>Book Project</button>
+                <button 
+                  type="button"
+                  onClick={handleAboutClick} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  About Us
+                </button>
+                <button 
+                  type="button"
+                  onClick={handleClientsClick} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  Our Clients
+                </button>
+                <button 
+                  type="button"
+                  onClick={(e) => handleSectionScroll(e, 'services')} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  Services
+                </button>
+                <button 
+                  type="button"
+                  onClick={(e) => handleSectionScroll(e, 'showcase')} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  Showcase
+                </button>
+                <button 
+                  type="button"
+                  onClick={(e) => handleSectionScroll(e, 'hr-portal')} 
+                  className="transition-colors text-emerald-400 hover:text-emerald-300 flex items-center gap-1 cursor-pointer font-bold"
+                >
+                  Careers / HR
+                </button>
+                <button 
+                  type="button"
+                  onClick={(e) => handleSectionScroll(e, 'advantages')} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  Why Us
+                </button>
+                <button 
+                  type="button"
+                  onClick={(e) => handleSectionScroll(e, 'faq')} 
+                  className={`transition-colors cursor-pointer ${isDark ? 'hover:text-amber-400' : 'hover:text-blue-400'}`}
+                >
+                  FAQ
+                </button>
+                <button 
+                  type="button"
+                  onClick={handleJobClick} 
+                  className={`transition-colors cursor-pointer font-black ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-400 hover:text-blue-300'}`}
+                >
+                  Apply For Job
+                </button>
+                <button 
+                  type="button"
+                  onClick={handleBookClick} 
+                  className={`transition-colors cursor-pointer font-black ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-400 hover:text-blue-300'}`}
+                >
+                  Book Project
+                </button>
               </>
             )}
           </div>
 
           {/* Top Button & Admin Sheet Trigger */}
           <div className="flex items-center gap-3">
-            <a
-              href="/crm"
+            <button
+              type="button"
+              onClick={() => navigate('/crm')}
               title="AURA TECH Staff & Enterprise CRM Suite"
-              className={`p-2.5 rounded-xl border transition-colors text-xs font-bold flex items-center gap-1.5 ${
+              className={`p-2.5 rounded-xl border transition-colors text-xs font-bold flex items-center gap-1.5 cursor-pointer ${
                 isDark ? 'bg-slate-900 text-slate-400 hover:text-indigo-400 border-amber-500/20' : 'bg-slate-800 text-slate-300 hover:text-indigo-400 border-slate-700'
               }`}
             >
               <Shield size={14} className="text-indigo-400" />
               <span className="hidden sm:inline">CRM & Staff</span>
-            </a>
+            </button>
 
             {!isHr && (
               <button
-                onClick={onOpenAdminModal}
+                type="button"
+                onClick={() => (onOpenAdminModal ? onOpenAdminModal() : navigate('/admin'))}
                 title="Admin Submissions MasterSheet"
-                className={`p-2.5 rounded-xl border transition-colors text-xs font-bold flex items-center gap-1.5 ${
+                className={`p-2.5 rounded-xl border transition-colors text-xs font-bold flex items-center gap-1.5 cursor-pointer ${
                   isDark ? 'bg-slate-900 text-slate-400 hover:text-amber-400 border-amber-500/20' : 'bg-slate-800 text-slate-300 hover:text-blue-400 border-slate-700'
                 }`}
               >
@@ -107,8 +251,9 @@ export default function Footer({ theme, portalMode, onOpenAboutModal, onOpenClie
             )}
 
             <button
+              type="button"
               onClick={scrollToTop}
-              className={`p-2.5 rounded-xl border transition-all font-bold ${
+              className={`p-2.5 rounded-xl border transition-all font-bold cursor-pointer ${
                 isDark ? 'bg-slate-900 hover:bg-amber-500 hover:text-black text-slate-400 border-amber-500/20' : 'bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white border-slate-700'
               }`}
               aria-label="Scroll to top"

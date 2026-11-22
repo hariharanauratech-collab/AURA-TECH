@@ -24,6 +24,7 @@ import OurClientsModal from './components/OurClientsModal';
 import AdminDashboard from './pages/AdminDashboard';
 import CRMDashboard from './pages/CRMDashboard';
 import ClientsPage from './pages/ClientsPage';
+import AboutPage from './pages/AboutPage';
 
 export default function App() {
   const [theme, setTheme] = useState(() => {
@@ -41,6 +42,22 @@ export default function App() {
   const [isClientDashOpen, setIsClientDashOpen] = useState(false);
   const [initialService, setInitialService] = useState('');
   const [initialJobRole, setInitialJobRole] = useState('');
+  const location = useLocation();
+
+  // Scroll to hash target on navigation / initial load & auto-enter portal
+  useEffect(() => {
+    if (location.hash) {
+      setHasSelectedPortal(true);
+      const targetId = location.hash.replace('#', '');
+      const timer = setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+      return () => clearTimeout(timer);
+    }
+  }, [location.hash, location.pathname]);
 
   useEffect(() => {
     localStorage.setItem('aura_theme', theme);
@@ -116,6 +133,17 @@ export default function App() {
         path="/clients" 
         element={
           <ClientsPage 
+            theme={theme} 
+            onToggleTheme={toggleTheme} 
+          />
+        } 
+      />
+
+      {/* Dedicated About Us Page (/about) */}
+      <Route 
+        path="/about" 
+        element={
+          <AboutPage 
             theme={theme} 
             onToggleTheme={toggleTheme} 
           />
@@ -265,6 +293,7 @@ export default function App() {
             <Footer
               theme={theme}
               portalMode={portalMode}
+              setPortalMode={setPortalMode}
               onOpenAboutModal={() => setIsAboutModalOpen(true)}
               onOpenClientsModal={() => setIsClientsModalOpen(true)}
               onOpenBookModal={() => handleOpenBookModal()}

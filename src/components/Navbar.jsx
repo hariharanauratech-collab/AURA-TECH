@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Menu, X, ArrowRight, ShieldCheck, Sparkles, Sun, Moon, 
   GraduationCap, Building2, Search, Briefcase, ChevronDown, 
@@ -14,11 +15,13 @@ export default function Navbar({
   onToggleTheme, 
   onOpenBookModal, 
   onOpenAboutModal, 
-  onOpenClientsModal,
+  onOpenClientsModal, 
   onOpenAdminModal, 
   onOpenClientDashboard,
   onOpenJobModal 
 }) {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -128,7 +131,7 @@ export default function Navbar({
       id: 'about',
       name: 'About Us',
       desc: 'Our Foundation, Philosophy & Architecture',
-      action: onOpenAboutModal,
+      href: '/about',
       icon: Info,
       hideInHr: false
     },
@@ -136,8 +139,7 @@ export default function Navbar({
       id: 'clients',
       name: 'Our Clients',
       desc: 'Corporate References, SISC COIR & InfoPluto Profiles',
-      action: onOpenClientsModal,
-      href: '#clients',
+      href: '/clients',
       icon: Building2,
       hideInHr: false
     },
@@ -146,6 +148,14 @@ export default function Navbar({
       name: 'Staff & CRM Portal',
       desc: 'Employee Tasks, Invoices, Client Requests & Operations',
       href: '/crm',
+      icon: ShieldCheck,
+      hideInHr: false
+    },
+    {
+      id: 'admin',
+      name: 'Admin Dashboard',
+      desc: 'Master Submissions, Sync Sheet & Telemetry Control',
+      href: '/admin',
       icon: ShieldCheck,
       hideInHr: false
     }
@@ -242,9 +252,21 @@ export default function Navbar({
     if (opt.action) {
       opt.action();
     } else if (opt.href) {
-      const el = document.querySelector(opt.href);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
+      if (opt.href.startsWith('/')) {
+        navigate(opt.href);
+      } else if (opt.href.startsWith('#')) {
+        if (location.pathname !== '/') {
+          navigate(`/${opt.href}`);
+        } else {
+          try {
+            const el = document.querySelector(opt.href);
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          } catch (e) {
+            console.warn('Scroll target not found:', opt.href);
+          }
+        }
       }
     }
   };
