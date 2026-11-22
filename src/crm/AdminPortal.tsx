@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   LayoutDashboard, Users, FolderGit2, CheckSquare, Clock, BarChart3, 
   FileText, DollarSign, TrendingUp, Shield, Settings, LogOut, Plus, 
@@ -53,6 +53,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
   const [projectRequests, setProjectRequests] = useState<ProjectRequest[]>([]);
   const [projectRequestError, setProjectRequestError] = useState('');
   const [isLoadingRequests, setIsLoadingRequests] = useState(false);
+  const [authDataVersion, setAuthDataVersion] = useState(0);
 
   // Search & Filter States
   const [searchQuery, setSearchQuery] = useState('');
@@ -741,7 +742,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                                 onClick={() => {
                                   const res = employeeAuthService.adminApproveReset(emp.id);
                                   alert(`Reset approved for ${emp.name}!\nTemporary Password: ${res.tempPassword}\nProvide this code to the employee.`);
-                                  setDataVersion(v => v + 1);
+                                  setAuthDataVersion(v => v + 1);
                                 }}
                                 className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40 text-[10px] font-black uppercase animate-pulse cursor-pointer"
                               >
