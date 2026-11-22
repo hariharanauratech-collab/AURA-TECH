@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowLeft, ArrowRight, Loader2, Shield, User, X } from 'lucide-react';
 import { supabase } from './supabase';
 import { UserRole } from './crmTypes';

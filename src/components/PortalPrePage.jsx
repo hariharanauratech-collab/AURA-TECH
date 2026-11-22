@@ -198,17 +198,6 @@ export default function PortalPrePage({
       {/* Center Gateway Content */}
       <main className="relative z-10 flex-1 flex flex-col items-center justify-center max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
-          <div
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-extrabold uppercase tracking-widest mb-4 border ${
-              isDark
-                ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                : 'bg-blue-50 border-blue-200 text-blue-600 shadow-sm'
-            }`}
-          >
-            <Sparkles size={14} />
-            <span>Select Your Portal Experience</span>
-          </div>
-
           <h1
             className={`text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-tight mb-4 ${
               isDark ? 'text-white' : 'text-slate-900'
